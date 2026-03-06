@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Източници - Cosmos Explorer</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ---------- RESET & BASE ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html, body {
+            min-height: 100vh;
+            color: #f5f5f5;
+            background: #000;
+            overflow-x: hidden;
+            position: relative;
+            z-index: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ---------- COSMIC BACKGROUND ---------- */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse at 20% 80%, rgba(80, 40, 120, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(40, 80, 140, 0.15) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .cosmic-stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .cosmic-stars::before,
+        .cosmic-stars::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-repeat: repeat;
+        }
+
+        .cosmic-stars::before {
+            background-image:
+                radial-gradient(2px 2px at 10vw 20vh, rgba(215, 238, 11, 0.9), transparent),
+                radial-gradient(2px 2px at 25vw 35vh, rgba(215, 238, 11, 0.9), transparent),
+                radial-gradient(1px 1px at 40vw 15vh, rgba(215, 238, 11, 0.9), transparent),
+                radial-gradient(2px 2px at 55vw 60vh, rgba(255,255,255,0.9), transparent),
+                radial-gradient(1px 1px at 70vw 25vh, rgba(255,255,255,0.6), transparent),
+                radial-gradient(2px 2px at 85vw 45vh, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 15vw 70vh, rgba(215, 238, 11, 0.9), transparent),
+                radial-gradient(2px 2px at 30vw 85vh, rgba(255,255,255,0.9), transparent),
+                radial-gradient(2px 2px at 45vw 40vh, rgba(215, 238, 11, 0.9), transparent),
+                radial-gradient(1px 1px at 60vw 75vh, rgba(255,255,255,0.6), transparent),
+                radial-gradient(2px 2px at 75vw 10vh, rgba(255,255,255,0.9), transparent),
+                radial-gradient(1px 1px at 90vw 65vh, rgba(215, 238, 11, 0.9), transparent),
+                radial-gradient(2px 2px at 5vw 50vh, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 35vw 5vh, rgba(255,255,255,0.9), transparent),
+                radial-gradient(2px 2px at 65vw 90vh, rgba(255,255,255,0.6), transparent),
+                radial-gradient(1px 1px at 95vw 30vh, rgba(215, 238, 11, 0.9), transparent),
+                radial-gradient(2px 2px at 20vw 45vh, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 50vw 25vh, rgba(255,255,255,0.6), transparent),
+                radial-gradient(2px 2px at 80vw 70vh, rgba(255,255,255,0.9), transparent),
+                radial-gradient(1px 1px at 45vw 80vh, rgba(255,255,255,0.7), transparent);
+            animation: pulse-drift-1 8s ease-in-out infinite alternate;
+        }
+
+        .cosmic-stars::after {
+            background-image:
+                radial-gradient(1px 1px at 5vw 10vh, rgba(200,220,255,0.6), transparent),
+                radial-gradient(2px 2px at 20vw 50vh, rgba(220,230,255,0.8), transparent),
+                radial-gradient(1px 1px at 35vw 25vh, rgba(180,200,255,0.5), transparent),
+                radial-gradient(2px 2px at 50vw 80vh, rgba(210,220,255,0.7), transparent),
+                radial-gradient(1px 1px at 65vw 5vh, rgba(190,210,255,0.6), transparent),
+                radial-gradient(2px 2px at 80vw 55vh, rgba(220,240,255,0.8), transparent),
+                radial-gradient(1px 1px at 12vw 90vh, rgba(200,210,255,0.5), transparent),
+                radial-gradient(2px 2px at 28vw 45vh, rgba(210,230,255,0.7), transparent),
+                radial-gradient(1px 1px at 42vw 70vh, rgba(190,220,255,0.6), transparent),
+                radial-gradient(2px 2px at 58vw 20vh, rgba(220,230,255,0.8), transparent),
+                radial-gradient(1px 1px at 72vw 85vh, rgba(200,220,255,0.5), transparent),
+                radial-gradient(2px 2px at 88vw 35vh, rgba(210,240,255,0.7), transparent),
+                radial-gradient(1px 1px at 18vw 65vh, rgba(180,210,255,0.6), transparent),
+                radial-gradient(2px 2px at 48vw 8vh, rgba(220,230,255,0.8), transparent),
+                radial-gradient(1px 1px at 78vw 95vh, rgba(200,220,255,0.5), transparent),
+                radial-gradient(2px 2px at 92vw 15vh, rgba(210,230,255,0.7), transparent),
+                radial-gradient(1px 1px at 38vw 60vh, rgba(190,220,255,0.6), transparent),
+                radial-gradient(2px 2px at 68vw 40vh, rgba(220,240,255,0.8), transparent);
+            animation: pulse-drift-2 10s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes pulse-drift-1 {
+            0% { opacity: 0.4; transform: translate(0, 0) scale(0.9); }
+            100% { opacity: 1; transform: translate(10px, -10px) scale(1.1); }
+        }
+
+        @keyframes pulse-drift-2 {
+            0% { opacity: 0.3; transform: translate(0, 0) scale(1.1); }
+            100% { opacity: 0.9; transform: translate(-8px, 8px) scale(0.9); }
+        }
+
+        /* ---------- EXPLORER HEADER (FIXED) ---------- */
+        .explorer-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.95));
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(100, 116, 139, 0.3);
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 60px;
+        }
+
+        .explorer-logo {
+            font-size: 25px;
+            font-weight: 700;
+            color: #e2e8f0;
+            text-decoration: none;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .explorer-logo:hover {
+            color: #f1f5f9;
+            text-shadow: 0 0 20px rgba(100, 150, 255, 0.5);
+        }
+
+        .explorer-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+        }
+
+        .explorer-nav-item {
+            position: relative;
+        }
+
+        .explorer-nav-link {
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: inherit;
+        }
+
+        .explorer-nav-link:hover {
+            background: rgba(100, 116, 139, 0.25);
+            color: #f1f5f9;
+        }
+
+        .explorer-nav-link.active {
+            background: rgba(100, 116, 139, 0.35);
+            color: #f1f5f9;
+        }
+
+        /* ---------- DROPDOWN WITH SCROLL ---------- */
+        .explorer-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.97));
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            border-radius: 12px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            min-width: 200px;
+            max-height: 70vh;
+            overflow-y: auto;
+            padding: 10px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            margin-top: 8px;
+        }
+
+        .explorer-nav-item:hover .explorer-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .explorer-dropdown::-webkit-scrollbar { width: 6px; }
+        .explorer-dropdown::-webkit-scrollbar-track { background: transparent; margin: 8px 0; }
+        .explorer-dropdown::-webkit-scrollbar-thumb { background: rgba(100, 116, 139, 0.5); border-radius: 3px; }
+        .explorer-dropdown::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.7); }
+        .explorer-dropdown { scrollbar-width: thin; scrollbar-color: rgba(100, 116, 139, 0.5) transparent; }
+
+        .explorer-dropdown-section {
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(100, 116, 139, 0.2);
+        }
+
+        .explorer-dropdown-section:last-child { border-bottom: none; }
+
+        .explorer-dropdown-header {
+            color: #94a3b8;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px 16px 4px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .explorer-dropdown-item {
+            color: #cbd5e1;
+            text-decoration: none;
+            display: block;
+            padding: 10px 16px 10px 32px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .explorer-dropdown-item:hover {
+            background: rgba(100, 116, 139, 0.3);
+            color: #f1f5f9;
+            padding-left: 36px;
+        }
+
+        .explorer-mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 10px;
+            background: none;
+            border: none;
+        }
+
+        .explorer-mobile-toggle span {
+            width: 25px;
+            height: 2px;
+            background: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        /* ---------- EXPLORER FOOTER ---------- */
+        .explorer-footer {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.95));
+            backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(100, 116, 139, 0.3);
+            box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.4);
+            padding: 20px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+
+        .explorer-footer-left { font-size: 14px; color: #94a3b8; }
+        .explorer-footer-center { font-style: italic; color: #64748b; font-size: 14px; }
+        .explorer-footer-right { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+
+        .explorer-footer-link {
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .explorer-footer-link:hover {
+            background: rgba(100, 116, 139, 0.25);
+            color: #f1f5f9;
+        }
+
+        /* ---------- MAIN ---------- */
+        main {
+            flex: 1;
+            padding-top: 70px;
+        }
+
+        .page {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 70px 20px 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page h1 {
+            font-size: clamp(30px, 4vw, 44px);
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #f1f5f9;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .page p.lead {
+            color: #cbd5e1;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 26px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 18px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.6), rgba(30, 41, 59, 0.4));
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            border-radius: 16px;
+            padding: 18px 18px 14px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #e2e8f0;
+        }
+
+        .card ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .card li {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            color: #cbd5e1;
+            font-size: 14px;
+            line-height: 1.6;
+            word-break: break-word;
+        }
+
+        .pill {
+            flex: 0 0 auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px 10px;
+            border-radius: 999px;
+            background: rgba(100, 116, 139, 0.25);
+            border: 1px solid rgba(100, 116, 139, 0.35);
+            color: #e2e8f0;
+            font-size: 12px;
+            min-width: 58px;
+        }
+
+        a.ext {
+            color: #93c5fd;
+            text-decoration: none;
+        }
+
+        a.ext:hover {
+            text-decoration: underline;
+        }
+
+        /* Специална секция за благодарности */
+        .special-thanks {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(59, 130, 246, 0.15));
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            margin-top: 18px;
+        }
+
+        .special-thanks h2 {
+            color: #c4b5fd;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .special-thanks h2::before {
+            content: "✨";
+        }
+
+        .special-thanks .pill {
+            background: rgba(139, 92, 246, 0.25);
+            border-color: rgba(139, 92, 246, 0.4);
+            color: #ddd6fe;
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 992px) {
+            .explorer-header { padding: 0 20px; }
+            .explorer-footer { padding: 15px 20px; flex-direction: column; gap: 10px; text-align: center; }
+            .explorer-footer-center { display: none; }
+            .explorer-mobile-toggle { display: flex; }
+            .explorer-nav {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.97));
+                flex-direction: column;
+                padding: 20px;
+                gap: 10px;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-20px);
+                transition: all 0.3s ease;
+                border-bottom: 1px solid rgba(100, 116, 139, 0.3);
+            }
+            .explorer-nav.active { opacity: 1; visibility: visible; transform: translateY(0); }
+            .explorer-dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-top: 10px;
+                display: none;
+                width: 100%;
+                max-height: 60vh;
+            }
+            .explorer-nav-item.dropdown-open .explorer-dropdown { display: block; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cosmic-stars"></div>
+
+    <header class="explorer-header">
+        <a href="index.html" class="explorer-logo">Cosmos Explorer</a>
+
+        <button class="explorer-mobile-toggle" onclick="toggleExplorerMenu()">
+            <span></span><span></span><span></span>
+        </button>
+
+        <nav>
+            <ul class="explorer-nav" id="explorerNav">
+                <li class="explorer-nav-item">
+                    <a href="index.html" class="explorer-nav-link">Начало</a>
+                </li>
+
+                <li class="explorer-nav-item">
+                    <a href="Cosmos.html" class="explorer-nav-link" onclick="handleDropdownClick(event, this)">
+                        ☀ Слънчева система ▾
+                    </a>
+                    <div class="explorer-dropdown">
+                        <div class="explorer-dropdown-section">
+                            <div class="explorer-dropdown-header">☀ Звезда</div>
+                            <a href="sun.html" class="explorer-dropdown-item">Слънце</a>
+                        </div>
+                        <div class="explorer-dropdown-section">
+                            <div class="explorer-dropdown-header">🪐 Планети</div>
+                            <a href="mercury.html" class="explorer-dropdown-item">Меркурий</a>
+                            <a href="venus.html" class="explorer-dropdown-item">Венера</a>
+                            <a href="earth.html" class="explorer-dropdown-item">Земя</a>
+                            <a href="mars.html" class="explorer-dropdown-item">Марс</a>
+                            <a href="jupiter.html" class="explorer-dropdown-item">Юпитер</a>
+                            <a href="saturn.html" class="explorer-dropdown-item">Сатурн</a>
+                            <a href="uranus.html" class="explorer-dropdown-item">Уран</a>
+                            <a href="neptune.html" class="explorer-dropdown-item">Нептун</a>
+                        </div>
+                        <div class="explorer-dropdown-section">
+                            <div class="explorer-dropdown-header">🌑 Планета-джудже</div>
+                            <a href="pluto.html" class="explorer-dropdown-item">Плутон</a>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="explorer-nav-item">
+                    <a href="Constellations.html" class="explorer-nav-link">Съзвездия</a>
+                </li>
+
+                <li class="explorer-nav-item">
+                    <a href="black_hole.html" class="explorer-nav-link">Черна дупка</a>
+                </li>
+
+                <li class="explorer-nav-item">
+                    <a href="map.html" class="explorer-nav-link">Карта на сайта</a>
+                </li>
+
+                <li class="explorer-nav-item">
+                    <a href="about_us.html" class="explorer-nav-link">За нас</a>
+                </li>
+
+                <li class="explorer-nav-item">
+                    <a href="sources.html" class="explorer-nav-link active">Източници</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page">
+            <h1>Източници</h1>
+            <p class="lead">
+                Тази страница обобщава външните линкове (CDN библиотеки, шрифтове, текстури и изображения), използвани в проекта.
+            </p>
+
+            <div class="grid">
+                <section class="card">
+                    <h2>Библиотеки / CDN</h2>
+                    <ul>
+                        <li><span class="pill">Tailwind</span> <a class="ext" href="https://tailwindcss.com" target="_blank" rel="noopener noreferrer">tailwindcss.com</a></li>
+                        <li><span class="pill">Three.js</span> <a class="ext" href="https://threejs.org" target="_blank" rel="noopener noreferrer">threejs.org</a></li>
+                        <li><span class="pill">jsDelivr</span> <a class="ext" href="https://www.jsdelivr.com" target="_blank" rel="noopener noreferrer">jsdelivr.com</a></li>
+                        <li><span class="pill">CDNJS</span> <a class="ext" href="https://cdnjs.com" target="_blank" rel="noopener noreferrer">cdnjs.com</a></li>
+                        <li><span class="pill">Bootstrap</span> <a class="ext" href="https://getbootstrap.com" target="_blank" rel="noopener noreferrer">getbootstrap.com</a></li>
+                        <li><span class="pill">UNPKG</span> <a class="ext" href="https://unpkg.com" target="_blank" rel="noopener noreferrer">unpkg.com</a></li>
+                    </ul>
+                </section>
+
+                <section class="card">
+                    <h2>Шрифтове</h2>
+                    <ul>
+                        <li><span class="pill">Google</span> <a class="ext" href="https://fonts.google.com" target="_blank" rel="noopener noreferrer">fonts.google.com (Poppins)</a></li>
+                    </ul>
+                </section>
+
+                <section class="card">
+                    <h2>Текстури (планети)</h2>
+                    <ul>
+                        <li><span class="pill">Textures</span> <a class="ext" href="https://www.solarsystemscope.com/textures/" target="_blank" rel="noopener noreferrer">solarsystemscope.com – Planet textures</a></li>
+                        <li><span class="pill">Pluto</span> <a class="ext" href="https://planet-texture-maps.fandom.com" target="_blank" rel="noopener noreferrer">planet-texture-maps.fandom.com</a></li>
+                    </ul>
+                </section>
+
+                <section class="card">
+                    <h2>Фон / черна дупка</h2>
+                    <ul>
+                        <li><span class="pill">Background</span> <a class="ext" href="https://www.hdwallpapers.in" target="_blank" rel="noopener noreferrer">hdwallpapers.in</a></li>
+                    </ul>
+                </section>
+            </div>
+
+            <!-- НОВА СЕКЦИЯ: Специални благодарности -->
+            <section class="card special-thanks">
+                <h2>Специални благодарности</h2>
+                <ul>
+                    <li>
+                        <span class="pill">CSS Effects</span> 
+                        <div>
+                            <a class="ext" href="https://simurai.com/lab/2011/10/03/space-cacss" target="_blank" rel="noopener noreferrer">Space CaCSS by Simurai</a>
+                            <span style="color: #94a3b8; display: block; margin-top: 4px;">Оригинален код за анимирани CSS текстури върху кръгове (particle, cells, jelly, blobbs, chase ефекти), използвани в планетите</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="pill">Black Hole</span> 
+                        <div>
+                            <a class="ext" href="https://codepen.io/Ibrahim3BDO/pen/pvbRzLo" target="_blank" rel="noopener noreferrer">Black Hole Demo (Ibrahim3BDO)</a>
+                            <span style="color: #94a3b8; display: block; margin-top: 4px;">Вдъхновение и техники за визуализация на черна дупка</span>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <div style="height: 18px;"></div>
+
+            <section class="card">
+                <h2>Изображения (по страници)</h2>
+                <ul>
+                    <li><span class="pill">Слънце</span>
+                        <span>
+                            <a class="ext" href="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg/1024px-The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg" target="_blank" rel="noopener noreferrer">NASA SDO</a>,
+                            <a class="ext" href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/The_Sun_cutaway.svg/1024px-The_Sun_cutaway.svg.png" target="_blank" rel="noopener noreferrer">Cutaway</a>,
+                            <a class="ext" href="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Solar_sys8.jpg/1024px-Solar_sys8.jpg" target="_blank" rel="noopener noreferrer">Solar system</a>,
+                            <a class="ext" href="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Solar_prominence_from_STEREO_spacecraft_September_29%2C_2008.jpg/1024px-Solar_prominence_from_STEREO_spacecraft_September_29%2C_2008.jpg" target="_blank" rel="noopener noreferrer">Prominence</a>,
+                            <a class="ext" href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Red_Giant.jpg/1024px-Red_Giant.jpg" target="_blank" rel="noopener noreferrer">Red giant</a>
+                        </span>
+                    </li>
+                    <li><span class="pill">Меркурий</span>
+                        <span>
+                            <a class="ext" href="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Mercury_in_true_color.jpg/1024px-Mercury_in_true_color.jpg" target="_blank" rel="noopener noreferrer">True color</a>,
+                            <a class="ext" href="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Mercury_internal_structure.jpg/1024px-Mercury_internal_structure.jpg" target="_blank" rel="noopener noreferrer">Internal</a>,
+                            <a class="ext" href="https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Caloris_basin_labeled.png/500px-Caloris_basin_labeled.png" target="_blank" rel="noopener noreferrer">Caloris</a>,
+                            <a class="ext" href="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Mercury_North_Pole.jpg/1024px-Mercury_North_Pole.jpg" target="_blank" rel="noopener noreferrer">North pole</a>
+                        </span>
+                    </li>
+                    <li><span class="pill">Венера</span>
+                        <span>
+                            <a class="ext" href="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Venus-real_color.jpg/1024px-Venus-real_color.jpg" target="_blank" rel="noopener noreferrer">True color</a>,
+                            <a class="ext" href="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Venus_internal_structure.svg/1024px-Venus_internal_structure.svg.png" target="_blank" rel="noopener noreferrer">Internal</a>,
+                            <a class="ext" href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Venus_atmosphere.png/1024px-Venus_atmosphere.png" target="_blank" rel="noopener noreferrer">Atmosphere</a>
+                        </span>
+                    </li>
+                    <li><span class="pill">Земя</span>
+                        <span>
+                            <a class="ext" href="https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/The_Earth_seen_from_Apollo_17.jpg/960px-The_Earth_seen_from_Apollo_17.jpg" target="_blank" rel="noopener noreferrer">Apollo 17</a>,
+                            <a class="ext" href="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Earth_poster.svg/1024px-Earth_poster.svg.png" target="_blank" rel="noopener noreferrer">Poster</a>,
+                            <a class="ext" href="https://lubopitko.bg/wp-content/uploads/2021/06/1-768x768.jpg" target="_blank" rel="noopener noreferrer">Atmospheric layers</a>,
+                            <a class="ext" href="https://megavselena.bg/wp-content/uploads/2022/01/NhcX4MxfTKj8bQAkgvVJuY-970-80.jpg" target="_blank" rel="noopener noreferrer">Map</a>,
+                            <a class="ext" href="https://vmatura.eu/upload/3/31.jpg" target="_blank" rel="noopener noreferrer">Biosphere</a>
+                        </span>
+                    </li>
+                    <li><span class="pill">Марс</span>
+                        <span>
+                            <a class="ext" href="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ffakty-interesnye.ru%2Fwp-content%2Fuploads%2F2023%2F04%2Fpeyzazhi-marsa-s-marsohoda-1.jpg&f=1&nofb=1&ipt=6f42aa0077493832f5a9b517ece921c09fedfbc43b3cf64e5c4af5402686bcc5" target="_blank" rel="noopener noreferrer">Landscape</a>,
+                            <a class="ext" href="https://lubopitko-bg.com/wp-content/uploads/2013/09/Planet-Mars-inside.jpg" target="_blank" rel="noopener noreferrer">Internal</a>,
+                            <a class="ext" href="https://www.bloombergtv.bg/media/files/images/original/article/a14/33467929fca48a14-3c2227e09f2e210d.jpeg" target="_blank" rel="noopener noreferrer">Atmosphere</a>,
+                            <a class="ext" href="https://img-fotki.yandex.ru/get/6314/64843573.129/0_8bab1_b60eb0eb_orig.jpg" target="_blank" rel="noopener noreferrer">Valles Marineris</a>,
+                            <a class="ext" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8xiFyv0DOp-eqRTwHq0Bn_HB9-5P9VAgybA&s" target="_blank" rel="noopener noreferrer">Perseverance</a>
+                        </span>
+                    </li>
+                    <li><span class="pill">Юпитер</span>
+                        <span>
+                            <a class="ext" href="https://www.obekti.bg/sites/default/files/styles/article_gallery/public/field/image/2486_stsci-h-p1936a_1800.jpg?itok=ScIYBK0L" target="_blank" rel="noopener noreferrer">Jupiter</a>,
+                            <a class="ext" href="https://alhimika.wordpress.com/wp-content/uploads/2013/01/europainterior1.jpg" target="_blank" rel="noopener noreferrer">Internal</a>,
+                            <a class="ext" href="https://cosmos.1.bg/space/wp-content/uploads/2012/01/juno_space_probe.jpg" target="_blank" rel="noopener noreferrer">Juno</a>,
+                            <a class="ext" href="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Jupiter_and_the_Galilean_Satellites.jpg/500px-Jupiter_and_the_Galilean_Satellites.jpg" target="_blank" rel="noopener noreferrer">Galilean moons</a>,
+                            <a class="ext" href="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Funiversemagazine.com%2Fwp-content%2Fuploads%2F2025%2F07%2Fezgif-18e3218e3589b2-1024x576.jpg&f=1&nofb=1&ipt=867efb85fa338fad38900e1e11c55047dec9222a92dc840af76633d85f23d610" target="_blank" rel="noopener noreferrer">Juno (alt)</a>
+                        </span>
+                    </li>
+                    <li><span class="pill">Сатурн</span>
+                        <span>
+                            <a class="ext" href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Saturn_Rings_-_November_2024.jpg/1024px-Saturn_Rings_-_November_2024.jpg" target="_blank" rel="noopener noreferrer">Rings</a>,
+                            <a class="ext" href="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Saturn_during_Equinox.jpg/1024px-Saturn_during_Equinox.jpg" target="_blank" rel="noopener noreferrer">Equinox</a>,
+                            <a class="ext" href="https://liuboznaiko.eu/wp-content/uploads/2016/11/2000px-Interior_of_Saturn.svg_.png" target="_blank" rel="noopener noreferrer">Internal</a>,
+                            <a class="ext" href="https://www.viapontika.com/cache/images/uploads/ELENA/850x565_U1_saturn214.jpg" target="_blank" rel="noopener noreferrer">Hexagon</a>,
+                            <a class="ext" href="https://m3.netinfo.bg/media/images/17529/17529541/770-434-prysten-d-saturn.jpg" target="_blank" rel="noopener noreferrer">Cassini</a>,
+                            <a class="ext" href="https://aerospaceamerica.aiaa.org/wp-content/uploads/2017/11/cassini.jpg" target="_blank" rel="noopener noreferrer">Cassini (AIAA)</a>
+                        </span>
+                    </li>
+                    <li><span class="pill">Уран</span>
+                        <span>
+                            <a class="ext" href="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Uranus2.jpg/1024px-Uranus2.jpg" target="_blank" rel="noopener noreferrer">Voyager 2</a>,
+                            <a class="ext" href="http://www.daskalo.com/galya2/files/2015/11/Uranus_rings_and_moons.jpg" target="_blank" rel="noopener noreferrer">Rings</a>,
+                            <a class="ext" href="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Uranus.jpg/1024px-Uranus.jpg" target="_blank" rel="noopener noreferrer">True color</a>,
+                            <a class="ext" href="https://upload.wikimedia.org/wikipedia/commons/8/84/Moons_of_Uranus.jpg" target="_blank" rel="noopener noreferrer">Moons</a>,
+                            <a class="ext" href="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fnstatic.nova.bg%2Fpublic%2Fpics%2Fnova%2Farticle%2F980x551_1660995246.jpg&f=1&nofb=1&ipt=8630ce827a2e106d3f28000f4768b4e0142fc7a1fa28defe7c39d04534bd8674" target="_blank" rel="noopener noreferrer">Nova.bg</a>
+                        </span>
+                    </li>
+                    <li><span class="pill">Нептун</span>
+                        <span>
+                            <a class="ext" href="https://upload.wikimedia.org/wikipedia/commons/6/63/Neptune_-_Voyager_2_%2829347980845%29_flatten_crop.jpg" target="_blank" rel="noopener noreferrer">Voyager 2</a>,
+                            <a class="ext" href="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fznaniya-sila.narod.ru%2Fsolarsis%2Fneptune%2Fpic-neptune%2Fneptune_inside_sh.gif&f=1&nofb=1&ipt=0361ad059169f54adf59f7d46aeffdde7dfc092fada21745efb6558ac67268db" target="_blank" rel="noopener noreferrer">Internal</a>,
+                            <a class="ext" href="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flupa.bg%2Ff%2Fnews%2Fb%2F1%2F8abdd58387caa289753f16b9586f0433.jpeg&f=1&nofb=1&ipt=abb09e33b63ab453f5d701d1e3c7faa1974ae97e51ece681492bfd0f8a0978ad" target="_blank" rel="noopener noreferrer">Storms</a>,
+                            <a class="ext" href="https://upload.wikimedia.org/wikipedia/commons/f/fe/New_Webb_Image_Captures_Clearest_View_of_Neptune%E2%80%99s_Rings_in_Decades.png" target="_blank" rel="noopener noreferrer">JWST rings</a>,
+                            <a class="ext" href="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.satellite-maps.ru%2Fplanet%2Fimg%2Fneptun_triton.jpg&f=1&nofb=1&ipt=b720269d3a0e86b21a5311fca53f8cd018c34ce78368f39f4fa22479e176b716" target="_blank" rel="noopener noreferrer">Triton</a>
+                        </span>
+                    </li>
+                    <li><span class="pill">Плутон</span>
+                        <span>
+                            <a class="ext" href="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Pluto_in_True_Color_-_High-Res.jpg/1024px-Pluto_in_True_Color_-_High-Res.jpg" target="_blank" rel="noopener noreferrer">True color</a>,
+                            <a class="ext" href="https://cdn.mos.cms.futurecdn.net/v2/t:75,l:0,cw:600,ch:450,q:80,w:600/KAkFVy4xb7M22ufs4y8SEK.jpg" target="_blank" rel="noopener noreferrer">Internal</a>,
+                            <a class="ext" href="https://th-thumbnailer.cdn-si-edu.com/QT4GtqJF9UV8-KlmZHPaPaDhaBk=/fit-in/1600x0/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/c7/b6/c7b68b9a-6045-4959-82ff-843de208635c/new_horizons_pluto-haze.jpg" target="_blank" rel="noopener noreferrer">Haze</a>,
+                            <a class="ext" href="https://upload.wikimedia.org/wikipedia/commons/c/cd/PIA19945-Pluto-SputnikPlanum-Detail-20150917.jpg" target="_blank" rel="noopener noreferrer">Sputnik Planitia</a>,
+                            <a class="ext" href="https://www.nasa.gov/wp-content/uploads/2023/03/nh-pluto-charon-v2-10-1-15.jpg" target="_blank" rel="noopener noreferrer">Pluto & Charon</a>
+                        </span>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </main>
+
+    <footer class="explorer-footer">
+        <div class="explorer-footer-left">© Cosmos Explorer</div>
+        <div class="explorer-footer-center">"Космосът е вътре в нас, ние сме направени от звездно вещество, ние - това е способът, с който Космосът познава себе си." — Карл Сейгън</div>
+        <div class="explorer-footer-right">
+            <a href="index.html" class="explorer-footer-link">Начало</a>
+            <a href="Cosmos.html" class="explorer-footer-link">Слънчевата система</a>
+            <a href="Constellations.html" class="explorer-footer-link">Съзвездия</a>
+            <a href="black_hole.html" class="explorer-footer-link">Черна дупка</a>
+            <a href="map.html" class="explorer-footer-link">Карта на сайта</a>
+            <a href="about_us.html" class="explorer-footer-link">За нас</a>
+            <a href="sources.html" class="explorer-footer-link">Източници</a>
+        </div>
+    </footer>
+
+    <script>
+        function toggleExplorerMenu() {
+            document.getElementById('explorerNav').classList.toggle('active');
+        }
+
+        function handleDropdownClick(event, element) {
+            if (window.innerWidth <= 992) {
+                event.preventDefault();
+                const dropdown = element.nextElementSibling;
+                if (dropdown && dropdown.classList.contains('explorer-dropdown')) {
+                    element.parentElement.classList.toggle('dropdown-open');
+                }
+            }
+        }
+
+        document.addEventListener('click', (e) => {
+            const header = document.querySelector('.explorer-header');
+            const nav = document.getElementById('explorerNav');
+            if (header && nav && !header.contains(e.target) && nav.classList.contains('active')) {
+                nav.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

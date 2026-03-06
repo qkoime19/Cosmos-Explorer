@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>За нас - Cosmos Explorer</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300 ;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================
+           RESET & BASE
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html, body {
+            min-height: 100vh;
+            color: #f5f5f5;
+            background: #000;
+            overflow-x: hidden;
+            position: relative;
+            z-index: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ============================================
+           COSMIC BACKGROUND
+           ============================================ */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(80, 40, 120, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(40, 80, 140, 0.15) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 50%, rgba(100, 50, 150, 0.1) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .cosmic-stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .cosmic-stars::before,
+        .cosmic-stars::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-repeat: repeat;
+        }
+
+        .cosmic-stars::before {
+            background-image: 
+                radial-gradient(2px 2px at 10vw 20vh, rgba(255, 255, 255, 0.9), transparent),
+                radial-gradient(2px 2px at 25vw 35vh, rgba(255, 255, 255, 0.9), transparent),
+                radial-gradient(1px 1px at 40vw 15vh, rgba(255, 255, 255, 0.9), transparent),
+                radial-gradient(2px 2px at 55vw 60vh, rgba(255,255,255,0.9), transparent),
+                radial-gradient(1px 1px at 70vw 25vh, rgba(255,255,255,0.6), transparent),
+                radial-gradient(2px 2px at 85vw 45vh, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 15vw 70vh, rgba(255, 255, 255, 0.9), transparent),
+                radial-gradient(2px 2px at 30vw 85vh, rgba(255,255,255,0.9), transparent),
+                radial-gradient(2px 2px at 45vw 40vh, rgba(255, 255, 255, 0.9), transparent),
+                radial-gradient(1px 1px at 60vw 75vh, rgba(255,255,255,0.6), transparent),
+                radial-gradient(2px 2px at 75vw 10vh, rgba(255,255,255,0.9), transparent),
+                radial-gradient(1px 1px at 90vw 65vh, rgba(255, 255, 255, 0.9), transparent),
+                radial-gradient(2px 2px at 5vw 50vh, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 35vw 5vh, rgba(255,255,255,0.9), transparent),
+                radial-gradient(2px 2px at 65vw 90vh, rgba(255,255,255,0.6), transparent),
+                radial-gradient(1px 1px at 95vw 30vh, rgba(255, 255, 255, 0.9), transparent);
+            animation: pulse-drift-1 8s ease-in-out infinite alternate;
+        }
+
+        .cosmic-stars::after {
+            background-image:
+                radial-gradient(1px 1px at 5vw 10vh, rgba(200,220,255,0.6), transparent),
+                radial-gradient(2px 2px at 20vw 50vh, rgba(220,230,255,0.8), transparent),
+                radial-gradient(1px 1px at 35vw 25vh, rgba(180,200,255,0.5), transparent),
+                radial-gradient(2px 2px at 50vw 80vh, rgba(210,220,255,0.7), transparent),
+                radial-gradient(1px 1px at 65vw 5vh, rgba(190,210,255,0.6), transparent),
+                radial-gradient(2px 2px at 80vw 55vh, rgba(220,240,255,0.8), transparent),
+                radial-gradient(1px 1px at 12vw 90vh, rgba(200,210,255,0.5), transparent),
+                radial-gradient(2px 2px at 28vw 45vh, rgba(210,230,255,0.7), transparent),
+                radial-gradient(1px 1px at 42vw 70vh, rgba(190,220,255,0.6), transparent),
+                radial-gradient(2px 2px at 58vw 20vh, rgba(220,230,255,0.8), transparent),
+                radial-gradient(1px 1px at 72vw 85vh, rgba(200,220,255,0.5), transparent),
+                radial-gradient(2px 2px at 88vw 35vh, rgba(210,240,255,0.7), transparent);
+            animation: pulse-drift-2 10s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes pulse-drift-1 {
+            0% { opacity: 0.4; transform: translate(0, 0) scale(0.9); }
+            100% { opacity: 1; transform: translate(10px, -10px) scale(1.1); }
+        }
+
+        @keyframes pulse-drift-2 {
+            0% { opacity: 0.3; transform: translate(0, 0) scale(1.1); }
+            100% { opacity: 0.9; transform: translate(-8px, 8px) scale(0.9); }
+        }
+
+        /* ============================================
+           EXPLORER HEADER (FIXED)
+           ============================================ */
+        /* ---------- EXPLORER HEADER (FIXED) ---------- */
+        .explorer-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.95));
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(100, 116, 139, 0.3);
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 60px;
+        }
+
+        .explorer-logo {
+            font-size: 25px;
+            font-weight: 700;
+            color: #e2e8f0;
+            text-decoration: none;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .explorer-logo:hover {
+            color: #f1f5f9;
+            text-shadow: 0 0 20px rgba(100, 150, 255, 0.5);
+        }
+
+        .explorer-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+        }
+
+        .explorer-nav-item {
+            position: relative;
+        }
+
+        .explorer-nav-link {
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: inherit;
+        }
+
+        .explorer-nav-link:hover {
+            background: rgba(100, 116, 139, 0.25);
+            color: #f1f5f9;
+        }
+
+        .explorer-nav-link.active {
+            background: rgba(100, 116, 139, 0.35);
+            color: #f1f5f9;
+        }
+
+        /* ============================================
+           DROPDOWN WITH SCROLL
+           ============================================ */
+        .explorer-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.97));
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            border-radius: 12px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            min-width: 200px;
+            max-height: 70vh;
+            overflow-y: auto;
+            padding: 10px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            margin-top: 8px;
+        }
+
+        .explorer-nav-item:hover .explorer-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .explorer-dropdown::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .explorer-dropdown::-webkit-scrollbar-track {
+            background: transparent;
+            margin: 8px 0;
+        }
+
+        .explorer-dropdown::-webkit-scrollbar-thumb {
+            background: rgba(100, 116, 139, 0.5);
+            border-radius: 3px;
+        }
+
+        .explorer-dropdown::-webkit-scrollbar-thumb:hover {
+            background: rgba(100, 116, 139, 0.7);
+        }
+
+        .explorer-dropdown {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(100, 116, 139, 0.5) transparent;
+        }
+
+        .explorer-dropdown-section {
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(100, 116, 139, 0.2);
+        }
+
+        .explorer-dropdown-section:last-child {
+            border-bottom: none;
+        }
+
+        .explorer-dropdown-header {
+            color: #94a3b8;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px 16px 4px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .explorer-dropdown-item {
+            color: #cbd5e1;
+            text-decoration: none;
+            display: block;
+            padding: 10px 16px 10px 32px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .explorer-dropdown-item:hover {
+            background: rgba(100, 116, 139, 0.3);
+            color: #f1f5f9;
+            padding-left: 36px;
+        }
+
+        .explorer-mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 10px;
+            background: none;
+            border: none;
+        }
+
+        .explorer-mobile-toggle span {
+            width: 25px;
+            height: 2px;
+            background: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        /* ============================================
+           EXPLORER FOOTER (NOT FIXED - AT BOTTOM)
+           ============================================ */
+        .explorer-footer {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.95));
+            backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(100, 116, 139, 0.3);
+            box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.4);
+            padding: 20px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+
+        .explorer-footer-left {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .explorer-footer-center {
+            font-style: italic;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .explorer-footer-right {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .explorer-footer-link {
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .explorer-footer-link:hover {
+            background: rgba(100, 116, 139, 0.25);
+            color: #f1f5f9;
+        }
+
+        /* ============================================
+           MAIN CONTENT
+           ============================================ */
+        main {
+            flex: 1;
+            padding-top: 70px;
+        }
+
+        /* ============================================
+           ABOUT HERO SECTION
+           ============================================ */
+        .about-hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .about-hero h1 {
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .about-hero .subtitle {
+            font-size: clamp(16px, 2vw, 20px);
+            color: #94a3b8;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .about-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.2), rgba(167, 139, 250, 0.2));
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 14px;
+            color: #60a5fa;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* ============================================
+           CONTENT SECTIONS
+           ============================================ */
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 100px;
+        }
+
+        .section-title {
+            font-size: clamp(28px, 4vw, 42px);
+            text-align: center;
+            margin-bottom: 50px;
+            background: linear-gradient(135deg, #fff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-section {
+            display: flex;
+            gap: 50px;
+            margin-bottom: 80px;
+            align-items: center;
+        }
+
+        .about-section.reverse {
+            flex-direction: row-reverse;
+        }
+
+        .about-text {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .about-text h2 {
+            font-size: clamp(24px, 3vw, 32px);
+            margin-bottom: 20px;
+            color: #f1f5f9;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .about-text h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #60a5fa, #a78bfa);
+            border-radius: 2px;
+        }
+
+        .about-text p {
+            font-size: 16px;
+            line-height: 1.9;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+
+        .about-image {
+            flex: 1;
+            min-width: 280px;
+            text-align: center;
+        }
+
+        .about-image img {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .about-image img:hover {
+            transform: scale(1.03);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+
+        /* ============================================
+           FEATURES GRID
+           ============================================ */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 60px 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 40px rgba(100, 150, 255, 0.2);
+            border-color: rgba(100, 116, 139, 0.5);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #f1f5f9;
+        }
+
+        .feature-card p {
+            font-size: 15px;
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           INFO BOXES
+           ============================================ */
+        .info-box {
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.1), rgba(167, 139, 250, 0.1));
+            border-left: 4px solid #60a5fa;
+            border-radius: 0 12px 12px 0;
+            padding: 20px 25px;
+            margin: 25px 0;
+        }
+
+        .info-box-title {
+            font-size: 14px;
+            color: #60a5fa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-box p {
+            margin: 0;
+            color: #e2e8f0;
+        }
+
+        /* ============================================
+           MISSION SECTION
+           ============================================ */
+        .mission-section {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.8));
+            border-radius: 24px;
+            padding: 60px 40px;
+            text-align: center;
+            margin: 60px 0;
+            border: 1px solid rgba(100, 116, 139, 0.2);
+        }
+
+        .mission-section h2 {
+            font-size: clamp(28px, 4vw, 36px);
+            margin-bottom: 25px;
+            color: #f1f5f9;
+        }
+
+        .mission-section p {
+            font-size: 18px;
+            color: #cbd5e1;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* ============================================
+           STATS GRID
+           ============================================ */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(100, 150, 255, 0.2);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        /* ============================================
+           TEAM/CREDITS SECTION
+           ============================================ */
+        .credits-section {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .credits-section h2 {
+            font-size: clamp(24px, 3vw, 32px);
+            margin-bottom: 40px;
+            color: #f1f5f9;
+        }
+
+        .team-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .creator-card {
+            flex: 1;
+            min-width: 250px;
+            max-width: 350px;
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            border-radius: 20px;
+            padding: 40px 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .creator-card:hover {
+            transform: scale(1.05);
+        }
+
+        .creator-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            overflow: hidden;
+            position: relative;
+            border: 3px solid rgba(96, 165, 250, 0.3);
+            box-shadow: 0 4px 20px rgba(96, 165, 250, 0.3);
+        }
+
+        .creator-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .creator-card h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #f1f5f9;
+        }
+
+        .creator-role {
+            color: #60a5fa;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .creator-card p {
+            color: #94a3b8;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           HONESTY BOX
+           ============================================ */
+        .honesty-box {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.1));
+            border-left: 4px solid #fbbf24;
+            border-radius: 0 12px 12px 0;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .honesty-box .info-box-title {
+            color: #fbbf24;
+        }
+
+        /* ============================================
+           SCROLLBAR
+           ============================================ */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(100, 116, 139, 0.5);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(100, 116, 139, 0.7);
+        }
+
+        /* ============================================
+           FADE IN ANIMATION
+           ============================================ */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 992px) {
+            .explorer-header {
+                padding: 0 20px;
+            }
+
+            .explorer-footer {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .explorer-footer-right {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .explorer-mobile-toggle {
+                display: flex;
+            }
+
+            .explorer-nav {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.97));
+                flex-direction: column;
+                padding: 20px;
+                gap: 10px;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-20px);
+                transition: all 0.3s ease;
+                border-bottom: 1px solid rgba(100, 116, 139, 0.3);
+            }
+
+            .explorer-nav.active {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+
+            .explorer-dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-top: 10px;
+                display: none;
+                width: 100%;
+                max-height: 60vh;
+            }
+
+            .explorer-nav-item.dropdown-open .explorer-dropdown {
+                display: block;
+            }
+
+            .about-section,
+            .about-section.reverse {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .about-text h2::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .mission-section {
+                padding: 40px 20px;
+            }
+
+            .team-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .creator-card {
+                width: 100%;
+                max-width: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .explorer-footer-center {
+                display: none;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ============================================
+         BACKGROUND
+         ============================================ -->
+    <div class="cosmic-stars"></div>
+
+    <!-- ============================================
+         HEADER (FIXED)
+         ============================================ -->
+    <header class="explorer-header">
+        <a href="index.html" class="explorer-logo" target="_self">Cosmos Explorer</a>
+
+        <button class="explorer-mobile-toggle" onclick="toggleExplorerMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav>
+            <ul class="explorer-nav" id="explorerNav">
+
+            @media (max-width: 576px) {
+                .explorer-footer-center {
+                    display: none;
+                }
+
+                .stats-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- ============================================
+             BACKGROUND
+             ============================================ -->
+        <div class="cosmic-stars"></div>
+
+        <!-- ============================================
+             HEADER (FIXED)
+             ============================================ -->
+        <header class="explorer-header">
+            <a href="index.html" class="explorer-logo" target="_self">Cosmos Explorer</a>
+
+            <button class="explorer-mobile-toggle" onclick="toggleExplorerMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav>
+                <ul class="explorer-nav" id="explorerNav">
+                    <li class="explorer-nav-item">
+                        <a href="index.html" class="explorer-nav-link" target="_self">Начало</a>
+                    </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ============================================
+         MAIN CONTENT
+         ============================================ -->
+    <main>
+        <!-- Hero Section -->
+        <section class="about-hero">
+            <div class="about-badge">Ученически проект</div>
+            <h1>За Cosmos Explorer</h1>
+            <p class="subtitle">
+                Това е демонстрация на идея за интерактивен сайт за Космоса – 
+				обширна тема, представена от двама ученици с любов към астрономията.
+            </p>
+        </section>
+
+        <!-- Content -->
+        <div class="content-wrapper">
+            
+            <!-- Honesty Section -->
+            <section class="about-section fade-in">
+                <div class="about-text">
+                    <h2>Кои сме ние???</h2>
+                    <p>
+Ние сме <strong>Александровците</strong> – двама ученици, които обичат Космоса. 
+Когато разбрахме за състезанието по информационни технологии в Благоевград,
+осъзнахме, че това е нашият шанс да покажем знанията си по програмиране 
+и обичта си към Космоса.	
+                    </p>
+                    <p>
+                        Мисля, че сме се справили доста добре, като за демонстрационен проект -‿-".
+                    </p>
+                    
+                    <div class="honesty-box">
+                        <div class="info-box-title">⚠️ Важно уточнение</div>
+                        <p>
+                            Този сайт не е професионална платформа с милиони долари бюджет, 
+а просто нашият опит да научим нещо ново и да споделим страстта си 
+към астрономията и другите области на Космоса.
+                        </p>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-box-title">💡 Защо Космос?</div>
+                        <p>
+                            Защото Космосът е як! Това е тема, която вдъхновява, учудва и кара хората 
+                            да мечтаят(защото ни кефи). И защото е по-интересно да правиш сайт за планети, отколкото за... 
+                            не знам, онлайн магазин?
+                        </p>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Solar_sys8.jpg/1024px-Solar_sys8.jpg " alt="Слънчева система">
+                </div>
+            </section>
+
+            <!-- Features Grid -->
+            <h2 class="section-title fade-in">Какво има в сайта</h2>
+            <div class="features-grid fade-in">
+                <div class="feature-card">
+                    <span class="feature-icon">🪐</span>
+                    <h3>Слънчева система</h3>
+                    <p>Всички планети с картинки и инфо. Не са истински 3D, но се въртят и изглеждат готино.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">✨</span>
+                    <h3>Съзвездия</h3>
+                    <p>Информация за различни съзвездия и техните истории. Идеално, ако искате да впечатлите някого със знания.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">⚫</span>
+                    <h3>Черни дупки</h3>
+                    <p>Защото черните дупки са страшни и як едновременно. Обясняваме ги (колкото можем).</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📱</span>
+                    <h3>Работи на телефон</h3>
+                    <p>Да, сайтът е responsive(До някъде). Можете да го отворите на телефона си и да изглеждате умни пред приятели си :).</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🎨</span>
+                    <h3>Тъмен режим по подразбиране</h3>
+                    <p>Защото Космосът е тъмен, нали? И защото изглежда по-готино така.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🎮</span>
+                    <h3>Може би и игри в бъдеще?</h3>
+                    <p>Ако стане така, че сайте да се реализира, може да добавим и някоя проста игра. Но не обещаваме!</p>
+                </div>
+            </div>
+
+            <!-- About Cosmos Section -->
+            <section class="about-section reverse fade-in">
+                <div class="about-text">
+                    <h2>За Космоса като тема</h2>
+                    <p>
+                        Космосът е безкраен източник на "уау" моменти. От времето, когато хората са гледали 
+                        звездите и са си мислили, че са богове, до днес, когато пращаме роувъри на Марс – 
+                        винаги сме били очаровани от това, което е "там горе".
+                    </p>
+                    <p>
+                        Фактът, че ние сме направени от звездно вещество, не е просто метафора – буквално е вярно. 
+                        Всеки атом в телата ни (освен водорода) е създаден в ядрото на някоя звезда преди милиарди години. 
+                        Така че technically ние сме бивши звезди. Готино, нали?
+                    </p>
+                    <p>
+                        Темата за Космоса е перфектна, защото обединява наука, философия и чиста естетика. 
+                        Можеш да говориш за физика, химия, биология, история, митология – всичко се събира 
+                        в тази една огромна тема.
+                    </p>
+                    <div class="info-box">
+                        <div class="info-box-title">🌌 Любим факт</div>
+                        <p>
+                            Ако Вселената е на 13.8 милиарда години и я сравним с една година, 
+                            то цялата човешка история се е случила в последните няколко секунди 
+                            преди Нова година. Ние сме буквално новодошли в космическото парти.
+                        </p>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Horsehead-Hubble.jpg/1280px-Horsehead-Hubble.jpg " alt="Космическа мъглявина">
+                </div>
+            </section>
+
+            <!-- Stats -->
+            <div class="stats-grid fade-in">
+                <div class="stat-card">
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">Разработчици</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">?</div>
+                    <div class="stat-label">Чаши кафе/енергийни напитки</div>
+					<div class="stat-label">Срам ни е да кажем</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">Много</div>
+                    <div class="stat-label">Часове дебъгване</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">Любов към проекта</div>
+                </div>
+            </div>
+
+            <!-- Future Plans - Only Games -->
+            <section class="about-section fade-in">
+                <div class="about-text">
+                    <h2>Какво може да добавим</h2>
+                    <p>
+                        Не обещаваме нищо, защото сме реалисти и знаем, че училището отнема време, 
+                        но ето какво би било готино да имаме:
+                    </p>
+                    <ul style="color: #cbd5e1; line-height: 2; margin-left: 20px; font-size: 16px;">
+                        <li>3D модели на планети с възможност за завъртане и мащабиране</li>
+                        <li>Интерактивна карта на звездното небе, която показва съзвездията в реално време</li>
+                        <li>Виртуална разходка с космически кораб из Слънчевата система</li>
+                    </ul>
+                    <p style="margin-top: 20px;">
+                        Това са реалистични неща, които можем да направим без да си счупим мозъка. 
+                        Всичко останало (3D модели, виртуална реалност, AI асистент) звучи яко, 
+                        но нека бъдем честни – това е ученически проект, не космическа програма.
+                    </p>
+                </div>
+                <div class="about-image">
+                    <img src="https://thumbs.dreamstime.com/b/elderly-man-showing-thumbs-up-picture-confident-old-thumb-isolated-background-83698699.jpg " alt="Палци на горе">
+                </div>
+            </section>
+
+            <!-- Team Section -->
+            <section class="credits-section fade-in">
+        <h2>Екипът зад проекта</h2>
+        
+        <div class="team-grid">
+            <div class="creator-card">
+                <div class="creator-avatar">
+                    <img src="assets/качени/Media.jpg" alt="Александър Ивайлов Василев">
+                </div>
+                <h3>Александър Ивайлов Василев</h3>
+                <div class="creator-role">Разработчик & Дизайнер</div>
+                <p>
+                    Работи главно по архитектурата на данните и логиката на приложението, като помогна значително с фронт-енд частта.
+                </p>
+            </div>
+
+            <div class="creator-card">
+                <div class="creator-avatar">
+                    <img src="assets/Image.jpg" alt="Александър Калоянов Василев">
+                </div>
+                <h3>Александър Калоянов Василев</h3>
+                <div class="creator-role">Разработчик & Дизайнер</div>
+                <p>
+                    Работи главно по фронт-енда и потребителското изживяване, като активно помогна и с бак-енд разработката.
+                </p>
+            </div>
+        </div>
+
+        <p style="margin-top: 40px; color: #64748b; font-size: 14px;">
+            Създадено с много обич за космоса 🚀
+        </p>
+    </section>
+
+        </div>
+    </main>
+
+    <!-- ============================================
+         FOOTER (AT BOTTOM, NOT FIXED)
+         ============================================ -->
+    <footer class="explorer-footer">
+        <div class="explorer-footer-left">© Cosmos Explorer</div>
+        <div class="explorer-footer-center">"Космосът е вътре в нас, ние сме направени от звездно вещество, ние - това е способът, с който Космосът познава себе си." — Карл Сейгън</div>
+        <div class="explorer-footer-right">
+            <a href="index.html" class="explorer-footer-link">Начало</a>
+            <a href="Cosmos.html" class="explorer-footer-link">Слънчевата система</a>
+            <a href="Constellations.html" class="explorer-footer-link">Съзвездия</a>
+            <a href="black_hole.html" class="explorer-footer-link">Черна дупка</a>
+            <a href="map.html" class="explorer-footer-link">Карта на сайта</a>
+            <a href="about_us.html" class="explorer-footer-link">За нас</a>
+            <a href="sources.html" class="explorer-footer-link">Източници</a>
+        </div>
+    </footer>
+
+    <!-- ============================================
+         JAVASCRIPT
+         ============================================ -->
+    <script>
+        // Mobile menu toggle
+        function toggleExplorerMenu() {
+            document.getElementById('explorerNav').classList.toggle('active');
+        }
+
+        // Mobile dropdown toggle
+        function handleDropdownClick(event, element) {
+            // Prevent default navigation only on mobile
+            if (window.innerWidth <= 992) {
+                event.preventDefault();
+                // Toggle dropdown for mobile
+                const dropdown = element.nextElementSibling;
+                if (dropdown && dropdown.classList.contains('explorer-dropdown')) {
+                    element.parentElement.classList.toggle('dropdown-open');
+                }
+            }
+            // On desktop, allow normal navigation (go to Cosmos.html)
+        }
+        
+        function toggleExplorerDropdown(btn) {
+            if (window.innerWidth <= 992) {
+                btn.parentElement.classList.toggle('dropdown-open');
+            }
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const header = document.querySelector('.explorer-header');
+            const nav = document.getElementById('explorerNav');
+            if (!header.contains(e.target) && nav.classList.contains('active')) {
+                nav.classList.remove('active');
+            }
+        });
+
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

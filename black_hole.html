@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Черна дупка - Cosmos Explorer</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ---------- RESET & BASE ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            min-height: 100vh;
+            color: #f5f5f5;
+            background: #000;
+            overflow-x: hidden;
+            position: relative;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ---------- COSMIC BACKGROUND ---------- */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(80, 40, 120, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(40, 80, 140, 0.15) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .cosmic-stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .cosmic-stars::before,
+        .cosmic-stars::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-repeat: repeat;
+        }
+
+        .cosmic-stars::before {
+            background-image: 
+                radial-gradient(2px 2px at 10vw 20vh, rgba(215, 238, 11, 0.9), transparent),
+                radial-gradient(2px 2px at 25vw 35vh, rgba(215, 238, 11, 0.9), transparent),
+                radial-gradient(1px 1px at 40vw 15vh, rgba(215, 238, 11, 0.9), transparent),
+                radial-gradient(2px 2px at 55vw 60vh, rgba(255,255,255,0.9), transparent),
+                radial-gradient(1px 1px at 70vw 25vh, rgba(255,255,255,0.6), transparent),
+                radial-gradient(2px 2px at 85vw 45vh, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 15vw 70vh, rgba(215, 238, 11, 0.9), transparent),
+                radial-gradient(2px 2px at 30vw 85vh, rgba(255,255,255,0.9), transparent),
+                radial-gradient(2px 2px at 45vw 40vh, rgba(215, 238, 11, 0.9), transparent),
+                radial-gradient(1px 1px at 60vw 75vh, rgba(255,255,255,0.6), transparent),
+                radial-gradient(2px 2px at 75vw 10vh, rgba(255,255,255,0.9), transparent),
+                radial-gradient(1px 1px at 90vw 65vh, rgba(215, 238, 11, 0.9), transparent),
+                radial-gradient(2px 2px at 5vw 50vh, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 35vw 5vh, rgba(255,255,255,0.9), transparent),
+                radial-gradient(2px 2px at 65vw 90vh, rgba(255,255,255,0.6), transparent),
+                radial-gradient(1px 1px at 95vw 30vh, rgba(215, 238, 11, 0.9), transparent),
+                radial-gradient(2px 2px at 20vw 45vh, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 50vw 25vh, rgba(255,255,255,0.6), transparent),
+                radial-gradient(2px 2px at 80vw 70vh, rgba(255,255,255,0.9), transparent),
+                radial-gradient(1px 1px at 45vw 80vh, rgba(255,255,255,0.7), transparent);
+            animation: pulse-drift-1 8s ease-in-out infinite alternate;
+        }
+
+        .cosmic-stars::after {
+            background-image:
+                radial-gradient(1px 1px at 5vw 10vh, rgba(200,220,255,0.6), transparent),
+                radial-gradient(2px 2px at 20vw 50vh, rgba(220,230,255,0.8), transparent),
+                radial-gradient(1px 1px at 35vw 25vh, rgba(180,200,255,0.5), transparent),
+                radial-gradient(2px 2px at 50vw 80vh, rgba(210,220,255,0.7), transparent),
+                radial-gradient(1px 1px at 65vw 5vh, rgba(190,210,255,0.6), transparent),
+                radial-gradient(2px 2px at 80vw 55vh, rgba(220,240,255,0.8), transparent),
+                radial-gradient(1px 1px at 12vw 90vh, rgba(200,210,255,0.5), transparent),
+                radial-gradient(2px 2px at 28vw 45vh, rgba(210,230,255,0.7), transparent),
+                radial-gradient(1px 1px at 42vw 70vh, rgba(190,220,255,0.6), transparent),
+                radial-gradient(2px 2px at 58vw 20vh, rgba(220,230,255,0.8), transparent),
+                radial-gradient(1px 1px at 72vw 85vh, rgba(200,220,255,0.5), transparent),
+                radial-gradient(2px 2px at 88vw 35vh, rgba(210,240,255,0.7), transparent),
+                radial-gradient(1px 1px at 18vw 65vh, rgba(180,210,255,0.6), transparent),
+                radial-gradient(2px 2px at 48vw 8vh, rgba(220,230,255,0.8), transparent),
+                radial-gradient(1px 1px at 78vw 95vh, rgba(200,220,255,0.5), transparent),
+                radial-gradient(2px 2px at 92vw 15vh, rgba(210,230,255,0.7), transparent),
+                radial-gradient(1px 1px at 38vw 60vh, rgba(190,220,255,0.6), transparent),
+                radial-gradient(2px 2px at 68vw 40vh, rgba(220,240,255,0.8), transparent);
+            animation: pulse-drift-2 10s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes pulse-drift-1 {
+            0% { opacity: 0.4; transform: translate(0, 0) scale(0.9); }
+            100% { opacity: 1; transform: translate(10px, -10px) scale(1.1); }
+        }
+
+        @keyframes pulse-drift-2 {
+            0% { opacity: 0.3; transform: translate(0, 0) scale(1.1); }
+            100% { opacity: 0.9; transform: translate(-8px, 8px) scale(0.9); }
+        }
+
+        /* ---------- EXPLORER HEADER (FIXED) ---------- */
+        .explorer-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.95));
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(100, 116, 139, 0.3);
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 60px;
+        }
+
+        .explorer-logo {
+            font-size: 25px;
+            font-weight: 700;
+            color: #e2e8f0;
+            text-decoration: none;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .explorer-logo:hover {
+            color: #f1f5f9;
+            text-shadow: 0 0 20px rgba(100, 150, 255, 0.5);
+        }
+
+        .explorer-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+        }
+
+        .explorer-nav-item {
+            position: relative;
+        }
+
+        .explorer-nav-link {
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: inherit;
+        }
+
+        .explorer-nav-link:hover {
+            background: rgba(100, 116, 139, 0.25);
+            color: #f1f5f9;
+        }
+
+        .explorer-nav-link.active {
+            background: rgba(100, 116, 139, 0.35);
+            color: #f1f5f9;
+        }
+
+        /* ---------- DROPDOWN WITH SCROLL ---------- */
+        .explorer-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.97));
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            border-radius: 12px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            min-width: 200px;
+            max-height: 70vh;
+            overflow-y: auto;
+            padding: 10px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            margin-top: 8px;
+        }
+
+        .explorer-nav-item:hover .explorer-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .explorer-dropdown::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .explorer-dropdown::-webkit-scrollbar-track {
+            background: transparent;
+            margin: 8px 0;
+        }
+
+        .explorer-dropdown::-webkit-scrollbar-thumb {
+            background: rgba(100, 116, 139, 0.5);
+            border-radius: 3px;
+        }
+
+        .explorer-dropdown::-webkit-scrollbar-thumb:hover {
+            background: rgba(100, 116, 139, 0.7);
+        }
+
+        .explorer-dropdown {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(100, 116, 139, 0.5) transparent;
+        }
+
+        .explorer-dropdown-section {
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(100, 116, 139, 0.2);
+        }
+
+        .explorer-dropdown-section:last-child {
+            border-bottom: none;
+        }
+
+        .explorer-dropdown-header {
+            color: #94a3b8;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px 16px 4px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .explorer-dropdown-item {
+            color: #cbd5e1;
+            text-decoration: none;
+            display: block;
+            padding: 10px 16px 10px 32px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .explorer-dropdown-item:hover {
+            background: rgba(100, 116, 139, 0.3);
+            color: #f1f5f9;
+            padding-left: 36px;
+        }
+
+        .explorer-mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 10px;
+            background: none;
+            border: none;
+        }
+
+        .explorer-mobile-toggle span {
+            width: 25px;
+            height: 2px;
+            background: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        /* ---------- CANVAS CONTAINER ---------- */
+        #canvas-container {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            bottom: 70px;
+            z-index: 1;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ---------- LOADING & TITLE OVERLAY ---------- */
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            letter-spacing: 0.2em;
+            animation: pulse 2s infinite;
+            z-index: 100;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .title {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            color: #e2e8f0;
+            font-family: 'Courier New', monospace;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .title h1 {
+            font-size: 1.5rem;
+            margin: 0;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #f1f5f9;
+        }
+
+        .title p {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin: 5px 0 0 0;
+        }
+
+        /* ---------- EXPLORER FOOTER ---------- */
+        .explorer-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.95));
+            backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(100, 116, 139, 0.3);
+            box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 60px;
+        }
+
+        .explorer-footer-left {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .explorer-footer-center {
+            font-style: italic;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .explorer-footer-right {
+            display: flex;
+            gap: 8px;
+        }
+
+        .explorer-footer-link {
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .explorer-footer-link:hover {
+            background: rgba(100, 116, 139, 0.25);
+            color: #f1f5f9;
+        }
+
+        /* ---------- SCROLLBAR ---------- */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(100, 116, 139, 0.5);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(100, 116, 139, 0.7);
+        }
+
+        /* ---------- BLACK HOLE INFO SIDEBAR ---------- */
+        .bh-info-menu {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 900;
+        }
+
+        .bh-info-btn {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.9));
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            border-radius: 999px;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #e2e8f0;
+            font-size: 13px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            backdrop-filter: blur(10px);
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+
+        .bh-info-btn span.icon {
+            font-size: 16px;
+        }
+
+        .bh-info-btn:hover {
+            transform: translateX(-4px);
+            border-color: rgba(248, 250, 252, 0.7);
+            box-shadow: 0 6px 18px rgba(15,23,42,0.8);
+        }
+
+        .bh-info-panel {
+            position: fixed;
+            right: 80px;
+            bottom: 90px;
+            max-width: 420px;
+            background: radial-gradient(circle at top left, rgba(15,23,42,0.95), rgba(15,23,42,0.9));
+            border-radius: 18px;
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            box-shadow: 0 18px 45px rgba(0,0,0,0.8);
+            padding: 18px 20px 20px;
+            z-index: 950;
+            display: none;
+        }
+
+        .bh-info-panel.active {
+            display: block;
+        }
+
+        .bh-info-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .bh-info-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e5e7eb;
+        }
+
+        .bh-info-close {
+            background: transparent;
+            border: none;
+            color: #9ca3af;
+            font-size: 18px;            
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 999px;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .bh-info-close:hover {
+            background: rgba(148, 163, 184, 0.25);
+            color: #f9fafb;
+        }
+
+        .bh-info-body {
+            font-size: 13px;
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .bh-info-body p + p {
+            margin-top: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .bh-info-menu {
+                right: 12px;
+                top: auto;
+                bottom: 100px;
+                transform: none;
+                flex-direction: row;
+                flex-wrap: wrap;
+                max-width: 90%;
+                justify-content: flex-end;
+            }
+
+            .bh-info-btn {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+
+            .bh-info-panel {
+                right: 10px;
+                left: 10px;
+                bottom: 110px;
+                max-width: none;
+            }
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 992px) {
+            .explorer-header {
+                padding: 0 20px;
+            }
+
+            .explorer-footer {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 10px;
+                height: auto;
+                min-height: 70px;
+            }
+
+            .explorer-footer-center {
+                display: none;
+            }
+
+            .explorer-footer-right {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .explorer-mobile-toggle {
+                display: flex;
+            }
+
+            .explorer-nav {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.97));
+                flex-direction: column;
+                padding: 20px;
+                gap: 10px;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-20px);
+                transition: all 0.3s ease;
+                border-bottom: 1px solid rgba(100, 116, 139, 0.3);
+            }
+
+            .explorer-nav.active {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+
+            .explorer-dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-top: 10px;
+                display: none;
+                width: 100%;
+                max-height: 60vh;
+            }
+
+            .explorer-nav-item.dropdown-open .explorer-dropdown {
+                display: block;
+            }
+
+            #canvas-container {
+                bottom: 100px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .title {
+                left: 15px;
+                top: 10px;
+            }
+
+            .title h1 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+<base target="_blank">
+</head>
+
+<body>
+    <!-- ============================================
+         BACKGROUND
+         ============================================ -->
+    <div class="cosmic-stars"></div>
+
+    <!-- Invisible anchors for sitemap links (no visual impact) -->
+    <span id="what-is"></span>
+    <span id="formation"></span>
+    <span id="types"></span>
+    <span id="sagittarius"></span>
+
+    <!-- ============================================
+         HEADER (FIXED)
+         ============================================ -->
+    <header class="explorer-header">
+        <a href="index.html" class="explorer-logo" target="_self">Cosmos Explorer</a>
+
+        <button class="explorer-mobile-toggle" onclick="toggleExplorerMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav>
+            <ul class="explorer-nav" id="explorerNav">
+                <li class="explorer-nav-item">
+                    <a href="index.html" class="explorer-nav-link" target="_self">Начало</a>
+                </li>
+
+                <li class="explorer-nav-item">
+                    <a href="cosmos.html" class="explorer-nav-link" onclick="handleDropdownClick(event, this)">
+                        ☀ Слънчева система ▾
+                    </a>
+                    <div class="explorer-dropdown">
+                        <div class="explorer-dropdown-section">
+                            <div class="explorer-dropdown-header">☀ Звезда</div>
+                            <a href="sun.html" class="explorer-dropdown-item" target="_self">Слънце</a>
+                        </div>
+                        <div class="explorer-dropdown-section">
+                            <div class="explorer-dropdown-header">🪐 Планети</div>
+                            <a href="mercury.html" class="explorer-dropdown-item" target="_self">Меркурий</a>
+                            <a href="venus.html" class="explorer-dropdown-item" target="_self">Венера</a>
+                            <a href="earth.html" class="explorer-dropdown-item" target="_self">Земя</a>
+                            <a href="mars.html" class="explorer-dropdown-item" target="_self">Марс</a>
+                            <a href="jupiter.html" class="explorer-dropdown-item" target="_self">Юпитер</a>
+                            <a href="saturn.html" class="explorer-dropdown-item" target="_self">Сатурн</a>
+                            <a href="uranus.html" class="explorer-dropdown-item" target="_self">Уран</a>
+                            <a href="neptune.html" class="explorer-dropdown-item" target="_self">Нептун</a>
+                        </div>
+                        <div class="explorer-dropdown-section">
+                            <div class="explorer-dropdown-header">🌑 Планета-джудже</div>
+                            <a href="pluto.html" class="explorer-dropdown-item" target="_self">Плутон</a>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="explorer-nav-item">
+                    <a href="constellations.html" class="explorer-nav-link" target="_self">Съзвездия</a>
+                </li>
+
+                <li class="explorer-nav-item">
+                    <a href="black_hole.html" class="explorer-nav-link active" target="_self">Черна дупка</a>
+                </li>
+
+                <li class="explorer-nav-item">
+                    <a href="map.html" class="explorer-nav-link" target="_self">Карта на сайта</a>
+                </li>
+
+                <li class="explorer-nav-item">
+                    <a href="sources.html" class="explorer-nav-link" target="_self">Източници</a>
+                </li>
+
+                <li class="explorer-nav-item">
+                    <a href="about_us.html" class="explorer-nav-link" target="_self">За нас</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ============================================
+         THREE.JS BLACK HOLE CONTAINER
+         ============================================ -->
+    <div id="canvas-container">
+        <div id="loading" class="loading">INITIALIZING SINGULARITY...</div>
+    </div>
+
+    <!-- Info buttons for black hole topics -->
+    <div class="bh-info-menu">
+        <button class="bh-info-btn" onclick="openBhInfo('what')">
+            <span class="icon">❓</span>
+            <span>Какво е черна дупка?</span>
+        </button>
+        <button class="bh-info-btn" onclick="openBhInfo('formation')">
+            <span class="icon">💥</span>
+            <span>Формиране</span>
+        </button>
+        <button class="bh-info-btn" onclick="openBhInfo('types')">
+            <span class="icon">🔭</span>
+            <span>Видове</span>
+        </button>
+        <button class="bh-info-btn" onclick="openBhInfo('sagittarius')">
+            <span class="icon">🌌</span>
+            <span>Стрелец A*</span>
+        </button>
+    </div>
+
+    <!-- Floating info panel -->
+    <div class="bh-info-panel" id="bhInfoPanel">
+        <div class="bh-info-header">
+            <div class="bh-info-title" id="bhInfoTitle"></div>
+            <button class="bh-info-close" onclick="closeBhInfo()">&times;</button>
+        </div>
+        <div class="bh-info-body" id="bhInfoBody"></div>
+    </div>
+
+    <!-- ============================================
+         FOOTER (FIXED)
+         ============================================ -->
+    <footer class="explorer-footer">
+        <div class="explorer-footer-left">© Cosmos Explorer</div>
+        <div class="explorer-footer-center">"Космосът е вътре в нас, ние сме направени от звездно вещество, ние - това е способът, с който Космосът познава себе си." — Карл Сейгън</div>
+        <div class="explorer-footer-right">
+            <a href="index.html" class="explorer-footer-link" target="_self">Начало</a>
+            <a href="cosmos.html" class="explorer-footer-link" target="_self">Слънчевата система</a>
+            <a href="constellations.html" class="explorer-footer-link" target="_self">Съзвездия</a>
+            <a href="black_hole.html" class="explorer-footer-link" target="_self">Черна дупка</a>
+            <a href="map.html" class="explorer-footer-link" target="_self">Карта на сайта</a>
+            <a href="sources.html" class="explorer-footer-link" target="_self">Източници</a>
+            <a href="about_us.html" class="explorer-footer-link" target="_self">За нас</a>
+        </div>
+    </footer>
+
+    <!-- ============================================
+         JAVASCRIPT
+         ============================================ -->
+    <script>
+        function toggleExplorerMenu() {
+            document.getElementById('explorerNav').classList.toggle('active');
+        }
+
+        function handleDropdownClick(event, element) {
+            // Prevent default navigation only on mobile
+            if (window.innerWidth <= 992) {
+                event.preventDefault();
+                // Toggle dropdown for mobile
+                const dropdown = element.nextElementSibling;
+                if (dropdown && dropdown.classList.contains('explorer-dropdown')) {
+                    element.parentElement.classList.toggle('dropdown-open');
+                }
+            }
+            // On desktop, allow normal navigation (go to cosmos.html)
+        }
+        
+        function toggleExplorerDropdown(btn) {
+            if (window.innerWidth <= 992) {
+                btn.parentElement.classList.toggle('dropdown-open');
+            }
+        }
+
+        document.addEventListener('click', (e) => {
+            const header = document.querySelector('.explorer-header');
+            const nav = document.getElementById('explorerNav');
+            if (!header.contains(e.target) && nav.classList.contains('active')) {
+                nav.classList.remove('active');
+            }
+        });
+
+        // ---------- BLACK HOLE INFO PANEL LOGIC ----------
+        const bhInfoContent = {
+            what: {
+                title: 'Какво е черна дупка?',
+                html: [
+                    'Черната дупка е област в пространството, където гравитацията е толкова силна, че нищо не може да избяга – дори светлината.',
+                    'Тя се описва от <strong>хоризонт на събитията</strong> – невидима граница, след която връщане назад е невъзможно. Вътре материята е свита в т.нар. <strong>сингулярност</strong>, където плътността формално става безкрайна.'
+                ]
+            },
+            formation: {
+                title: 'Как се образуват?',
+                html: [
+                    'Най-често черните дупки се раждат при <strong>колапс на масивни звезди</strong>, когато те изчерпят горивото си и избухнат като свръхнова.',
+                    'Ако остатъкът от звездата е достатъчно масивен (обикновено над ~3 слънчеви маси), нищо не може да спре по-нататъшния колапс и се оформя черна дупка.'
+                ]
+            },
+            types: {
+                title: 'Видове черни дупки',
+                html: [
+                    '<strong>Звездни</strong> – маси от няколко до десетки слънчеви маси, продукт на единични масивни звезди.',
+                    '<strong>Свръхмасивни</strong> – милиони до милиарди слънчеви маси, намират се в центровете на галактиките.',
+                    '<strong>Средномасивни и примордиални</strong> – хипотетични класове, които астрономите все още активно търсят и изследват.'
+                ]
+            },
+            sagittarius: {
+                title: 'Стрелец A* – нашата централна черна дупка',
+                html: [
+                    'В центъра на Млечния път, в посока съзвездието <strong>Стрелец</strong>, се намира свръхмасивната черна дупка <strong>Стрелец A*</strong>.',
+                    'Тя има маса ~<strong>4 милиона пъти тази на Слънцето</strong>. Движението на звездите около нея дава едно от най-силните доказателства за съществуването на черни дупки.'
+                ]
+            }
+        };
+
+        function openBhInfo(key) {
+            const data = bhInfoContent[key];
+            if (!data) return;
+            const panel = document.getElementById('bhInfoPanel');
+            const titleEl = document.getElementById('bhInfoTitle');
+            const bodyEl = document.getElementById('bhInfoBody');
+
+            titleEl.innerHTML = data.title;
+            bodyEl.innerHTML = data.html.map(p => `<p>${p}</p>`).join('');
+
+            panel.classList.add('active');
+        }
+
+        function closeBhInfo() {
+            const panel = document.getElementById('bhInfoPanel');
+            if (panel) panel.classList.remove('active');
+        }
+    </script>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+
+        // Scene setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 0, 8);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+
+        // Set renderer size to fit between header and footer
+        function updateRendererSize() {
+            const headerHeight = 70;
+            const footerHeight = 70;
+            const width = window.innerWidth;
+            const height = window.innerHeight - headerHeight - footerHeight;
+            renderer.setSize(width, height);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.0));
+        }
+        updateRendererSize();
+
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // Fixed gravity value (no controls)
+        const GRAVITY = 3.0;
+
+        // Shaders - NO ACCRETION DISC, NO CONTROLS
+        const vertexShader = `
+            varying vec2 vUv;
+            void main() {
+                vUv = uv;
+                gl_Position = vec4(position, 1.0);
+            }
+        `;
+
+        const fragmentShader = `
+            uniform float iTime;
+            uniform vec2 iResolution;
+            uniform sampler2D iChannel0;
+            uniform vec3 iCameraPos;
+            uniform vec3 iCameraDir;
+            uniform vec3 iCameraUp;
+            uniform vec3 iCameraRight;
+
+            varying vec2 vUv;
+
+            #define MAX_STEPS 40
+            #define MAX_DIST 30.0
+            #define PI 3.14159265
+
+            vec3 getBackground(vec3 dir) {
+                vec2 uv = vec2(0.5 + atan(dir.z, dir.x) / (2.0 * PI), 0.5 - asin(dir.y) / PI);
+                return texture2D(iChannel0, uv).rgb;
+            }
+
+            void main() {
+                vec2 uv = vUv * 2.0 - 1.0;
+                uv.x *= iResolution.x / iResolution.y;
+
+                vec3 ro = iCameraPos;
+                vec3 rd = normalize(iCameraDir + uv.x * iCameraRight + uv.y * iCameraUp);
+
+                vec3 col = vec3(0.0);
+                vec3 p = ro;
+                vec3 dir = rd;
+
+                bool hitBlackHole = false;
+
+                for(int i = 0; i < MAX_STEPS; i++) {
+                    float dist = length(p);
+
+                    if(dist < 1.0) {
+                        hitBlackHole = true;
+                        col = vec3(0.0);
+                        break;
+                    }
+
+                    if(dist > MAX_DIST) {
+                        break;
+                    }
+
+                    float force = 3.0 / (dist * dist);
+                    vec3 accel = -normalize(p) * force;
+
+                    dir = normalize(dir + accel * 0.2);
+                    p += dir * 0.4;
+                }
+
+                if (!hitBlackHole) {
+                    col = getBackground(dir);
+                }
+
+                gl_FragColor = vec4(col, 1.0);
+            }
+        `;
+
+        // Texture loading with fallback
+        const TEXTURE_URL = 'https://www.hdwallpapers.in/thumbs/2022/yellow_nebula_space_stars_glow_sky_night_black_background_hd_space-t2.jpg';
+
+        const textureLoader = new THREE.TextureLoader();
+        textureLoader.crossOrigin = 'Anonymous';
+
+        textureLoader.load(
+            TEXTURE_URL,
+            function(texture) {
+                document.getElementById('loading').style.display = 'none';
+                texture.wrapS = THREE.RepeatWrapping;
+                texture.wrapT = THREE.ClampToEdgeWrapping;
+                texture.minFilter = THREE.LinearFilter;
+                texture.magFilter = THREE.LinearFilter;
+                initSim(texture);
+            },
+            undefined,
+            function(err) {
+                document.getElementById('loading').innerText = "GENERATING STARFIELD...";
+
+                // Procedural starfield fallback
+                const canvas = document.createElement('canvas');
+                canvas.width = 2048;
+                canvas.height = 1024;
+                const ctx = canvas.getContext('2d');
+
+                const gradient = ctx.createRadialGradient(1024, 512, 0, 1024, 512, 1024);
+                gradient.addColorStop(0, '#0a0a2e');
+                gradient.addColorStop(0.5, '#000000');
+                gradient.addColorStop(1, '#000000');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, 2048, 1024);
+
+                for(let i=0; i<2000; i++) {
+                    const x = Math.random() * 2048;
+                    const y = Math.random() * 1024;
+                    const size = Math.random() * 2;
+                    const brightness = Math.random();
+
+                    ctx.beginPath();
+                    ctx.arc(x, y, size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255, 255, 255, ${brightness * 0.8})`;
+                    ctx.fill();
+
+                    if (Math.random() > 0.95) {
+                        const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#a8e6cf'];
+                        ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+                        ctx.globalAlpha = 0.6;
+                        ctx.fill();
+                        ctx.globalAlpha = 1;
+                    }
+                }
+
+                for(let i=0; i<5; i++) {
+                    const x = Math.random() * 2048;
+                    const y = Math.random() * 1024;
+                    const radius = 200 + Math.random() * 300;
+
+                    const nebula = ctx.createRadialGradient(x, y, 0, x, y, radius);
+                    nebula.addColorStop(0, 'rgba(100, 50, 150, 0.1)');
+                    nebula.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+                    ctx.fillStyle = nebula;
+                    ctx.beginPath();
+                    ctx.arc(x, y, radius, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                const dummyTex = new THREE.CanvasTexture(canvas);
+                dummyTex.wrapS = THREE.RepeatWrapping;
+                dummyTex.wrapT = THREE.ClampToEdgeWrapping;
+
+                setTimeout(() => {
+                    document.getElementById('loading').style.display = 'none';
+                    initSim(dummyTex);
+                }, 500);
+            }
+        );
+
+        let uniforms;
+
+        function initSim(bgTexture) {
+            const geometry = new THREE.PlaneGeometry(2, 2);
+
+            uniforms = {
+                iTime: { value: 0 },
+                iResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight - 140) },
+                iChannel0: { value: bgTexture },
+                iCameraPos: { value: new THREE.Vector3() },
+                iCameraDir: { value: new THREE.Vector3() },
+                iCameraUp: { value: new THREE.Vector3() },
+                iCameraRight: { value: new THREE.Vector3() }
+            };
+
+            const material = new THREE.ShaderMaterial({
+                vertexShader: vertexShader,
+                fragmentShader: fragmentShader,
+                uniforms: uniforms,
+                depthWrite: false,
+                depthTest: false
+            });
+
+            const mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+
+            // Animation loop
+            const clock = new THREE.Clock();
+            const cameraDir = new THREE.Vector3();
+            const cameraUp = new THREE.Vector3();
+            const cameraRight = new THREE.Vector3();
+
+            // Horizontal rotation only
+            let angle = 0;
+            const radius = 8;
+            const height = 0; // Fixed height - no vertical movement
+
+            function animate() {
+                requestAnimationFrame(animate);
+
+                // Auto-rotate horizontally
+                angle += 0.002;
+
+                // Keep camera at fixed height, only rotate around Y axis
+                camera.position.x = Math.sin(angle) * radius;
+                camera.position.z = Math.cos(angle) * radius;
+                camera.position.y = height;
+
+                // Always look at center
+                camera.lookAt(0, 0, 0);
+
+                uniforms.iTime.value = clock.getElapsedTime();
+                uniforms.iCameraPos.value.copy(camera.position);
+
+                camera.getWorldDirection(cameraDir);
+                cameraDir.normalize();
+                cameraRight.crossVectors(cameraDir, camera.up).normalize();
+                cameraUp.crossVectors(cameraRight, cameraDir).normalize();
+
+                uniforms.iCameraDir.value.copy(cameraDir);
+                uniforms.iCameraUp.value.copy(cameraUp);
+                uniforms.iCameraRight.value.copy(cameraRight);
+
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            const headerHeight = 70;
+            const footerHeight = 70;
+            const width = window.innerWidth;
+            const height = window.innerHeight - headerHeight - footerHeight;
+
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(width, height);
+            if(uniforms) {
+                uniforms.iResolution.value.set(width, height);
+            }
+        });
+    </script>
+</body>
+</html>

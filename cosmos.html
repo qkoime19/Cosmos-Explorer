@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmos Explorer - Слънчева система</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #f5f5f5;
+            background: #000;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            z-index: 0;
+        }
+
+        /* Animated nebula background */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 15% 85%, rgba(80, 40, 120, 0.25) 0%, transparent 45%),
+                radial-gradient(ellipse at 85% 15%, rgba(40, 80, 140, 0.2) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 50%, rgba(20, 60, 100, 0.15) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: -1;
+            animation: nebula-pulse 12s ease-in-out infinite alternate;
+        }
+
+        @keyframes nebula-pulse {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        /* Twinkling stars */
+        .cosmic-stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .cosmic-stars::before,
+        .cosmic-stars::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-repeat: repeat;
+        }
+
+        .cosmic-stars::before {
+            background-image: 
+                radial-gradient(2px 2px at 8vw 15vh, rgba(255,255,255,0.95), transparent),
+                radial-gradient(2px 2px at 22vw 32vh, rgba(255,255,255,0.9), transparent),
+                radial-gradient(1px 1px at 38vw 12vh, rgba(255,255,255,0.8), transparent),
+                radial-gradient(2px 2px at 52vw 58vh, rgba(255,255,255,0.9), transparent),
+                radial-gradient(1px 1px at 68vw 22vh, rgba(255,255,255,0.7), transparent),
+                radial-gradient(2px 2px at 82vw 42vh, rgba(255,255,255,0.85), transparent),
+                radial-gradient(1px 1px at 12vw 68vh, rgba(255,255,255,0.9), transparent),
+                radial-gradient(2px 2px at 28vw 82vh, rgba(255,255,255,0.95), transparent),
+                radial-gradient(2px 2px at 42vw 38vh, rgba(255,255,255,0.9), transparent),
+                radial-gradient(1px 1px at 58vw 72vh, rgba(255,255,255,0.75), transparent),
+                radial-gradient(2px 2px at 72vw 8vh, rgba(255,255,255,0.9), transparent),
+                radial-gradient(1px 1px at 88vw 62vh, rgba(255,255,255,0.85), transparent),
+                radial-gradient(2px 2px at 3vw 48vh, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 33vw 3vh, rgba(255,255,255,0.9), transparent),
+                radial-gradient(2px 2px at 62vw 88vh, rgba(255,255,255,0.75), transparent),
+                radial-gradient(1px 1px at 92vw 28vh, rgba(255,255,255,0.9), transparent);
+            animation: twinkle-1 6s ease-in-out infinite alternate;
+        }
+
+        .cosmic-stars::after {
+            background-image:
+                radial-gradient(1px 1px at 6vw 8vh, rgba(200,220,255,0.6), transparent),
+                radial-gradient(2px 2px at 18vw 48vh, rgba(220,230,255,0.8), transparent),
+                radial-gradient(1px 1px at 32vw 22vh, rgba(180,200,255,0.5), transparent),
+                radial-gradient(2px 2px at 48vw 78vh, rgba(210,220,255,0.7), transparent),
+                radial-gradient(1px 1px at 62vw 4vh, rgba(190,210,255,0.6), transparent),
+                radial-gradient(2px 2px at 78vw 52vh, rgba(220,240,255,0.8), transparent),
+                radial-gradient(1px 1px at 10vw 88vh, rgba(200,210,255,0.5), transparent),
+                radial-gradient(2px 2px at 26vw 42vh, rgba(210,230,255,0.7), transparent),
+                radial-gradient(1px 1px at 40vw 68vh, rgba(190,220,255,0.6), transparent),
+                radial-gradient(2px 2px at 56vw 18vh, rgba(220,230,255,0.8), transparent),
+                radial-gradient(1px 1px at 70vw 82vh, rgba(200,220,255,0.5), transparent),
+                radial-gradient(2px 2px at 86vw 32vh, rgba(210,240,255,0.7), transparent);
+            animation: twinkle-2 8s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes twinkle-1 {
+            0% { opacity: 0.3; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1.05); }
+        }
+
+        @keyframes twinkle-2 {
+            0% { opacity: 0.25; transform: scale(1.05); }
+            100% { opacity: 0.9; transform: scale(0.95); }
+        }
+
+        /* Custom Navbar */
+        .navbar-custom {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.95));
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(100, 116, 139, 0.3);
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+            padding: 0.5rem 1.5rem;
+            height: 70px;
+            z-index: 1000;
+        }
+
+        .navbar-custom .navbar-brand {
+            color: #e2e8f0;
+            font-size: clamp(18px, 2.5vw, 24px);
+            font-weight: 700;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            letter-spacing: 0.5px;
+        }
+
+        .navbar-custom .nav-link {
+            color: #e2e8f0;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .navbar-custom .nav-link:hover,
+        .navbar-custom .nav-link.active {
+            background: rgba(100, 116, 139, 0.25);
+            color: #f1f5f9;
+        }
+
+        
+        .footer-custom a {
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .footer-custom a:hover {
+            background: rgba(100, 116, 139, 0.25);
+            color: #f1f5f9;
+        }
+
+        /* ---------- EXPLORER HEADER (FIXED) ---------- */
+        .explorer-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.95));
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(100, 116, 139, 0.3);
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 60px;
+        }
+
+        .explorer-logo {
+            font-size: 25px;
+            font-weight: 700;
+            color: #e2e8f0;
+            text-decoration: none;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .explorer-logo:hover {
+            color: #f1f5f9;
+            text-shadow: 0 0 20px rgba(100, 150, 255, 0.5);
+        }
+
+        .explorer-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+        }
+
+        .explorer-nav-item {
+            position: relative;
+        }
+
+        .explorer-nav-link {
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: inherit;
+        }
+
+        .explorer-nav-link:hover {
+            background: rgba(100, 116, 139, 0.25);
+            color: #f1f5f9;
+        }
+
+        .explorer-nav-link.active {
+            background: rgba(100, 116, 139, 0.35);
+            color: #f1f5f9;
+        }
+
+        /* ---------- DROPDOWN WITH SCROLL ---------- */
+        .explorer-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.97));
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            border-radius: 12px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            min-width: 200px;
+            max-height: 70vh;
+            overflow-y: auto;
+            padding: 10px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            margin-top: 8px;
+        }
+
+        .explorer-nav-item:hover .explorer-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .explorer-dropdown::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .explorer-dropdown::-webkit-scrollbar-track {
+            background: transparent;
+            margin: 8px 0;
+        }
+
+        .explorer-dropdown::-webkit-scrollbar-thumb {
+            background: rgba(100, 116, 139, 0.5);
+            border-radius: 3px;
+        }
+
+        .explorer-dropdown::-webkit-scrollbar-thumb:hover {
+            background: rgba(100, 116, 139, 0.7);
+        }
+
+        .explorer-dropdown {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(100, 116, 139, 0.5) transparent;
+        }
+
+        .explorer-dropdown-section {
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(100, 116, 139, 0.2);
+        }
+
+        .explorer-dropdown-section:last-child {
+            border-bottom: none;
+        }
+
+        .explorer-dropdown-header {
+            color: #94a3b8;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px 16px 4px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .explorer-dropdown-item {
+            color: #cbd5e1;
+            text-decoration: none;
+            display: block;
+            padding: 10px 16px 10px 32px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .explorer-dropdown-item:hover {
+            background: rgba(100, 116, 139, 0.3);
+            color: #f1f5f9;
+            padding-left: 36px;
+        }
+
+        .explorer-mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 10px;
+            background: none;
+            border: none;
+        }
+
+        .explorer-mobile-toggle span {
+            width: 25px;
+            height: 2px;
+            background: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        /* ---------- EXPLORER FOOTER (NOT FIXED - AT BOTTOM) ---------- */
+        .explorer-footer {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.95));
+            backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(100, 116, 139, 0.3);
+            box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.4);
+            padding: 20px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+        
+        .explorer-footer-left {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+        
+        .explorer-footer-center {
+            font-style: italic;
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .explorer-footer-right {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .explorer-footer-link {
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .explorer-footer-link:hover {
+            background: rgba(100, 116, 139, 0.25);
+            color: #f1f5f9;
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 992px) {
+            .explorer-header {
+                padding: 0 20px;
+            }
+
+            .explorer-mobile-toggle {
+                display: flex;
+            }
+
+            .explorer-nav {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.97));
+                flex-direction: column;
+                padding: 20px;
+                gap: 10px;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-20px);
+                transition: all 0.3s ease;
+                border-bottom: 1px solid rgba(100, 116, 139, 0.3);
+            }
+
+            .explorer-nav.active {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+
+            .explorer-dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-top: 10px;
+                display: none;
+                width: 100%;
+                max-height: 60vh;
+            }
+
+            .explorer-nav-item.dropdown-open .explorer-dropdown {
+                display: block;
+            }
+
+            .explorer-footer {
+                flex-direction: column;
+                height: auto;
+                padding: 15px 20px;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .explorer-footer-right {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .explorer-footer-center {
+                display: none;
+            }
+        }
+
+        /* /* Solar System Container - SCALABLE APPROACH */
+        .solar-system-wrapper {
+            flex: 1;
+            position: relative;
+            min-height: calc(100vh - 70px - 80px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        /* Use a container with fixed aspect ratio that scales */
+        .solar-system-container {
+            position: relative;
+            width: 95%;
+            height: 80%;
+            max-width: 1600px;
+        }
+
+        /* Orbit line - spans full width */
+        .orbit-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 15px,
+                rgba(100, 150, 255, 0.15) 15px,
+                rgba(100, 150, 255, 0.15) 16px
+            );
+            transform: translateY(-50%);
+            z-index: 0;
+        }
+
+        /* Sun - Fixed position relative to container */
+        .sun {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            /* Изместено по-малко наляво, за да се вижда текстът */
+            transform: translate(-60%, -50%);
+            width: clamp(120px, 14vw, 200px);
+            height: clamp(120px, 14vw, 200px);
+            border-radius: 50%;
+            background:
+                radial-gradient(circle at 35% 35%, rgba(255,255,255,0.95), transparent 50%),
+                radial-gradient(circle at 65% 75%, rgba(255,200,100,0.9), transparent 60%),
+                url("https://www.solarsystemscope.com/textures/download/2k_sun.jpg");
+            background-size: cover;
+            box-shadow:
+                0 0 80px rgba(255, 220, 120, 0.9),
+                0 0 160px rgba(255, 180, 60, 0.7),
+                0 0 240px rgba(255, 140, 40, 0.4);
+            z-index: 5;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: sun-pulse 4s ease-in-out infinite alternate, rotate-sun 80s linear infinite;
+        }
+
+        .sun:hover {
+            transform: translate(-55%, -50%) scale(1.12);
+            box-shadow:
+                0 0 120px rgba(255, 220, 120, 1),
+                0 0 200px rgba(255, 180, 60, 0.85),
+                0 0 300px rgba(255, 140, 40, 0.5);
+        }
+
+        @keyframes sun-pulse {
+            0% { box-shadow: 0 0 60px rgba(255, 220, 120, 0.8), 0 0 140px rgba(255, 180, 60, 0.6), 0 0 220px rgba(255, 140, 40, 0.3); }
+            100% { box-shadow: 0 0 100px rgba(255, 220, 120, 1), 0 0 180px rgba(255, 180, 60, 0.8), 0 0 260px rgba(255, 140, 40, 0.5); }
+        }
+
+        @keyframes rotate-sun {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        /* Planet Cards - positioned using flex-like distribution */
+        .planet-card {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border-radius: 20px;
+            padding: 15px 8px 12px;
+            border: none;
+            box-shadow: none;
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+            z-index: 10;
+        }
+
+        .planet-card:hover {
+            transform: translateY(-50%) scale(1.2);
+            z-index: 50;
+        }
+
+        .planet-card:hover .planet-name {
+            color: #fff;
+            text-shadow: 0 0 15px rgba(100, 150, 255, 0.8);
+        }
+
+        .planet-name {
+            margin-top: 10px;
+            font-size: clamp(10px, 1.1vw, 13px);
+            font-weight: 600;
+            text-shadow: 0 0 12px rgba(0,0,0,0.9);
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            color: #e2e8f0;
+            letter-spacing: 0.5px;
+        }
+
+        .planet-distance {
+            margin-top: 3px;
+            font-size: clamp(9px, 0.95vw, 11px);
+            color: rgba(148, 163, 184, 0.85);
+            text-shadow: 0 0 8px rgba(0,0,0,0.9);
+            font-weight: 500;
+        }
+
+        .planet {
+            display: inline-block;
+            position: relative;
+            border-radius: 50%;
+            background-position: 0% center;
+            background-size: auto 100%;
+            background-repeat: repeat;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .planet-card:hover .planet {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+        }
+
+        /* CONSISTENT POSITIONING - Using percentage of container width */
+        /* These positions maintain relative spacing across all screen sizes */
+        .pos-mercury { left: 9%; }
+        .pos-venus { left: 17%; }
+        .pos-earth { left: 25%; }
+        .pos-mars { left: 33%; }
+        .pos-jupiter { left: 40%; }
+        .pos-saturn { left: 58%; }
+        .pos-uranus { left: 76%; }
+        .pos-neptune { left: 86%; }
+        .pos-pluto { left: 95%; }
+
+        /* Planet sizes - scale proportionally */
+        .planet-mercury {
+            width: clamp(12px, 1.4vw, 20px);
+            height: clamp(12px, 1.4vw, 20px);
+            background-image: url("https://www.solarsystemscope.com/textures/download/2k_mercury.jpg");
+            animation: rotate-planet 20s linear infinite;
+        }
+
+        .planet-venus {
+            width: clamp(20px, 2.4vw, 32px);
+            height: clamp(20px, 2.4vw, 32px);
+            background-image: url("https://www.solarsystemscope.com/textures/download/2k_venus_surface.jpg");
+            background-color: #e6e6b8;
+            animation: rotate-planet 25s linear infinite;
+        }
+
+        .planet-earth {
+            width: clamp(22px, 2.6vw, 36px);
+            height: clamp(22px, 2.6vw, 36px);
+            background-image: url("https://www.solarsystemscope.com/textures/download/2k_earth_daymap.jpg");
+            animation: rotate-planet 22s linear infinite;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 20px rgba(100, 150, 255, 0.2);
+        }
+
+        .planet-mars {
+            width: clamp(14px, 1.6vw, 22px);
+            height: clamp(14px, 1.6vw, 22px);
+            background-image: url("https://www.solarsystemscope.com/textures/download/2k_mars.jpg");
+            animation: rotate-planet 24s linear infinite;
+        }
+
+        .planet-jupiter {
+            width: clamp(80px, 10vw, 160px);
+            height: clamp(80px, 10vw, 160px);
+            background-image: url("https://www.solarsystemscope.com/textures/download/2k_jupiter.jpg");
+            animation: rotate-planet 35s linear infinite;
+        }
+
+        .planet-saturn {
+            width: clamp(70px, 8.5vw, 130px);
+            height: clamp(70px, 8.5vw, 130px);
+            background-image: url("https://www.solarsystemscope.com/textures/download/2k_saturn.jpg");
+            animation: rotate-planet 30s linear infinite;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .planet-uranus {
+            width: clamp(36px, 4.5vw, 58px);
+            height: clamp(36px, 4.5vw, 58px);
+            background-image: url("https://www.solarsystemscope.com/textures/download/2k_uranus.jpg");
+            background-color: #4fd0e7;
+            animation: rotate-planet 38s linear infinite;
+        }
+
+        .planet-neptune {
+            width: clamp(34px, 4.2vw, 54px);
+            height: clamp(34px, 4.2vw, 54px);
+            background-image: url("https://www.solarsystemscope.com/textures/download/2k_neptune.jpg");
+            animation: rotate-planet 40s linear infinite;
+        }
+
+        .planet-pluto {
+            width: clamp(8px, 1vw, 14px);
+            height: clamp(8px, 1vw, 14px);
+            background-image: url("https://static.wikia.nocookie.net/planet-texture-maps/images/6/64/Pluto_Made.png/revision/latest?cb=20190331055010");
+            background-color: #d4a574;
+            animation: rotate-planet 50s linear infinite;
+        }
+
+        /* Saturn's Ring */
+        .planet-saturn::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 240%;
+            height: 240%;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) rotateX(75deg) rotateY(-12deg);
+            background: repeating-radial-gradient(
+                rgba(0,0,0,0) 0%,
+                rgba(0,0,0,0) 46%, 
+                rgba(120, 110, 90, 0.5) 48%,
+                rgba(120, 110, 90, 0.5) 52%,
+                rgba(210, 190, 150, 0.95) 53%,
+                rgba(190, 170, 140, 0.85) 57%,
+                rgba(210, 190, 150, 0.95) 59%,
+                rgba(30, 30, 30, 0.4) 60%,
+                rgba(30, 30, 30, 0.4) 62%,
+                rgba(180, 160, 130, 0.85) 63%,
+                rgba(160, 140, 110, 0.75) 66%,
+                rgba(0,0,0,0) 68%
+            );
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes rotate-planet {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        /* Title overlay */
+        .system-title {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 2;
+        }
+
+        .system-title h1 {
+            font-size: clamp(18px, 2.5vw, 28px);
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            margin: 0;
+        }
+
+        .system-title p {
+            font-size: clamp(11px, 1.2vw, 14px);
+            color: rgba(148, 163, 184, 0.9);
+            margin: 5px 0 0;
+        }
+
+        /* Responsive adjustments - maintain proportions */
+        @media (max-width: 1200px) {
+            .solar-system-container {
+                width: 98%;
+            }
+            .pos-mercury { left: 8%; }
+            .pos-venus { left: 16%; }
+            .pos-earth { left: 24%; }
+            .pos-mars { left: 32%; }
+            .pos-jupiter { left: 43%; }
+            .pos-saturn { left: 59%; }
+            .pos-uranus { left: 73%; }
+            .pos-neptune { left: 83%; }
+            .pos-pluto { left: 91%; }
+        }
+
+        @media (max-width: 992px) {
+            .pos-mercury { left: 7%; }
+            .pos-venus { left: 15%; }
+            .pos-earth { left: 23%; }
+            .pos-mars { left: 31%; }
+            .pos-jupiter { left: 42%; }
+            .pos-saturn { left: 58%; }
+            .pos-uranus { left: 72%; }
+            .pos-neptune { left: 82%; }
+            .pos-pluto { left: 90%; }
+        }
+
+        @media (max-width: 768px) {
+            .solar-system-container {
+                height: 70%;
+            }
+            .sun {
+                width: clamp(100px, 18vw, 150px);
+                height: clamp(100px, 18vw, 150px);
+            }
+            .pos-mercury { left: 6%; }
+            .pos-venus { left: 14%; }
+            .pos-earth { left: 22%; }
+            .pos-mars { left: 30%; }
+            .pos-jupiter { left: 41%; }
+            .pos-saturn { left: 57%; }
+            .pos-uranus { left: 71%; }
+            .pos-neptune { left: 81%; }
+            .pos-pluto { left: 89%; }
+            .planet-name { font-size: 9px; }
+            .planet-distance { font-size: 8px; }
+        }
+
+        @media (max-width: 576px) {
+            .solar-system-container {
+                height: 65%;
+            }
+            .sun {
+                width: clamp(80px, 20vw, 120px);
+                height: clamp(80px, 20vw, 120px);
+            }
+            .pos-mercury { left: 5%; }
+            .pos-venus { left: 13%; }
+            .pos-earth { left: 21%; }
+            .pos-mars { left: 29%; }
+            .pos-jupiter { left: 40%; }
+            .pos-saturn { left: 56%; }
+            .pos-uranus { left: 70%; }
+            .pos-neptune { left: 80%; }
+            .pos-pluto { left: 88%; }
+            .planet-name { display: none; }
+            .planet-distance { 
+                display: none; 
+            }
+            .sun-card .planet-name {
+                display: block !important;
+                color: #ffcc80;
+                font-size: 9px;
+            }
+            .sun-card .planet-distance {
+                display: inline-block !important;
+                background: rgba(200, 120, 60, 0.2);
+                font-size: 8px;
+            }
+        }
+
+        /* Very small screens - show fewer labels */
+        @media (max-width: 400px) {
+            .pos-pluto { display: none; }
+        }
+    
+
+        /* ============================================
+           MOBILE RESPONSIVE STYLES
+           ============================================ */
+
+        /* Mobile Header Adjustments */
+        @media (max-width: 768px) {
+            .explorer-header {
+                padding: 0 15px;
+                height: 60px;
+            }
+
+            .explorer-logo {
+                font-size: 20px;
+            }
+
+            .explorer-mobile-toggle {
+                display: flex;
+            }
+
+            .explorer-nav {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.97));
+                flex-direction: column;
+                padding: 15px;
+                gap: 8px;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-20px);
+                transition: all 0.3s ease;
+                border-bottom: 1px solid rgba(100, 116, 139, 0.3);
+                max-height: calc(100vh - 60px);
+                overflow-y: auto;
+            }
+
+            .explorer-nav.active {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+
+            .explorer-dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-top: 8px;
+                display: none;
+                width: 100%;
+                max-height: 50vh;
+                background: rgba(0, 0, 0, 0.3);
+            }
+
+            .explorer-nav-item.dropdown-open .explorer-dropdown {
+                display: block;
+            }
+
+            .explorer-nav-link {
+                padding: 10px 12px;
+                font-size: 14px;
+            }
+        }
+
+        /* Mobile Solar System Layout */
+        @media (max-width: 768px) {
+            .solar-system-wrapper {
+                min-height: calc(100vh - 60px - 120px);
+                max-height: calc(100vh - 60px - 120px);
+                padding: 10px 0;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .solar-system-container {
+                width: 100%;
+                height: auto;
+                min-height: min-content;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 10px 15px 30px;
+                gap: 12px;
+            }
+
+            .system-title {
+                position: relative;
+                top: auto;
+                left: auto;
+                transform: none;
+                margin-bottom: 10px;
+            }
+
+            .system-title h1 {
+                font-size: 24px;
+            }
+
+            .system-title p {
+                font-size: 12px;
+            }
+
+            /* Hide orbit line on mobile */
+            .orbit-line {
+                display: none;
+            }
+
+            /* Sun card styling for mobile - like other planets */
+            .sun-card {
+                position: relative;
+                top: auto;
+                left: auto !important;
+                right: auto !important;
+                transform: none !important;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+                width: 100%;
+                max-width: 350px;
+                padding: 15px;
+                background: linear-gradient(135deg, rgba(60, 40, 20, 0.7), rgba(40, 25, 15, 0.9));
+                border: 1px solid rgba(200, 120, 60, 0.3);
+                border-radius: 12px;
+                display: flex;
+                opacity: 1;
+                visibility: visible;
+                z-index: 10;
+                cursor: pointer;
+                -webkit-tap-highlight-color: rgba(255, 150, 50, 0.2);
+                order: -1;
+                margin-bottom: 5px;
+            }
+
+            .sun-card:hover, .sun-card:active {
+                transform: translateX(5px) !important;
+                background: linear-gradient(135deg, rgba(80, 55, 30, 0.8), rgba(50, 35, 20, 1));
+            }
+
+            .sun-card .sun {
+                position: relative;
+                top: auto;
+                left: auto;
+                transform: none !important;
+                width: 50px !important;
+                height: 50px !important;
+                margin: 0 !important;
+                flex-shrink: 0;
+                /* box-shadow: 0 0 30px rgba(255, 150, 50, 0.6); */
+            }
+
+            .sun-card .planet-name {
+                color: #ffcc80;
+                font-weight: 600;
+                display: block;
+            }
+
+            .sun-card .planet-distance {
+                background: rgba(200, 120, 60, 0.2);
+                display: inline-block;
+            }
+
+            /* Planet cards as vertical list */
+            .planet-card {
+                position: relative;
+                top: auto;
+                left: auto !important;
+                right: auto !important;
+                transform: none !important;
+                flex-direction: row;
+                align-items: center;
+                gap: 15px;
+                width: 100%;
+                max-width: 350px;
+                padding: 12px 15px;
+                background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.8));
+                border: 1px solid rgba(100, 116, 139, 0.2);
+                border-radius: 12px;
+                display: flex;
+                opacity: 1;
+                visibility: visible;
+                z-index: 10;
+                cursor: pointer;
+                -webkit-tap-highlight-color: rgba(100, 150, 255, 0.2);
+            }
+
+            .planet-card:hover, .planet-card:active {
+                transform: translateX(5px) !important;
+                background: linear-gradient(135deg, rgba(50, 70, 100, 0.7), rgba(25, 35, 55, 0.9));
+            }
+
+            /* Ensure Mercury is visible */
+            .planet-card.pos-mercury {
+                display: flex !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+            }
+
+            .planet {
+                flex-shrink: 0;
+            }
+
+            .planet-name {
+                font-size: 16px;
+                margin: 0;
+                flex: 1;
+                text-align: left;
+                display: block !important;
+                color: #f1f5f9;
+                font-weight: 600;
+            }
+
+            .planet-distance {
+                font-size: 12px;
+                margin: 0;
+                padding: 4px 10px;
+                background: rgba(100, 116, 139, 0.2);
+                border-radius: 20px;
+            }
+
+            /* Adjust planet sizes for mobile list */
+            .planet-mercury { width: 35px; height: 35px; }
+            .planet-venus { width: 45px; height: 45px; }
+            .planet-earth { width: 48px; height: 48px; }
+            .planet-mars { width: 38px; height: 38px; }
+            .planet-jupiter { width: 80px; height: 80px; }
+            .planet-saturn { width: 70px; height: 70px; }
+            .planet-uranus { width: 50px; height: 50px; }
+            .planet-neptune { width: 48px; height: 48px; }
+            .planet-pluto { width: 25px; height: 25px; }
+
+            /* Saturn ring adjustment */
+            .planet-saturn::before {
+                width: 180%;
+                height: 180%;
+            }
+        }
+
+        /* Small mobile devices */
+        @media (max-width: 480px) {
+            .planet-card {
+                padding: 10px 12px;
+                gap: 12px;
+                min-height: 60px;
+            }
+
+            .planet-name {
+                font-size: 14px;
+                display: block !important;
+            }
+
+            .planet-distance {
+                font-size: 11px;
+                padding: 3px 8px;
+            }
+
+            .planet-mercury { width: 30px; height: 30px; }
+            .planet-venus { width: 38px; height: 38px; }
+            .planet-earth { width: 40px; height: 40px; }
+            .planet-mars { width: 32px; height: 32px; }
+            .planet-jupiter { width: 65px; height: 65px; }
+            .planet-saturn { width: 55px; height: 55px; }
+            .planet-uranus { width: 42px; height: 42px; }
+            .planet-neptune { width: 40px; height: 40px; }
+            .planet-pluto { width: 20px; height: 20px; }
+
+            .sun-card .sun {
+                width: 50px !important;
+                height: 50px !important;
+            }
+
+            .sun-card {
+                padding: 10px 12px;
+            }
+        }
+
+        /* Extra small devices - ensure nothing is hidden */
+        @media (max-width: 360px) {
+            .planet-card {
+                min-height: 55px;
+                padding: 8px 10px;
+            }
+
+            .sun-card .sun {
+                width: 45px !important;
+                height: 45px !important;
+            }
+
+            .sun-card {
+                padding: 8px 10px;
+                min-height: 55px;
+            }
+        }
+
+        /* Mobile Footer */
+        @media (max-width: 768px) {
+            .explorer-footer {
+                flex-direction: column;
+                height: auto;
+                padding: 15px;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .explorer-footer-center {
+                display: none;
+            }
+
+            .explorer-footer-right {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 5px;
+            }
+
+            .explorer-footer-link {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+        }
+
+        /* Hide scrollbar on mobile for cleaner look */
+        @media (max-width: 768px) {
+            ::-webkit-scrollbar {
+                width: 4px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="cosmic-stars"></div>
+
+    <!-- Custom Header -->
+    <header class="explorer-header">
+        <a href="index.html" class="explorer-logo" target="_self">Cosmos Explorer</a>
+
+        <button class="explorer-mobile-toggle" onclick="toggleExplorerMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav>
+            <ul class="explorer-nav" id="explorerNav">
+                <li class="explorer-nav-item">
+                    <a href="index.html" class="explorer-nav-link" target="_self">Начало</a>
+                </li>
+                
+                <li class="explorer-nav-item">
+                    <a href="cosmos.html" class="explorer-nav-link active" onclick="handleDropdownClick(event, this)" target="_self">
+                        ☀ Слънчева система ▾
+                    </a>
+                    <div class="explorer-dropdown">
+                        <div class="explorer-dropdown-section">
+                            <div class="explorer-dropdown-header">☀ Звезда</div>
+                            <a href="sun.html" class="explorer-dropdown-item" target="_self">Слънце</a>
+                        </div>
+                        <div class="explorer-dropdown-section">
+                            <div class="explorer-dropdown-header">🪐 Планети</div>
+                            <a href="mercury.html" class="explorer-dropdown-item" target="_self">Меркурий</a>
+                            <a href="venus.html" class="explorer-dropdown-item" target="_self">Венера</a>
+                            <a href="earth.html" class="explorer-dropdown-item" target="_self">Земя</a>
+                            <a href="mars.html" class="explorer-dropdown-item" target="_self">Марс</a>
+                            <a href="jupiter.html" class="explorer-dropdown-item" target="_self">Юпитер</a>
+                            <a href="saturn.html" class="explorer-dropdown-item" target="_self">Сатурн</a>
+                            <a href="uranus.html" class="explorer-dropdown-item" target="_self">Уран</a>
+                            <a href="neptune.html" class="explorer-dropdown-item" target="_self">Нептун</a>
+                        </div>
+                        <div class="explorer-dropdown-section">
+                            <div class="explorer-dropdown-header">🌑 Планета-джудже</div>
+                            <a href="pluto.html" class="explorer-dropdown-item" target="_self">Плутон</a>
+                        </div>
+                    </div>
+                </li>
+                
+                <li class="explorer-nav-item">
+                    <a href="constellations.html" class="explorer-nav-link" target="_self">Съзвездия</a>
+                </li>
+                
+                <li class="explorer-nav-item">
+                    <a href="black_hole.html" class="explorer-nav-link" target="_self">Черна дупка</a>
+                </li>
+                
+                <li class="explorer-nav-item">
+                    <a href="map.html" class="explorer-nav-link" target="_self">Карта на сайта</a>
+                </li>
+
+                <li class="explorer-nav-item">
+                    <a href="about_us.html" class="explorer-nav-link" target="_self">За нас</a>
+                </li>
+
+                <li class="explorer-nav-item">
+                    <a href="sources.html" class="explorer-nav-link" target="_self">Източници</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Solar System -->
+    <div class="solar-system-wrapper">
+        <div class="solar-system-container">
+            
+            <!-- Title -->
+            <div class="system-title">
+                <h1>Слънчева система</h1>
+                <p>Кликнете върху планета за повече информация</p>
+            </div>
+            
+            <!-- Orbit Line -->
+            <div class="orbit-line"></div>
+
+            <!-- Sun Card -->
+            <a href="sun.html" class="planet-card sun-card" data-planet="sun">
+                <div class="sun" aria-hidden="true"></div>
+            </a>
+
+            <!-- Planets - positioned consistently across all screens -->
+            <a href="mercury.html" class="planet-card pos-mercury" data-planet="mercury">
+                <div class="planet planet-mercury" aria-hidden="true"></div>
+                <div class="planet-name">Меркурий</div>
+                <div class="planet-distance">0.4 AU</div>
+            </a>
+
+            <a href="venus.html" class="planet-card pos-venus" data-planet="venus">
+                <div class="planet planet-venus" aria-hidden="true"></div>
+                <div class="planet-name">Венера</div>
+                <div class="planet-distance">0.7 AU</div>
+            </a>
+
+            <a href="earth.html" class="planet-card pos-earth" data-planet="earth">
+                <div class="planet planet-earth" aria-hidden="true"></div>
+                <div class="planet-name">Земя</div>
+                <div class="planet-distance">1.0 AU</div>
+            </a>
+
+            <a href="mars.html" class="planet-card pos-mars" data-planet="mars">
+                <div class="planet planet-mars" aria-hidden="true"></div>
+                <div class="planet-name">Марс</div>
+                <div class="planet-distance">1.5 AU</div>
+            </a>
+
+            <a href="jupiter.html" class="planet-card pos-jupiter" data-planet="jupiter">
+                <div class="planet planet-jupiter" aria-hidden="true"></div>
+                <div class="planet-name">Юпитер</div>
+                <div class="planet-distance">5.2 AU</div>
+            </a>
+
+            <a href="saturn.html" class="planet-card pos-saturn" data-planet="saturn">
+                <div class="planet planet-saturn" aria-hidden="true"></div>
+                <div class="planet-name">Сатурн</div>
+                <div class="planet-distance">9.5 AU</div>
+            </a>
+
+            <a href="uranus.html" class="planet-card pos-uranus" data-planet="uranus">
+                <div class="planet planet-uranus" aria-hidden="true"></div>
+                <div class="planet-name">Уран</div>
+                <div class="planet-distance">19.2 AU</div>
+            </a>
+
+            <a href="neptune.html" class="planet-card pos-neptune" data-planet="neptune">
+                <div class="planet planet-neptune" aria-hidden="true"></div>
+                <div class="planet-name">Нептун</div>
+                <div class="planet-distance">30.1 AU</div>
+            </a>
+
+            <a href="pluto.html" class="planet-card pos-pluto" data-planet="pluto">
+                <div class="planet planet-pluto" aria-hidden="true"></div>
+                <div class="planet-name">Плутон</div>
+                <div class="planet-distance">39.5 AU</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="explorer-footer">
+        <div class="explorer-footer-left">© Cosmos Explorer</div>
+        <div class="explorer-footer-center">"Космосът е вътре в нас, ние сме направени от звездно вещество, ние - това е способът, с който Космосът познава себе си." — Карл Сейгън</div>
+        <div class="explorer-footer-right">
+            <a href="index.html" class="explorer-footer-link">Начало</a>
+            <a href="cosmos.html" class="explorer-footer-link">Слънчевата система</a>
+            <a href="constellations.html" class="explorer-footer-link">Съзвездия</a>
+            <a href="black_hole.html" class="explorer-footer-link">Черна дупка</a>
+            <a href="map.html" class="explorer-footer-link">Карта на сайта</a>
+            <a href="about_us.html" class="explorer-footer-link">За нас</a>
+            <a href="sources.html" class="explorer-footer-link">Източници</a>
+        </div>
+    </footer>
+
+    <!-- Custom JavaScript -->
+    <script>
+        // Mobile menu toggle
+        function toggleExplorerMenu() {
+            document.getElementById('explorerNav').classList.toggle('active');
+        }
+
+        // Mobile dropdown toggle
+        function handleDropdownClick(event, element) {
+            // Prevent default navigation only on mobile
+            if (window.innerWidth <= 992) {
+                event.preventDefault();
+                // Toggle dropdown for mobile
+                const dropdown = element.nextElementSibling;
+                if (dropdown && dropdown.classList.contains('explorer-dropdown')) {
+                    element.parentElement.classList.toggle('dropdown-open');
+                }
+            }
+            // On desktop, allow normal navigation (go to cosmos.html)
+        }
+        
+        function toggleExplorerDropdown(btn) {
+            if (window.innerWidth <= 992) {
+                btn.parentElement.classList.toggle('dropdown-open');
+            }
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const header = document.querySelector('.explorer-header');
+            const nav = document.getElementById('explorerNav');
+            if (!header.contains(e.target) && nav.classList.contains('active')) {
+                nav.classList.remove('active');
+            }
+        });
+    </script>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

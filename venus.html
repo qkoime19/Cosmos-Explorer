@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Венера - Cosmos Explorer</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================
+           RESET & BASE
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html, body {
+            min-height: 100vh;
+            color: #f5f5f5;
+            background: #000;
+            overflow-x: hidden;
+            position: relative;
+            z-index: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ============================================
+           COSMIC BACKGROUND
+           ============================================ */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(120, 100, 40, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(140, 120, 60, 0.15) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .cosmic-stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .cosmic-stars::before,
+        .cosmic-stars::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-repeat: repeat;
+        }
+
+        .cosmic-stars::before {
+            background-image: 
+                radial-gradient(2px 2px at 10vw 20vh, rgba(255, 220, 150, 0.9), transparent),
+                radial-gradient(2px 2px at 25vw 35vh, rgba(255, 220, 150, 0.9), transparent),
+                radial-gradient(1px 1px at 40vw 15vh, rgba(255, 220, 150, 0.9), transparent),
+                radial-gradient(2px 2px at 55vw 60vh, rgba(255,255,255,0.9), transparent),
+                radial-gradient(1px 1px at 70vw 25vh, rgba(255,255,255,0.6), transparent),
+                radial-gradient(2px 2px at 85vw 45vh, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 15vw 70vh, rgba(255, 220, 150, 0.9), transparent),
+                radial-gradient(2px 2px at 30vw 85vh, rgba(255,255,255,0.9), transparent),
+                radial-gradient(2px 2px at 45vw 40vh, rgba(255, 220, 150, 0.9), transparent),
+                radial-gradient(1px 1px at 60vw 75vh, rgba(255,255,255,0.6), transparent),
+                radial-gradient(2px 2px at 75vw 10vh, rgba(255,255,255,0.9), transparent),
+                radial-gradient(1px 1px at 90vw 65vh, rgba(255, 220, 150, 0.9), transparent),
+                radial-gradient(2px 2px at 5vw 50vh, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 35vw 5vh, rgba(255,255,255,0.9), transparent),
+                radial-gradient(2px 2px at 65vw 90vh, rgba(255,255,255,0.6), transparent),
+                radial-gradient(1px 1px at 95vw 30vh, rgba(255, 220, 150, 0.9), transparent);
+            animation: pulse-drift-1 8s ease-in-out infinite alternate;
+        }
+
+        .cosmic-stars::after {
+            background-image:
+                radial-gradient(1px 1px at 5vw 10vh, rgba(255,240,200,0.6), transparent),
+                radial-gradient(2px 2px at 20vw 50vh, rgba(255,250,220,0.8), transparent),
+                radial-gradient(1px 1px at 35vw 25vh, rgba(255,230,180,0.5), transparent),
+                radial-gradient(2px 2px at 50vw 80vh, rgba(255,240,210,0.7), transparent),
+                radial-gradient(1px 1px at 65vw 5vh, rgba(255,250,200,0.6), transparent),
+                radial-gradient(2px 2px at 80vw 55vh, rgba(255,255,230,0.8), transparent),
+                radial-gradient(1px 1px at 12vw 90vh, rgba(255,245,200,0.5), transparent),
+                radial-gradient(2px 2px at 28vw 45vh, rgba(255,250,220,0.7), transparent),
+                radial-gradient(1px 1px at 42vw 70vh, rgba(255,240,200,0.6), transparent),
+                radial-gradient(2px 2px at 58vw 20vh, rgba(255,250,230,0.8), transparent),
+                radial-gradient(1px 1px at 72vw 85vh, rgba(255,245,210,0.5), transparent),
+                radial-gradient(2px 2px at 88vw 35vh, rgba(255,255,240,0.7), transparent);
+            animation: pulse-drift-2 10s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes pulse-drift-1 {
+            0% { opacity: 0.4; transform: translate(0, 0) scale(0.9); }
+            100% { opacity: 1; transform: translate(10px, -10px) scale(1.1); }
+        }
+
+        @keyframes pulse-drift-2 {
+            0% { opacity: 0.3; transform: translate(0, 0) scale(1.1); }
+            100% { opacity: 0.9; transform: translate(-8px, 8px) scale(0.9); }
+        }
+
+        /* ============================================
+           EXPLORER HEADER (FIXED)
+           ============================================ */
+        /* ---------- EXPLORER HEADER (FIXED) ---------- */
+        .explorer-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: linear-gradient(135deg, rgba(42, 35, 15, 0.98), rgba(59, 50, 30, 0.95));
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(139, 130, 100, 0.3);
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 60px;
+        }
+
+        .explorer-logo {
+            font-size: 25px;
+            font-weight: 700;
+            color: #e2e8f0;
+            text-decoration: none;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .explorer-logo:hover {
+            color: #f1f5f9;
+            text-shadow: 0 0 20px rgba(255, 200, 100, 0.5);
+        }
+
+        .explorer-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+        }
+
+        .explorer-nav-item {
+            position: relative;
+        }
+
+        .explorer-nav-link {
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: inherit;
+        }
+
+        .explorer-nav-link:hover {
+            background: rgba(139, 130, 100, 0.25);
+            color: #f1f5f9;
+        }
+
+        .explorer-nav-link.active {
+            background: rgba(139, 130, 100, 0.35);
+            color: #f1f5f9;
+        }
+
+        /* ============================================
+           DROPDOWN WITH SCROLL
+           ============================================ */
+        .explorer-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: linear-gradient(135deg, rgba(42, 35, 15, 0.98), rgba(59, 50, 30, 0.97));
+            border: 1px solid rgba(139, 130, 100, 0.3);
+            border-radius: 12px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            min-width: 200px;
+            max-height: 70vh;
+            overflow-y: auto;
+            padding: 10px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            margin-top: 8px;
+        }
+
+        .explorer-nav-item:hover .explorer-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .explorer-dropdown::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .explorer-dropdown::-webkit-scrollbar-track {
+            background: transparent;
+            margin: 8px 0;
+        }
+
+        .explorer-dropdown::-webkit-scrollbar-thumb {
+            background: rgba(139, 130, 100, 0.5);
+            border-radius: 3px;
+        }
+
+        .explorer-dropdown::-webkit-scrollbar-thumb:hover {
+            background: rgba(139, 130, 100, 0.7);
+        }
+
+        .explorer-dropdown {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(139, 130, 100, 0.5) transparent;
+        }
+
+        .explorer-dropdown-section {
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(139, 130, 100, 0.2);
+        }
+
+        .explorer-dropdown-section:last-child {
+            border-bottom: none;
+        }
+
+        .explorer-dropdown-header {
+            color: #94a3b8;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px 16px 4px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .explorer-dropdown-item {
+            color: #cbd5e1;
+            text-decoration: none;
+            display: block;
+            padding: 10px 16px 10px 32px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .explorer-dropdown-item:hover {
+            background: rgba(139, 130, 100, 0.3);
+            color: #f1f5f9;
+            padding-left: 36px;
+        }
+
+        .explorer-mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 10px;
+            background: none;
+            border: none;
+        }
+
+        .explorer-mobile-toggle span {
+            width: 25px;
+            height: 2px;
+            background: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        /* ============================================
+           EXPLORER FOOTER (NOT FIXED - AT BOTTOM)
+           ============================================ */
+        .explorer-footer {
+            background: linear-gradient(135deg, rgba(42, 35, 15, 0.98), rgba(59, 50, 30, 0.95));
+            backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(139, 130, 100, 0.3);
+            box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.4);
+            padding: 20px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+
+        .explorer-footer-left {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .explorer-footer-center {
+            font-style: italic;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .explorer-footer-right {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .explorer-footer-link {
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .explorer-footer-link:hover {
+            background: rgba(139, 130, 100, 0.25);
+            color: #f1f5f9;
+        }
+
+        /* ============================================
+           MAIN CONTENT
+           ============================================ */
+        main {
+            flex: 1;
+            padding-top: 70px;
+        }
+
+        /* ============================================
+           WELCOME SECTION
+           ============================================ */
+        .welcome-section {
+            text-align: center;
+            padding: 20px 20px 60px;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: clamp(40px, 8vw, 80px);
+            min-height: calc(100vh - 70px); 
+            justify-content: center; 
+        }
+
+        .planet-name {
+            font-size: clamp(36px, 6vw, 72px);
+            font-weight: bold;
+            text-shadow: 0 0 40px rgba(255, 200, 100, 0.5);
+            background: linear-gradient(135deg, #fff, #fcd34d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0px;
+            position: relative;
+            z-index: 20;
+            pointer-events: none;
+            margin-top: 0px; 
+        }
+
+        .venus-wrapper {
+            position: relative;
+            width: clamp(200px, 30vw, 300px);
+            height: clamp(200px, 30vw, 300px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: -10px;
+        }
+
+        .planet-venus {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-image: url("https://www.solarsystemscope.com/textures/download/2k_venus_atmosphere.jpg");
+            background-position: 0% center;
+            background-size: auto 100%;
+            background-repeat: repeat;
+            box-shadow: 
+                0 0 80px rgba(255, 200, 100, 0.4),
+                inset -20px -20px 50px rgba(0, 0, 0, 0.5);
+            animation: rotate-planet 30s linear infinite;
+        }
+
+        .planet-subtitle {
+            font-size: clamp(14px, 2vw, 18px);
+            color: #94a3b8;
+            text-align: center;
+            max-width: 600px;
+            padding: 0 20px;
+            margin: 0;
+            margin-bottom: 40px;
+        }
+
+        .scroll-indicator {
+            margin-top: -40px;
+            margin-bottom: 10px;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .scroll-indicator svg {
+            width: 30px;
+            height: 30px;
+            fill: rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        @keyframes rotate-planet {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        /* ============================================
+           CONTENT SECTIONS
+           ============================================ */
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px 100px;
+        }
+
+        .section-title {
+            font-size: clamp(28px, 4vw, 42px);
+            text-align: center;
+            margin-bottom: 50px;
+            background: linear-gradient(135deg, #fff, #fcd34d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .content-section {
+            display: flex;
+            gap: 50px;
+            margin-bottom: 80px;
+            align-items: center;
+        }
+
+        .content-section.reverse {
+            flex-direction: row-reverse;
+        }
+
+        .content-text {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .content-text h2 {
+            font-size: clamp(24px, 3vw, 32px);
+            margin-bottom: 20px;
+            color: #f1f5f9;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .content-text h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #fbbf24, #f59e0b);
+            border-radius: 2px;
+        }
+
+        .content-text p {
+            font-size: 16px;
+            line-height: 1.9;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+
+        .content-image {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .content-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .content-image img:hover {
+            transform: scale(1.03);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+
+        /* ============================================
+           STATS GRID
+           ============================================ */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(59, 50, 30, 0.8), rgba(42, 35, 15, 0.9));
+            border: 1px solid rgba(139, 130, 100, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 200, 100, 0.2);
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #fbbf24;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        /* ============================================
+           INFO BOX
+           ============================================ */
+        .info-box {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.1));
+            border-left: 4px solid #fbbf24;
+            border-radius: 0 12px 12px 0;
+            padding: 20px 25px;
+            margin: 25px 0;
+        }
+
+        .info-box-title {
+            font-size: 14px;
+            color: #fbbf24;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-box p {
+            margin: 0;
+            color: #e2e8f0;
+        }
+
+        /* ============================================
+           ATMOSPHERE COMPOSITION
+           ============================================ */
+        .composition-bar {
+            display: flex;
+            height: 40px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .composition-segment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .co2 { background: linear-gradient(135deg, #f59e0b, #d97706); width: 96%; }
+        .n2 { background: linear-gradient(135deg, #3b82f6, #1d4ed8); width: 3%; }
+        .so2 { background: linear-gradient(135deg, #ef4444, #b91c1c); width: 1%; }
+
+        .composition-segment:hover {
+            filter: brightness(1.2);
+        }
+
+        .composition-legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #cbd5e1;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+
+        /* ============================================
+           SCROLLBAR
+           ============================================ */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(42, 35, 15, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(139, 130, 100, 0.5);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(139, 130, 100, 0.7);
+        }
+
+        /* ============================================
+           FADE IN ANIMATION
+           ============================================ */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 992px) {
+            .explorer-header {
+                padding: 0 20px;
+            }
+
+            .explorer-footer {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .explorer-footer-right {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .explorer-mobile-toggle {
+                display: flex;
+            }
+
+            .explorer-nav {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: linear-gradient(135deg, rgba(42, 35, 15, 0.98), rgba(59, 50, 30, 0.97));
+                flex-direction: column;
+                padding: 20px;
+                gap: 10px;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-20px);
+                transition: all 0.3s ease;
+                border-bottom: 1px solid rgba(139, 130, 100, 0.3);
+            }
+
+            .explorer-nav.active {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+
+            .explorer-dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-top: 10px;
+                display: none;
+                width: 100%;
+                max-height: 60vh;
+            }
+
+            .explorer-nav-item.dropdown-open .explorer-dropdown {
+                display: block;
+            }
+
+            .content-section,
+            .content-section.reverse {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .content-text h2::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .explorer-footer-center {
+                display: none;
+            }
+        }
+        /* Lightbox стилове */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+            animation: fadeIn 0.3s ease;
+        }
+        .lightbox.active {
+            display: flex;
+        }
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.3);
+            animation: scaleIn 0.3s ease;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-size: 40px;
+            color: #fff;
+            cursor: pointer;
+            z-index: 10001;
+            transition: color 0.3s;
+        }
+        .lightbox-close:hover {
+            color: #ff6b6b;
+        }
+        .content-image img {
+            cursor: zoom-in;
+            transition: transform 0.3s;
+        }
+        .content-image img:hover {
+            transform: scale(1.02);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ============================================
+         BACKGROUND
+         ============================================ -->
+    <div class="cosmic-stars"></div>
+
+    <!-- ============================================
+         HEADER (FIXED)
+         ============================================ -->
+    <header class="explorer-header">
+        <a href="index.html" class="explorer-logo" target="_self">Cosmos Explorer</a>
+
+        <button class="explorer-mobile-toggle" onclick="toggleExplorerMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav>
+            <ul class="explorer-nav" id="explorerNav">
+                <li class="explorer-nav-item">
+                    <a href="index.html" class="explorer-nav-link" target="_self">Начало</a>
+                </li>
+                <li class="explorer-nav-item">
+                    <a href="cosmos.html" class="explorer-nav-link active" onclick="handleDropdownClick(event, this)" target="_self">
+                        ☀ Слънчева система ▾
+                    </a>
+                    <div class="explorer-dropdown">
+                        <div class="explorer-dropdown-section">
+                            <div class="explorer-dropdown-header">☀ Звезда</div>
+                            <a href="sun.html" class="explorer-dropdown-item" target="_self">Слънце</a>
+                        </div>
+                        <div class="explorer-dropdown-section">
+                            <div class="explorer-dropdown-header">🪐 Планети</div>
+                            <a href="mercury.html" class="explorer-dropdown-item" target="_self">Меркурий</a>
+                            <a href="venus.html" class="explorer-dropdown-item" target="_self">Венера</a>
+                            <a href="earth.html" class="explorer-dropdown-item" target="_self">Земя</a>
+                            <a href="mars.html" class="explorer-dropdown-item" target="_self">Марс</a>
+                            <a href="jupiter.html" class="explorer-dropdown-item" target="_self">Юпитер</a>
+                            <a href="saturn.html" class="explorer-dropdown-item" target="_self">Сатурн</a>
+                            <a href="uranus.html" class="explorer-dropdown-item" target="_self">Уран</a>
+                            <a href="neptune.html" class="explorer-dropdown-item" target="_self">Нептун</a>
+                        </div>
+                        <div class="explorer-dropdown-section">
+                            <div class="explorer-dropdown-header">🌑 Планета-джудже</div>
+                            <a href="pluto.html" class="explorer-dropdown-item" target="_self">Плутон</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="explorer-nav-item">
+                    <a href="constellations.html" class="explorer-nav-link" target="_self">Съзвездия</a>
+                </li>
+                <li class="explorer-nav-item">
+                    <a href="black_hole.html" class="explorer-nav-link" target="_self">Черна дупка</a>
+                </li>
+                <li class="explorer-nav-item">
+                    <a href="map.html" class="explorer-nav-link" target="_self">Карта на сайта</a>
+                </li>
+                <li class="explorer-nav-item">
+                    <a href="about_us.html" class="explorer-nav-link" target="_self">За нас</a>
+                </li>
+                <li class="explorer-nav-item">
+                    <a href="sources.html" class="explorer-nav-link" target="_self">Източници</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ============================================
+         MAIN CONTENT
+         ============================================ -->
+    <main>
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+
+            <h1 class="planet-name">Венера</h1>
+
+            <div class="venus-wrapper">
+                <div class="planet-venus" aria-hidden="true"></div>
+            </div>
+
+            <div class="scroll-indicator" onclick="scrollToContent()">
+                <svg viewBox="0 0 24 24">
+                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+                </svg>
+            </div>
+
+            <p class="planet-subtitle">
+                Втората планета от Слънчевата система и най-горещата планета, 
+                наречена „злият близнак" на Земята
+            </p>
+
+        </section>
+
+        <!-- Content -->
+        <div class="content-wrapper" id="content">
+            <h2 class="section-title fade-in">Обща информация</h2>
+
+            <section class="content-section fade-in">
+                <div class="content-text">
+                    <h2>Злият близнак на Земята</h2>
+                    <p>
+                        Венера е втората планета от Слънчевата система и най-близката до Земята по размер, маса и плътност. Често наричана „злият близнак" на Земята заради сходствата им, но и драстичните разлики в условията на повърхността.
+                    </p>
+                    <p>
+                        Венера е най-горещата планета в Слънчевата система със средна температура от <strong>464 °C</strong> – достатъчно горещо, за да се разтопи олово! Това се дължи на екстремния парников ефект в плътната ѝ атмосфера. Планетата се върти в обратна посока (ретроградно) и толкова бавно, че един ден на Венера е по-дълъг от годината ѝ!
+                    </p>
+                    <div class="info-box">
+                        <div class="info-box-title">Етимология</div>
+                        <p>Венера е кръстена на римската богиня на любовта и красотата. Единствената планета, наречена на женско божество. Древните гърци я наричали Фосфор („носител на светлина") като утринна звезда и Хесперос като вечерна звезда.</p>
+                    </div>
+                </div>
+                <div class="content-image">
+                    <img src="https://az-deteto.bg/UserFiles/images/venus-580x535(1).jpg" alt="Венера в истински цветове">
+                </div>
+            </section>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid fade-in">
+                <div class="stat-card">
+                    <div class="stat-value">12 104 км</div>
+                    <div class="stat-label">Среден диаметър</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">4,87×10²⁴ кг</div>
+                    <div class="stat-label">Маса</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">5,24 кг/м³</div>
+                    <div class="stat-label">Средна плътност</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">8,87 м/с²</div>
+                    <div class="stat-label">Гравитация</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">35,02 км/с</div>
+                    <div class="stat-label">Орбитална скорост</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">225 дни</div>
+                    <div class="stat-label">Орбитален период</div>
+                </div>
+            </div>
+
+            <section class="content-section reverse fade-in">
+                <div class="content-text">
+                    <h2>Вътрешна структура</h2>
+                    <p>
+                        Венера има подобна на Земята структура – желязно ядро, скална мантия и кора. Ядрото има радиус около <strong>3 000 км</strong> и се състои от желязо и никел, възможно е да има течна външна част и твърдо вътрешно ядро.
+                    </p>
+                    <p>
+                        Мантията е с дебелина около <strong>3 000 км</strong> и се състои от силикатни скали. Кората е с дебелина между <strong>10–50 км</strong> и е предимно от базалт. Интересно е, че Венера няма тектоника на плочи като Земята – кората ѝ е „застинала" и се рециклира чрез периодични катастрофални събития.
+                    </p>
+                    <div class="info-box">
+                        <div class="info-box-title">Липса на магнитно поле</div>
+                        <p>За разлика от Земята, Венера няма глобално магнитно поле. Това може да се дължи на бавното ѝ въртене или на липсата на течно външно ядро. Това означава, че планетата е незащитена от слънчевата радиация.</p>
+                    </div>
+                </div>
+                <div class="content-image">
+                    <img src="https://lubopitko-bg.com/wp-content/uploads/2013/09/venus-inside1-300x233.png" alt="Вътрешна структура на Венера">
+                </div>
+            </section>
+
+            <section class="content-section fade-in">
+                <div class="content-text">
+                    <h2>Атмосфера</h2>
+                    <p>
+                        Атмосферата на Венера е най-плътната от всички планети – налягането на повърхността е <strong>93 бара</strong> (92 пъти по-голямо от земното), еквивалентно на налягането на 900 метра дълбочина в океана. Състои се предимно от въглероден диоксид (96 %) и азот (3,5 %).
+                    </p>
+                    <p>
+                        Облаците са от <strong>сярна киселина</strong> и отразяват 75 % от слънчевата светлина, което прави Венера най-ярката планета на нощното небе. Екстремният парников ефект задържа топлината и прави планетата по-гореща от Меркурий, въпреки че е по-далеч от Слънцето.
+                    </p>
+
+                    <div class="composition-bar">
+                        <div class="composition-segment co2">CO₂ 96%</div>
+                        <div class="composition-segment n2">N₂ 3%</div>
+                        <div class="composition-segment so2">SO₂ 1%</div>
+                    </div>
+
+                    <div class="composition-legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: linear-gradient(135deg, #f59e0b, #d97706);"></div>
+                            <span>Въглероден диоксид (CO₂) – 96 %</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);"></div>
+                            <span>Азот (N₂) – 3 %</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: linear-gradient(135deg, #ef4444, #b91c1c);"></div>
+                            <span>Серен диоксид (SO₂) – 1 %</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-image">
+                    <img src="https://lh4.googleusercontent.com/proxy/M8g-ZfGS9xeGWrfWVMir1UrojqAwEz9ht9WA3o7Br6c98RzBuEtVFwAIlFH8PRTDLPHxd2MT7un5-DSyLT1EHw" alt="Атмосфера на Венера">
+                </div>
+            </section>
+
+            <section class="content-section reverse fade-in">
+                <div class="content-text">
+                    <h2>Повърхност и вулкани</h2>
+                    <p>
+                        Повърхността на Венера е скрита под вечните облаци, но радарните изображения от мисиите „Магелан" разкриват свят, доминиран от вулканизъм. Около <strong>75 % от повърхността</strong> са равнини от застинала лава, а останалото са планински райони.
+                    </p>
+                    <p>
+                        Има над <strong>1 600 големи вулкана</strong> и възможно стотици хиляди по-малки. Най-големият е <strong>Сиф Монс</strong> – 500 км в диаметър и 3 км височина. „Палачинковите куполи" са уникални за Венера – плоски вулкани със стръмни страни, образувани от гъста лава.
+                    </p>
+                    <div class="info-box">
+                        <div class="info-box-title">Младата повърхност</div>
+                        <p>Повърхността на Венера е необичайно млада – на около 300–600 милиона години. Това предполага, че цялата планета е преживяла катастрофално „преповърхностяване" – всичко е било залято от лава наведнъж!</p>
+                    </div>
+                </div>
+                <div class="content-image">
+                    <img src="https://i.redd.it/iqpadr2wvykz.jpg" alt="Повърхност на Венера от Венера-13">
+                </div>
+            </section>
+
+            <section class="content-section fade-in">
+                <div class="content-text">
+                    <h2>Изследване на Венера</h2>
+                    <p>
+                        Венера е първата планета, достигната от човешка ръка – „Маринър 2" през 1962 г. СССР доминира изследванията с програмите „Венера" (1961–1984). „Венера 7" (1970 г.) е първият успешно кацнал апарат, а „Венера 9" (1975 г.) изпраща първите снимки от повърхността.
+                    </p>
+                    <p>
+                        Най-успешната мисия е „Магелан" (1989–1994) на NASA, която картографира цялата повърхност с радар. „Венера Експрес" (2005–2014) на ESA открива признаци на активен вулканизъм. Бъдещи мисии включват „Давинчи+" и „Веритас" на NASA, планирани за 2028–2030 г.
+                    </p>
+                </div>
+                <div class="content-image">
+                    <img src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/3-venera-13-on-venus-detlev-van-ravenswaayscience-photo-library.jpg" alt="Снимка от повърхността на Венера">
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- ============================================
+         FOOTER (AT BOTTOM, NOT FIXED)
+         ============================================ -->
+    <footer class="explorer-footer">
+        <div class="explorer-footer-left">© Cosmos Explorer</div>
+        <div class="explorer-footer-center">„Космосът е вътре в нас, ние сме направени от звездно вещество, ние сме начинът, по който Космосът познава себе си." — Карл Сейгън</div>
+        <div class="explorer-footer-right">
+            <a href="index.html" class="explorer-footer-link">Начало</a>
+            <a href="cosmos.html" class="explorer-footer-link">Слънчевата система</a>
+            <a href="constellations.html" class="explorer-footer-link">Съзвездия</a>
+            <a href="black_hole.html" class="explorer-footer-link">Черна дупка</a>
+            <a href="map.html" class="explorer-footer-link">Карта на сайта</a>
+            <a href="about_us.html" class="explorer-footer-link">За нас</a>
+            <a href="sources.html" class="explorer-footer-link">Източници</a>
+        </div>
+    </footer>
+
+    <!-- ============================================
+         JAVASCRIPT
+         ============================================ -->
+    <script>
+        // Mobile menu toggle
+        function toggleExplorerMenu() {
+            document.getElementById('explorerNav').classList.toggle('active');
+        }
+
+        // Mobile dropdown toggle
+        function handleDropdownClick(event, element) {
+            // Prevent default navigation only on mobile
+            if (window.innerWidth <= 992) {
+                event.preventDefault();
+                // Toggle dropdown for mobile
+                const dropdown = element.nextElementSibling;
+                if (dropdown && dropdown.classList.contains('explorer-dropdown')) {
+                    element.parentElement.classList.toggle('dropdown-open');
+                }
+            }
+            // On desktop, allow normal navigation (go to cosmos.html)
+        }
+        
+        function toggleExplorerDropdown(btn) {
+            if (window.innerWidth <= 992) {
+                btn.parentElement.classList.toggle('dropdown-open');
+            }
+        }
+
+        // Scroll to content
+        function scrollToContent() {
+            document.getElementById('content').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const header = document.querySelector('.explorer-header');
+            const nav = document.getElementById('explorerNav');
+            if (!header.contains(e.target) && nav.classList.contains('active')) {
+                nav.classList.remove('active');
+            }
+        });
+
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Force all links to open in same tab
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('a[href$=".html"]');
+            links.forEach(link => {
+                link.setAttribute('target', '_self');
+            });
+        });
+    </script>
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img id="lightbox-img" src="" alt="">
+    </div>
+
+    <script>
+        // Lightbox функционалност
+        function openLightbox(src) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = src;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Добавяме click event към всички изображения в content-image
+        document.querySelectorAll('.content-image img').forEach(img => {
+            img.addEventListener('click', function() {
+                openLightbox(this.src);
+            });
+        });
+
+        // Затваряне с Escape клавиш
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+    </script>
+</body>
+</html>
