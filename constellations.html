@@ -16,24 +16,24 @@
     --text-primary: #f5f5f5;
     --text-secondary: #e8e0ff;
     
-    /* Green-blue category colors */
+    /* Green category colors */
     --accent-zodiac: #00d4aa;
     --accent-north: #00b4d8;
     --accent-south: #0096c7;
     --accent-equatorial: #48cae4;
     --accent-default: #00d4aa;
     
-    /* Orange for constellation elements */
-    --constellation-orange: #ff9500;
-    --constellation-orange-light: #ffb700;
-    --constellation-glow: rgba(255, 149, 0, 0.4);
+    /* White/Gray for constellation elements */
+    --constellation-orange: #ffffff;
+    --constellation-orange-light: #f0f0f0;
+    --constellation-glow: rgba(255, 255, 255, 0.2);
     
     /* RGB + Purple glow - weakened */
     --rgb-glow: rgba(0, 212, 170, 0.25);
     --purple-glow: rgba(147, 51, 234, 0.15);
     
     --border: rgba(0, 212, 170, 0.3);
-    --star-bright: #fffacd;
+    --star-bright: #ffffff;
     --star-dim: #ffffff;
     --glow: rgba(0, 212, 170, 0.25);
     --green-glow: rgba(0, 212, 170, 0.4);
@@ -67,23 +67,116 @@ body::before {
         radial-gradient(ellipse at 20% 80%, rgba(80, 40, 120, 0.2) 0%, transparent 50%),
         radial-gradient(ellipse at 80% 20%, rgba(40, 80, 140, 0.15) 0%, transparent 40%);
     pointer-events: none;
-    z-index: -2;
-}
-
-/* Animated background stars */
-.bg-stars {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
     z-index: -1;
 }
 
-.bg-star {
+.cosmic-stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.cosmic-stars::before,
+.cosmic-stars::after {
+    content: "";
     position: absolute;
-    background: var(--star-dim);
-    border-radius: 50%;
-    animation: twinkle-bg 3s ease-in-out infinite;
+    width: 100%;
+    height: 100%;
+    background-repeat: repeat;
+}
+
+.cosmic-stars::before {
+    background-image: 
+        radial-gradient(2px 2px at 10vw 20vh, rgba(215, 238, 11, 0.9), transparent),
+        radial-gradient(2px 2px at 25vw 35vh, rgba(215, 238, 11, 0.9), transparent),
+        radial-gradient(1px 1px at 40vw 15vh, rgba(215, 238, 11, 0.9), transparent),
+        radial-gradient(2px 2px at 55vw 60vh, rgba(255,255,255,0.9), transparent),
+        radial-gradient(1px 1px at 70vw 25vh, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 85vw 45vh, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 15vw 70vh, rgba(215, 238, 11, 0.9), transparent),
+        radial-gradient(2px 2px at 30vw 85vh, rgba(255,255,255,0.9), transparent),
+        radial-gradient(2px 2px at 45vw 40vh, rgba(215, 238, 11, 0.9), transparent),
+        radial-gradient(1px 1px at 60vw 75vh, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 75vw 10vh, rgba(255,255,255,0.9), transparent),
+        radial-gradient(1px 1px at 90vw 65vh, rgba(215, 238, 11, 0.9), transparent),
+        radial-gradient(2px 2px at 5vw 50vh, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 35vw 5vh, rgba(255,255,255,0.9), transparent),
+        radial-gradient(2px 2px at 65vw 90vh, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1px 1px at 95vw 30vh, rgba(215, 238, 11, 0.9), transparent),
+        radial-gradient(2px 2px at 20vw 45vh, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 50vw 25vh, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 80vw 70vh, rgba(255,255,255,0.9), transparent),
+        radial-gradient(1px 1px at 45vw 80vh, rgba(255,255,255,0.7), transparent),
+        radial-gradient(2px 2px at 12vw 88vh, rgba(215, 238, 11, 0.8), transparent),
+        radial-gradient(1px 1px at 28vw 12vh, rgba(255,255,255,0.7), transparent),
+        radial-gradient(2px 2px at 42vw 92vh, rgba(215, 238, 11, 0.9), transparent),
+        radial-gradient(1px 1px at 58vw 8vh, rgba(255,255,255,0.8), transparent),
+        radial-gradient(2px 2px at 72vw 95vh, rgba(215, 238, 11, 0.7), transparent),
+        radial-gradient(1px 1px at 88vw 18vh, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 18vw 78vh, rgba(215, 238, 11, 0.8), transparent),
+        radial-gradient(1px 1px at 48vw 3vh, rgba(255,255,255,0.9), transparent),
+        radial-gradient(2px 2px at 68vw 88vh, rgba(215, 238, 11, 0.7), transparent),
+        radial-gradient(1px 1px at 92vw 25vh, rgba(255,255,255,0.8), transparent),
+        radial-gradient(2px 2px at 38vw 72vh, rgba(215, 238, 11, 0.9), transparent),
+        radial-gradient(1px 1px at 78vw 15vh, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 8vw 35vh, rgba(215, 238, 11, 0.8), transparent),
+        radial-gradient(1px 1px at 22vw 65vh, rgba(255,255,255,0.7), transparent),
+        radial-gradient(2px 2px at 52vw 55vh, rgba(215, 238, 11, 0.9), transparent),
+        radial-gradient(1px 1px at 82vw 85vh, rgba(255,255,255,0.8), transparent);
+    animation: pulse-drift-1 8s ease-in-out infinite alternate;
+}
+
+.cosmic-stars::after {
+    background-image:
+        radial-gradient(1px 1px at 5vw 10vh, rgba(200,220,255,0.6), transparent),
+        radial-gradient(2px 2px at 20vw 50vh, rgba(220,230,255,0.8), transparent),
+        radial-gradient(1px 1px at 35vw 25vh, rgba(180,200,255,0.5), transparent),
+        radial-gradient(2px 2px at 50vw 80vh, rgba(210,220,255,0.7), transparent),
+        radial-gradient(1px 1px at 65vw 5vh, rgba(190,210,255,0.6), transparent),
+        radial-gradient(2px 2px at 80vw 55vh, rgba(220,240,255,0.8), transparent),
+        radial-gradient(1px 1px at 12vw 90vh, rgba(200,210,255,0.5), transparent),
+        radial-gradient(2px 2px at 28vw 45vh, rgba(210,230,255,0.7), transparent),
+        radial-gradient(1px 1px at 42vw 70vh, rgba(190,220,255,0.6), transparent),
+        radial-gradient(2px 2px at 58vw 20vh, rgba(220,230,255,0.8), transparent),
+        radial-gradient(1px 1px at 72vw 85vh, rgba(200,220,255,0.5), transparent),
+        radial-gradient(2px 2px at 88vw 35vh, rgba(210,240,255,0.7), transparent),
+        radial-gradient(1px 1px at 18vw 65vh, rgba(180,210,255,0.6), transparent),
+        radial-gradient(2px 2px at 48vw 8vh, rgba(220,230,255,0.8), transparent),
+        radial-gradient(1px 1px at 78vw 95vh, rgba(200,220,255,0.5), transparent),
+        radial-gradient(2px 2px at 92vw 15vh, rgba(210,230,255,0.7), transparent),
+        radial-gradient(1px 1px at 38vw 60vh, rgba(190,220,255,0.6), transparent),
+        radial-gradient(2px 2px at 68vw 40vh, rgba(220,240,255,0.8), transparent),
+        radial-gradient(1px 1px at 7vw 30vh, rgba(200,220,255,0.4), transparent),
+        radial-gradient(2px 2px at 23vw 70vh, rgba(210,230,255,0.6), transparent),
+        radial-gradient(1px 1px at 37vw 15vh, rgba(180,200,255,0.5), transparent),
+        radial-gradient(2px 2px at 53vw 85vh, rgba(190,210,255,0.7), transparent),
+        radial-gradient(1px 1px at 67vw 25vh, rgba(200,220,255,0.4), transparent),
+        radial-gradient(2px 2px at 83vw 60vh, rgba(210,230,255,0.6), transparent),
+        radial-gradient(1px 1px at 97vw 40vh, rgba(180,200,255,0.5), transparent),
+        radial-gradient(2px 2px at 13vw 75vh, rgba(190,210,255,0.7), transparent),
+        radial-gradient(1px 1px at 33vw 55vh, rgba(200,220,255,0.4), transparent),
+        radial-gradient(2px 2px at 57vw 35vh, rgba(210,230,255,0.6), transparent),
+        radial-gradient(1px 1px at 77vw 90vh, rgba(180,200,255,0.5), transparent),
+        radial-gradient(2px 2px at 91vw 20vh, rgba(190,210,255,0.7), transparent),
+        radial-gradient(1px 1px at 17vw 45vh, rgba(200,220,255,0.4), transparent),
+        radial-gradient(2px 2px at 43vw 65vh, rgba(210,230,255,0.6), transparent),
+        radial-gradient(1px 1px at 63vw 10vh, rgba(180,200,255,0.5), transparent),
+        radial-gradient(2px 2px at 87vw 75vh, rgba(190,210,255,0.7), transparent);
+    animation: pulse-drift-2 10s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes pulse-drift-1 {
+    0% { opacity: 0.4; transform: translate(0, 0) scale(0.9); }
+    100% { opacity: 1; transform: translate(10px, -10px) scale(1.1); }
+}
+
+@keyframes pulse-drift-2 {
+    0% { opacity: 0.3; transform: translate(0, 0) scale(1.1); }
+    100% { opacity: 0.9; transform: translate(-8px, 8px) scale(0.9); }
 }
 
 @keyframes twinkle-bg {
@@ -861,8 +954,9 @@ body::before {
 /* style the detected brightest/star of each chart */
 .primary-star {
     stroke: #ffea00 !important;
-    stroke-width: 2 !important;
-    filter: drop-shadow(0 0 6px #ffea00);
+    stroke-width: 10 !important;
+    filter: drop-shadow(0 0 25px #ffea00);
+    fill: #ffea00 !important;
 }
 .star-label {
     pointer-events: none;
@@ -873,11 +967,12 @@ body::before {
     /* remove filters and make markup clear for paper */
     .primary-star {
         stroke: #ffea00 !important;
-        stroke-width: 3 !important;
+        stroke-width: 10 !important;
         filter: none !important;
+        fill: #ffea00 !important;
     }
     .star-label {
-        fill: #ffea00 !important;
+        fill: #ffffff !important;
         font-size: 12px !important;
     }
     /* keep the SVG at natural scale when printing */
@@ -1346,8 +1441,8 @@ body::before {
 
 </head>
 <body>
-    <!-- Background stars -->
-    <div class="bg-stars" id="bgStars"></div>
+    <!-- Cosmic Background Stars -->
+    <div class="cosmic-stars"></div>
     
     <!-- Tooltip -->
     <div class="tooltip" id="tooltip"></div>
@@ -1370,7 +1465,7 @@ body::before {
     <header class="explorer-header">
         <a href="index.html" class="explorer-logo">Cosmos Explorer</a>
         <div class="search-container">
-            <input type="text" class="search-input" id="searchInput" placeholder="Търси съзвездие..." onkeyup="searchConstellations()">
+            <input type="text" class="search-input" id="searchInput" placeholder="Търси съзвездия" onkeyup="searchConstellations()">
         </div>
         <button class="explorer-mobile-toggle" onclick="toggleExplorerMenu()">
             <span></span>
@@ -1432,6 +1527,12 @@ body::before {
     <div class="main-content">
         <h1 class="page-title">СЪЗВЕЗДИЯ</h1>
         <p class="page-subtitle">Пълен каталог с интерактивни звездни карти и митология</p>
+        
+        <!-- Важна забележка за опростените карти -->
+        <div class="info-notice" style="background: rgba(0, 212, 170, 0.1); border: 1px solid rgba(0, 212, 170, 0.3); border-radius: 8px; padding: 12px 16px; margin: 20px 0; color: #00d4aa; font-size: 14px; text-align: center;">
+            <strong>⚠️ Важно:</strong> Картините на съзвездията са опростени и показват само основните звезди. 
+            Някои съзвездия съдържат много повече звезди от показаните на диаграмите.
+        </div>
         
 
         <!-- Pagination: 22 per page = 4 pages (Top) -->
@@ -1503,34 +1604,34 @@ const helpTexts = {
 // SVG Templates for constellations - Real constellation patterns from uploaded files
 const svgTemplates = {
     // Andromeda - detailed pattern with many stars
-    andromeda: `<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 1080 1080\" style=\"enable-background:new 0 0 1080 1080;\" xml:space=\"preserve\"><style type=\"text/css\">	.st0{fill:none;}	.st1{fill:none;stroke:#ff9500;stroke-width:3;stroke-miterlimit:10;}	.st2{fill:#FFFFFF;}</style><rect class=\"st0\" width=\"1080\" height=\"1080\"/><g>	<polyline class=\"st1\" points=\"232.5,440.4 441.8,609.2 580.5,711.2 585.5,744.5 546.8,855.4 502,874  \"/>	<polyline class=\"st1\" points=\"729.1,737.3 580.5,711.2 588.2,649.4 441.8,609.2 499.4,549.3 527.6,492.4 452.9,358.2 352.3,320.7     \"/>	<polyline class=\"st1\" points=\"949.8,391.9 805.3,411 588.2,649.4  \"/>	<polyline class=\"st1\" points=\"791.7,342.7 792,390.6 805.3,411  \"/></g><g>	<g>		<circle class=\"st2\" cx=\"232.5\" cy=\"440.4\" r=\"8.9\"/>	</g>	<g>		<circle class=\"st2\" cx=\"441.8\" cy=\"609.2\" r=\"8.9\"/>	</g>	<g>		<circle class=\"st2\" cx=\"499.4\" cy=\"549.3\" r=\"5\"/>	</g>	<g>		<circle class=\"st2\" cx=\"792\" cy=\"342.7\" r=\"5\"/>	</g>	<g>		<circle class=\"st2\" cx=\"949.8\" cy=\"391.9\" r=\"5\"/>	</g>	<g>		<circle class=\"st2\" cx=\"352.3\" cy=\"320.7\" r=\"5\"/>	</g>	<g>		<circle class=\"st2\" cx=\"729.1\" cy=\"737.3\" r=\"8.9\"/>	</g>	<g>		<circle class=\"st2\" cx=\"580.5\" cy=\"711.2\" r=\"6.6\"/>	</g>	<g>		<circle class=\"st2\" cx=\"585.5\" cy=\"744.5\" r=\"4.3\"/>	</g>	<g>		<circle class=\"st2\" cx=\"588.2\" cy=\"649.4\" r=\"4.3\"/>	</g>	<g>		<circle class=\"st2\" cx=\"805.3\" cy=\"411\" r=\"4.3\"/>	</g>	<g>		<circle class=\"st2\" cx=\"791.7\" cy=\"390.6\" r=\"4.3\"/>	</g>	<g>		<circle class=\"st2\" cx=\"527.6\" cy=\"492.4\" r=\"4.3\"/>	</g>	<g>		<circle class=\"st2\" cx=\"452.9\" cy=\"358.2\" r=\"4.3\"/>	</g>	<g>		<circle class=\"st2\" cx=\"546.8\" cy=\"855.4\" r=\"4.3\"/>	</g>	<g>		<circle class=\"st2\" cx=\"497.7\" cy=\"874.1\" r=\"4.3\"/>	</g></g></svg>`,
+    andromeda: `<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 1080 1080\" style=\"enable-background:new 0 0 1080 1080;\" xml:space=\"preserve\"><style type=\"text/css\">	.st0{fill:none;}	.st1{fill:none;stroke:#00d4aa;stroke-width:3;stroke-miterlimit:10;}	.st2{fill:#FFFFFF;}</style><rect class=\"st0\" width=\"1080\" height=\"1080\"/><g>	<polyline class=\"st1\" points=\"232.5,440.4 441.8,609.2 580.5,711.2 585.5,744.5 546.8,855.4 502,874  \"/>	<polyline class=\"st1\" points=\"729.1,737.3 580.5,711.2 588.2,649.4 441.8,609.2 499.4,549.3 527.6,492.4 452.9,358.2 352.3,320.7     \"/>	<polyline class=\"st1\" points=\"949.8,391.9 805.3,411 588.2,649.4  \"/>	<polyline class=\"st1\" points=\"791.7,342.7 792,390.6 805.3,411  \"/></g><g>	<g>		<circle class=\"st2\" cx=\"232.5\" cy=\"440.4\" r=\"8.9\"/>	</g>	<g>		<circle class=\"st2\" cx=\"441.8\" cy=\"609.2\" r=\"8.9\"/>	</g>	<g>		<circle class=\"st2\" cx=\"499.4\" cy=\"549.3\" r=\"5\"/>	</g>	<g>		<circle class=\"st2\" cx=\"792\" cy=\"342.7\" r=\"5\"/>	</g>	<g>		<circle class=\"st2\" cx=\"949.8\" cy=\"391.9\" r=\"5\"/>	</g>	<g>		<circle class=\"st2\" cx=\"352.3\" cy=\"320.7\" r=\"5\"/>	</g>	<g>		<circle class=\"st2\" cx=\"729.1\" cy=\"737.3\" r=\"8.9\"/>	</g>	<g>		<circle class=\"st2\" cx=\"580.5\" cy=\"711.2\" r=\"6.6\"/>	</g>	<g>		<circle class=\"st2\" cx=\"585.5\" cy=\"744.5\" r=\"4.3\"/>	</g>	<g>		<circle class=\"st2\" cx=\"588.2\" cy=\"649.4\" r=\"4.3\"/>	</g>	<g>		<circle class=\"st2\" cx=\"805.3\" cy=\"411\" r=\"4.3\"/>	</g>	<g>		<circle class=\"st2\" cx=\"791.7\" cy=\"390.6\" r=\"4.3\"/>	</g>	<g>		<circle class=\"st2\" cx=\"527.6\" cy=\"492.4\" r=\"4.3\"/>	</g>	<g>		<circle class=\"st2\" cx=\"452.9\" cy=\"358.2\" r=\"4.3\"/>	</g>	<g>		<circle class=\"st2\" cx=\"546.8\" cy=\"855.4\" r=\"4.3\"/>	</g>	<g>		<circle class=\"st2\" cx=\"497.7\" cy=\"874.1\" r=\"4.3\"/>	</g></g></svg>`,
 
     // Antlia - simple triangle pattern
-    antlia: `<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 1280 1280\" style=\"enable-background:new 0 0 1280 1280;\" xml:space=\"preserve\"><style type=\"text/css\">	.st0{fill:none;}	.st1{fill:none;stroke:#ff9500;stroke-width:3;stroke-miterlimit:10;}	.st2{fill:#FFFFFF;}</style><rect y=\"0.4\" class=\"st0\" width=\"1283.6\" height=\"1279.6\"/><polyline class=\"st1\" points=\"396.6,734.8 557.5,549.2 895.5,700.2 \"/><g>	<circle class=\"st2\" cx=\"557.5\" cy=\"549.2\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"396.6\" cy=\"734.8\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"895.5\" cy=\"700.2\" r=\"4.3\"/></g></svg>`,
+    antlia: `<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 1280 1280\" style=\"enable-background:new 0 0 1280 1280;\" xml:space=\"preserve\"><style type=\"text/css\">	.st0{fill:none;}	.st1{fill:none;stroke:#00d4aa;stroke-width:3;stroke-miterlimit:10;}	.st2{fill:#FFFFFF;}</style><rect y=\"0.4\" class=\"st0\" width=\"1283.6\" height=\"1279.6\"/><polyline class=\"st1\" points=\"396.6,734.8 557.5,549.2 895.5,700.2 \"/><g>	<circle class=\"st2\" cx=\"557.5\" cy=\"549.2\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"396.6\" cy=\"734.8\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"895.5\" cy=\"700.2\" r=\"4.3\"/></g></svg>`,
 
     // Apus - small pattern
-    apus: `<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 1280 1280\" style=\"enable-background:new 0 0 1280 1280;\" xml:space=\"preserve\"><style type=\"text/css\">	.st0{fill:none;}	.st1{fill:none;stroke:#ff9500;stroke-width:3;stroke-linejoin:round;stroke-miterlimit:10;}	.st2{fill:#FFFFFF;}</style><rect class=\"st0\" width=\"1280\" height=\"1280\"/><polyline class=\"st1\" points=\"762.9,739.5 603.2,708.4 556,672.3 582,719 \"/><g>	<circle class=\"st2\" cx=\"762.9\" cy=\"739.5\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"582\" cy=\"719\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"603.2\" cy=\"708.4\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"556\" cy=\"672.3\" r=\"4.3\"/></g></svg>`,
+    apus: `<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 1280 1280\" style=\"enable-background:new 0 0 1280 1280;\" xml:space=\"preserve\"><style type=\"text/css\">	.st0{fill:none;}	.st1{fill:none;stroke:#00d4aa;stroke-width:3;stroke-linejoin:round;stroke-miterlimit:10;}	.st2{fill:#FFFFFF;}</style><rect class=\"st0\" width=\"1280\" height=\"1280\"/><polyline class=\"st1\" points=\"762.9,739.5 603.2,708.4 556,672.3 582,719 \"/><g>	<circle class=\"st2\" cx=\"762.9\" cy=\"739.5\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"582\" cy=\"719\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"603.2\" cy=\"708.4\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"556\" cy=\"672.3\" r=\"4.3\"/></g></svg>`,
 
     // Aquarius - complex water-bearer pattern
-    aquarius: `<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 1080 1080\" style=\"enable-background:new 0 0 1080 1080;\" xml:space=\"preserve\"><style type=\"text/css\">	.st0{fill:none;}	.st1{fill:none;stroke:#ff9500;stroke-width:3;stroke-miterlimit:10;}	.st2{fill:#FFFFFF;}</style><rect x=\"0\" class=\"st0\" width=\"1080\" height=\"1080\"/><polyline class=\"st1\" points=\"909.6,557.4 731,483.5 589.3,394.2 509.3,365.1 492.9,389.2 465.6,391.9 \"/><line class=\"st1\" x1=\"587.7\" y1=\"618.1\" x2=\"731\" y2=\"483.5\"/><polyline class=\"st1\" points=\"280.7,728.2 294,546.9 305.8,494.1 396.5,516.7 545,516.7 589.3,394.2 524.4,412.8 492.9,389.2 \"/><polyline class=\"st1\" points=\"334.9,743.1 294,546.9 391.4,653.7 411.8,615 396.5,516.7 \"/><g>	<circle class=\"st2\" cx=\"731\" cy=\"483.5\" r=\"8.9\"/></g><g>	<circle class=\"st2\" cx=\"587.7\" cy=\"618.1\" r=\"5\"/></g><g>	<circle class=\"st2\" cx=\"524.4\" cy=\"412.8\" r=\"5\"/></g><g>	<circle class=\"st2\" cx=\"545\" cy=\"516.7\" r=\"5\"/></g><g>	<circle class=\"st2\" cx=\"396.5\" cy=\"516.7\" r=\"5\"/></g><g>	<circle class=\"st2\" cx=\"305.8\" cy=\"494.1\" r=\"5\"/></g><g>	<circle class=\"st2\" cx=\"294\" cy=\"546.9\" r=\"5\"/></g><g>	<circle class=\"st2\" cx=\"411.8\" cy=\"615\" r=\"5\"/></g><g>	<circle class=\"st2\" cx=\"280.7\" cy=\"728.2\" r=\"5\"/></g><g>	<circle class=\"st2\" cx=\"334.9\" cy=\"743.1\" r=\"5\"/></g><g>	<circle class=\"st2\" cx=\"492.9\" cy=\"389.2\" r=\"5\"/></g><g>	<circle class=\"st2\" cx=\"465.6\" cy=\"391.9\" r=\"5\"/></g><g>	<circle class=\"st2\" cx=\"509.3\" cy=\"365.1\" r=\"5\"/></g><g>	<circle class=\"st2\" cx=\"589.3\" cy=\"394.2\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"909.6\" cy=\"557.4\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"391.4\" cy=\"653.7\" r=\"6.6\"/></g></svg>`,
+    aquarius: `<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 1080 1080\" style=\"enable-background:new 0 0 1080 1080;\" xml:space=\"preserve\"><style type=\"text/css\">	.st0{fill:none;}	.st1{fill:none;stroke:#00d4aa;stroke-width:3;stroke-miterlimit:10;}	.st2{fill:#FFFFFF;}</style><rect x=\"0\" class=\"st0\" width=\"1080\" height=\"1080\"/><polyline class=\"st1\" points=\"909.6,557.4 731,483.5 589.3,394.2 509.3,365.1 492.9,389.2 465.6,391.9 \"/><line class=\"st1\" x1=\"587.7\" y1=\"618.1\" x2=\"731\" y2=\"483.5\"/><polyline class=\"st1\" points=\"280.7,728.2 294,546.9 305.8,494.1 396.5,516.7 545,516.7 589.3,394.2 524.4,412.8 492.9,389.2 \"/><polyline class=\"st1\" points=\"334.9,743.1 294,546.9 391.4,653.7 411.8,615 396.5,516.7 \"/><g>	<circle class=\"st2\" cx=\"731\" cy=\"483.5\" r=\"8.9\"/></g><g>	<circle class=\"st2\" cx=\"587.7\" cy=\"618.1\" r=\"5\"/></g><g>	<circle class=\"st2\" cx=\"524.4\" cy=\"412.8\" r=\"5\"/></g><g>	<circle class=\"st2\" cx=\"545\" cy=\"516.7\" r=\"5\"/></g><g>	<circle class=\"st2\" cx=\"396.5\" cy=\"516.7\" r=\"5\"/></g><g>	<circle class=\"st2\" cx=\"305.8\" cy=\"494.1\" r=\"5\"/></g><g>	<circle class=\"st2\" cx=\"294\" cy=\"546.9\" r=\"5\"/></g><g>	<circle class=\"st2\" cx=\"411.8\" cy=\"615\" r=\"5\"/></g><g>	<circle class=\"st2\" cx=\"280.7\" cy=\"728.2\" r=\"5\"/></g><g>	<circle class=\"st2\" cx=\"334.9\" cy=\"743.1\" r=\"5\"/></g><g>	<circle class=\"st2\" cx=\"492.9\" cy=\"389.2\" r=\"5\"/></g><g>	<circle class=\"st2\" cx=\"465.6\" cy=\"391.9\" r=\"5\"/></g><g>	<circle class=\"st2\" cx=\"509.3\" cy=\"365.1\" r=\"5\"/></g><g>	<circle class=\"st2\" cx=\"589.3\" cy=\"394.2\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"909.6\" cy=\"557.4\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"391.4\" cy=\"653.7\" r=\"6.6\"/></g></svg>`,
 
     // Aquila - eagle pattern with bright star Altair
-    aquila: `<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 1080 1080\" style=\"enable-background:new 0 0 1080 1080;\" xml:space=\"preserve\"><style type=\"text/css\">	.st0{fill:none;}	.st1{fill:none;stroke:#ff9500;stroke-width:3;stroke-linejoin:round;stroke-miterlimit:10;}	.st2{fill:#FFFFFF;}</style><rect class=\"st0\" width=\"1080\" height=\"1080\"/><polyline class=\"st1\" points=\"749.8,241.3 718.3,270.1 610.3,500.6 469,546.5 362.9,586.4 551.8,595.3 716.1,672.7 741,690.7 \"/><polyline class=\"st1\" points=\"451.7,429.7 474.6,375.9 500.4,338.6 610.3,500.6 716.1,672.7 718.3,270.1 \"/><g>	<circle class=\"st2\" cx=\"474.6\" cy=\"375.9\" r=\"8.9\"/></g><g>	<circle class=\"st2\" cx=\"362.9\" cy=\"586.4\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"610.3\" cy=\"500.6\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"718.3\" cy=\"270.1\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"500.4\" cy=\"338.6\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"716.1\" cy=\"672.7\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"451.7\" cy=\"429.7\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"469\" cy=\"546.5\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"551.8\" cy=\"595.3\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"741\" cy=\"690.7\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"749.8\" cy=\"241.3\" r=\"4.3\"/></g></svg>`,
+    aquila: `<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 1080 1080\" style=\"enable-background:new 0 0 1080 1080;\" xml:space=\"preserve\"><style type=\"text/css\">	.st0{fill:none;}	.st1{fill:none;stroke:#00d4aa;stroke-width:3;stroke-linejoin:round;stroke-miterlimit:10;}	.st2{fill:#FFFFFF;}</style><rect class=\"st0\" width=\"1080\" height=\"1080\"/><polyline class=\"st1\" points=\"749.8,241.3 718.3,270.1 610.3,500.6 469,546.5 362.9,586.4 551.8,595.3 716.1,672.7 741,690.7 \"/><polyline class=\"st1\" points=\"451.7,429.7 474.6,375.9 500.4,338.6 610.3,500.6 716.1,672.7 718.3,270.1 \"/><g>	<circle class=\"st2\" cx=\"474.6\" cy=\"375.9\" r=\"8.9\"/></g><g>	<circle class=\"st2\" cx=\"362.9\" cy=\"586.4\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"610.3\" cy=\"500.6\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"718.3\" cy=\"270.1\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"500.4\" cy=\"338.6\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"716.1\" cy=\"672.7\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"451.7\" cy=\"429.7\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"469\" cy=\"546.5\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"551.8\" cy=\"595.3\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"741\" cy=\"690.7\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"749.8\" cy=\"241.3\" r=\"4.3\"/></g></svg>`,
 
     // Ara - altar pattern
-    ara: `<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 1080 1080\" style=\"enable-background:new 0 0 1080 1080;\" xml:space=\"preserve\"><style type=\"text/css\">	.st0{fill:none;}	.st1{fill:none;stroke:#ff9500;stroke-width:3;stroke-miterlimit:10;}	.st2{fill:#FFFFFF;}</style><rect class=\"st0\" width=\"1080\" height=\"1080\"/><polyline class=\"st1\" points=\"322,378.9 491.3,356.5 645.3,461.1 642.5,547.9 669.1,646.8 507.5,688.8 527.9,554.4 \"/><line class=\"st1\" x1=\"527\" y1=\"527.8\" x2=\"491.3\" y2=\"356.5\"/><g>	<circle class=\"st2\" cx=\"491.3\" cy=\"354.3\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"527.9\" cy=\"554.4\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"527\" cy=\"527.8\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"507.5\" cy=\"688.8\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"322\" cy=\"378.9\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"645.3\" cy=\"461.1\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"642.5\" cy=\"547.9\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"669.1\" cy=\"646.8\" r=\"4.3\"/></g></svg>`,
+    ara: `<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 1080 1080\" style=\"enable-background:new 0 0 1080 1080;\" xml:space=\"preserve\"><style type=\"text/css\">	.st0{fill:none;}	.st1{fill:none;stroke:#00d4aa;stroke-width:3;stroke-miterlimit:10;}	.st2{fill:#FFFFFF;}</style><rect class=\"st0\" width=\"1080\" height=\"1080\"/><polyline class=\"st1\" points=\"322,378.9 491.3,356.5 645.3,461.1 642.5,547.9 669.1,646.8 507.5,688.8 527.9,554.4 \"/><line class=\"st1\" x1=\"527\" y1=\"527.8\" x2=\"491.3\" y2=\"356.5\"/><g>	<circle class=\"st2\" cx=\"491.3\" cy=\"354.3\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"527.9\" cy=\"554.4\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"527\" cy=\"527.8\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"507.5\" cy=\"688.8\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"322\" cy=\"378.9\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"645.3\" cy=\"461.1\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"642.5\" cy=\"547.9\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"669.1\" cy=\"646.8\" r=\"4.3\"/></g></svg>`,
 
     // Aries - ram pattern
-    aries: `<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 1080 1080\" style=\"enable-background:new 0 0 1080 1080;\" xml:space=\"preserve\"><style type=\"text/css\">	.st0{fill:none;}	.st1{fill:none;stroke:#ff9500;stroke-width:3;stroke-miterlimit:10;}	.st2{fill:#FFFFFF;}</style><rect class=\"st0\" width=\"1080\" height=\"1080\"/><polyline class=\"st1\" points=\"473.7,354.7 708.1,443.6 780.9,503.2 789.8,538.3 \"/><g>	<circle class=\"st2\" cx=\"708.1\" cy=\"443.6\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"473.7\" cy=\"354.7\" r=\"4.7\"/></g><g>	<circle class=\"st2\" cx=\"780.9\" cy=\"503.2\" r=\"4.7\"/></g><g>	<circle class=\"st2\" cx=\"789.8\" cy=\"538.3\" r=\"4.7\"/></g></svg>`,
+    aries: `<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 1080 1080\" style=\"enable-background:new 0 0 1080 1080;\" xml:space=\"preserve\"><style type=\"text/css\">	.st0{fill:none;}	.st1{fill:none;stroke:#00d4aa;stroke-width:3;stroke-miterlimit:10;}	.st2{fill:#FFFFFF;}</style><rect class=\"st0\" width=\"1080\" height=\"1080\"/><polyline class=\"st1\" points=\"473.7,354.7 708.1,443.6 780.9,503.2 789.8,538.3 \"/><g>	<circle class=\"st2\" cx=\"708.1\" cy=\"443.6\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"473.7\" cy=\"354.7\" r=\"4.7\"/></g><g>	<circle class=\"st2\" cx=\"780.9\" cy=\"503.2\" r=\"4.7\"/></g><g>	<circle class=\"st2\" cx=\"789.8\" cy=\"538.3\" r=\"4.7\"/></g></svg>`,
 
     // Auriga - charioteer pattern with bright star Capella
-    auriga: `<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 1080 1080\" style=\"enable-background:new 0 0 1080 1080;\" xml:space=\"preserve\"><style type=\"text/css\">	.st0{fill:none;}	.st1{fill:none;stroke:#ff9500;stroke-width:3;stroke-miterlimit:10;}	.st2{fill:#FFFFFF;}</style><rect class=\"st0\" width=\"1080\" height=\"1080\"/><polygon class=\"st1\" points=\"522.4,273.9 515.8,476 511.2,643.3 668.5,825.1 794,712.3 730,548 677.2,446.3 \"/><polyline class=\"st1\" points=\"515.8,476 677.2,446.3 739.1,487.1 746.1,543.9 \"/><g>	<circle class=\"st2\" cx=\"668.5\" cy=\"825.1\" r=\"8.9\"/></g><g>	<circle class=\"st2\" cx=\"677.2\" cy=\"446.3\" r=\"10.7\"/></g><g>	<circle class=\"st2\" cx=\"515.8\" cy=\"476\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"511.2\" cy=\"643.3\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"794\" cy=\"712.3\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"522.4\" cy=\"273.9\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"746.1\" cy=\"543.9\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"739.1\" cy=\"487.1\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"730\" cy=\"548\" r=\"4.3\"/></g></svg>`,
+    auriga: `<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 1080 1080\" style=\"enable-background:new 0 0 1080 1080;\" xml:space=\"preserve\"><style type=\"text/css\">	.st0{fill:none;}	.st1{fill:none;stroke:#00d4aa;stroke-width:3;stroke-miterlimit:10;}	.st2{fill:#FFFFFF;}</style><rect class=\"st0\" width=\"1080\" height=\"1080\"/><polygon class=\"st1\" points=\"522.4,273.9 515.8,476 511.2,643.3 668.5,825.1 794,712.3 730,548 677.2,446.3 \"/><polyline class=\"st1\" points=\"515.8,476 677.2,446.3 739.1,487.1 746.1,543.9 \"/><g>	<circle class=\"st2\" cx=\"668.5\" cy=\"825.1\" r=\"8.9\"/></g><g>	<circle class=\"st2\" cx=\"677.2\" cy=\"446.3\" r=\"10.7\"/></g><g>	<circle class=\"st2\" cx=\"515.8\" cy=\"476\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"511.2\" cy=\"643.3\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"794\" cy=\"712.3\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"522.4\" cy=\"273.9\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"746.1\" cy=\"543.9\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"739.1\" cy=\"487.1\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"730\" cy=\"548\" r=\"4.3\"/></g></svg>`,
 
     // Bootes - herdsman pattern with bright star Arcturus
-    bootes: `<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 1080 1080\" style=\"enable-background:new 0 0 1080 1080;\" xml:space=\"preserve\"><style type=\"text/css\">	.st0{fill:none;}	.st1{fill:none;stroke:#ff9500;stroke-width:3;stroke-miterlimit:10;}	.st2{fill:#FFFFFF;}</style><rect class=\"st0\" width=\"1080\" height=\"1080\"/><polygon class=\"st1\" points=\"604,265.3 573.4,161.7 607.7,160.1 \"/><polygon class=\"st1\" points=\"631.3,747 558.1,549.5 556.4,405.5 452.7,365.6 392.8,487.9 507.6,609.3 \"/><polyline class=\"st1\" points=\"521.2,847.7 631.3,747 723.4,755.3 760,768.6 \"/><line class=\"st1\" x1=\"604\" y1=\"265.3\" x2=\"556.4\" y2=\"405.5\"/><g>	<circle class=\"st2\" cx=\"631.3\" cy=\"747\" r=\"10.7\"/></g><g>	<circle class=\"st2\" cx=\"507.6\" cy=\"609.3\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"723.4\" cy=\"755.3\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"556.4\" cy=\"405.5\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"452.7\" cy=\"365.6\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"573.4\" cy=\"161.7\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"392.8\" cy=\"487.9\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"521.2\" cy=\"847.7\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"760\" cy=\"768.6\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"558.1\" cy=\"549.5\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"604\" cy=\"265.3\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"607.7\" cy=\"160.1\" r=\"4.3\"/></g></svg>`,
+    bootes: `<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 1080 1080\" style=\"enable-background:new 0 0 1080 1080;\" xml:space=\"preserve\"><style type=\"text/css\">	.st0{fill:none;}	.st1{fill:none;stroke:#00d4aa;stroke-width:3;stroke-miterlimit:10;}	.st2{fill:#FFFFFF;}</style><rect class=\"st0\" width=\"1080\" height=\"1080\"/><polygon class=\"st1\" points=\"604,265.3 573.4,161.7 607.7,160.1 \"/><polygon class=\"st1\" points=\"631.3,747 558.1,549.5 556.4,405.5 452.7,365.6 392.8,487.9 507.6,609.3 \"/><polyline class=\"st1\" points=\"521.2,847.7 631.3,747 723.4,755.3 760,768.6 \"/><line class=\"st1\" x1=\"604\" y1=\"265.3\" x2=\"556.4\" y2=\"405.5\"/><g>	<circle class=\"st2\" cx=\"631.3\" cy=\"747\" r=\"10.7\"/></g><g>	<circle class=\"st2\" cx=\"507.6\" cy=\"609.3\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"723.4\" cy=\"755.3\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"556.4\" cy=\"405.5\" r=\"6.6\"/></g><g>	<circle class=\"st2\" cx=\"452.7\" cy=\"365.6\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"573.4\" cy=\"161.7\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"392.8\" cy=\"487.9\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"521.2\" cy=\"847.7\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"760\" cy=\"768.6\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"558.1\" cy=\"549.5\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"604\" cy=\"265.3\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"607.7\" cy=\"160.1\" r=\"4.3\"/></g></svg>`,
 
     // Caelum - chisel pattern
-    caelum: `<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 1080 1080\" style=\"enable-background:new 0 0 1080 1080;\" xml:space=\"preserve\"><style type=\"text/css\">	.st0{fill:none;}	.st1{fill:none;stroke:#ff9500;stroke-width:3;stroke-miterlimit:10;}	.st2{fill:#FFFFFF;}</style><rect class=\"st0\" width=\"1080\" height=\"1080\"/><polyline class=\"st1\" points=\"397.7,427.3 535.8,477.8 541.4,623.5 592,722 \"/><g>	<circle class=\"st2\" cx=\"592\" cy=\"722\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"541.4\" cy=\"623.5\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"535.8\" cy=\"477.8\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"397.7\" cy=\"427.3\" r=\"4.3\"/></g></svg>`,
+    caelum: `<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 1080 1080\" style=\"enable-background:new 0 0 1080 1080;\" xml:space=\"preserve\"><style type=\"text/css\">	.st0{fill:none;}	.st1{fill:none;stroke:#00d4aa;stroke-width:3;stroke-miterlimit:10;}	.st2{fill:#FFFFFF;}</style><rect class=\"st0\" width=\"1080\" height=\"1080\"/><polyline class=\"st1\" points=\"397.7,427.3 535.8,477.8 541.4,623.5 592,722 \"/><g>	<circle class=\"st2\" cx=\"592\" cy=\"722\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"541.4\" cy=\"623.5\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"535.8\" cy=\"477.8\" r=\"4.3\"/></g><g>	<circle class=\"st2\" cx=\"397.7\" cy=\"427.3\" r=\"4.3\"/></g></svg>`,
 
     // Lupus - wolf pattern
     lupus: `<svg id=\"Layer_1\" data-name=\"Layer 1\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" viewBox=\"0 0 1080 1080\">  <defs>    <style>      .cls-1 {        fill: none;      }      .cls-1, .cls-2 {        stroke-width: 0px;      }      .cls-3 {        fill: none;        stroke: #00d4aa;        stroke-miterlimit: 10;        stroke-width: 1.5px;      }      .cls-2 {        fill: #fff;      }    </style>  </defs>  <rect class=\"cls-1\" y=\"-1.3\" width=\"1080\" height=\"1080\"/>  <polyline class=\"cls-3\" points=\"682.4 667.5 557.9 774 337.9 458 368.2 340.1 516.1 394.7 337.9 458\"/>  <polyline class=\"cls-3\" points=\"620.4 561.4 520.1 501.2 457.6 514.8 337.9 458\"/>  <polyline class=\"cls-3\" points=\"557.9 774 515.7 596.2 457.6 514.8\"/>  <circle class=\"cls-2\" cx=\"682.4\" cy=\"667.5\" r=\"6.2\"/>  <circle class=\"cls-2\" cx=\"557.9\" cy=\"774\" r=\"3.1\"/>  <circle class=\"cls-2\" cx=\"515.7\" cy=\"596.2\" r=\"3.1\"/>  <circle class=\"cls-2\" cx=\"520.1\" cy=\"501.2\" r=\"3.1\"/>  <circle class=\"cls-2\" cx=\"516.1\" cy=\"394.7\" r=\"3.1\"/>  <circle class=\"cls-2\" cx=\"368.2\" cy=\"340.1\" r=\"3.1\"/>  <circle class=\"cls-2\" cx=\"457.6\" cy=\"514.8\" r=\"4.7\"/>  <circle class=\"cls-2\" cx=\"337.9\" cy=\"458\" r=\"4.7\"/>  <circle class=\"cls-2\" cx=\"620.4\" cy=\"561.4\" r=\"4.7\"/></svg>`,
@@ -1831,8 +1932,8 @@ const svgTemplates = {
     generic: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <defs>
             <radialGradient id="starGlow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" style="stop-color:#fffacd;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#ff9500;stop-opacity:0.3" />
+                <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#87ceeb;stop-opacity:0.3" />
             </radialGradient>
         </defs>
         <circle cx="50" cy="50" r="3" fill="url(#starGlow)" />
@@ -2752,223 +2853,223 @@ function getSvgContent(constellationName) {
 // Constellation data with embedded SVG content
 // ЗАМЕНИ svgContent СЪС СЪДЪРЖАНИЕТО НА ТВОИТЕ SVG ФАЙЛОВЕ
 const constellations = [
-    {name: "Андромеда", latin: "Andromeda", svgContent: svgTemplates.andromeda, area: 722, stars: 5, category: "north", letter: "A", 
+    {name: "Андромеда", latin: "Andromeda", svgContent: svgTemplates.andromeda, area: 722, stars: 16, category: "north", letter: "A", 
      mythology: "Дъщеря на етиопския цар Кефей и Касиопея. Била закована към скала като жертва на морско чудовище, но спасена от Персей.",
      visibility: "Есен/зима, най-добре ноември", brightest: "Алферац (α And) +2.06",
      magnitude: "+2.06", distance: "97 св.г.", spectral: "B9",
      ra: "00h 08m", dec: "+38°", asterism: "Голям квадрат на Пегас",
      neighbors: "Пегас, Персей, Касиопея, Триъгълник"},
     
-{name: "Антлия", latin: "Antlia", svgContent: svgTemplates.antlia, area: 239, stars: 4, category: "south", letter: "A",     mythology: "Представлява въздушна помпа. Създадено от Лакайл през 18 век.",
+{name: "Антлия", latin: "Antlia", svgContent: svgTemplates.antlia, area: 239, stars: 8, category: "south", letter: "A",     mythology: "Представлява въздушна помпа. Създадено от Лакайл през 18 век.",
      visibility: "Пролет, южно полукълбо", brightest: "α Ant +4.25",
      magnitude: "+4.25", distance: "370 св.г.", spectral: "K4",
      ra: "10h 28m", dec: "-31°", asterism: "Тъмна помпа",
      neighbors: "Хидра, Кърма, Кил"},
     
-    {name: "Райска птица", latin: "Apus", svgContent: svgTemplates.apus, area: 206, stars: 4, category: "south", letter: "A",
+    {name: "Райска птица", latin: "Apus", svgContent: svgTemplates.apus, area: 206, stars: 7, category: "south", letter: "A",
      mythology: "Представлява райска птица (апус). Едно от първите съзвездия, добавени от пътешественици в 16 век.",
      visibility: "Южно полукълбо, целогодишно", brightest: "α Aps +3.83",
      magnitude: "+3.83", distance: "410 св.г.", spectral: "K5",
      ra: "14h 48m", dec: "-79°", asterism: "Райска птица",
      neighbors: "Хамелеон, Октант, Муска, Южен Кръст"},
     
-    {name: "Водолей", latin: "Aquarius", svgContent: svgTemplates.aquarius, area: 980, stars: 6, category: "zodiac", letter: "A",
+    {name: "Водолей", latin: "Aquarius", svgContent: svgTemplates.aquarius, area: 980, stars: 22, category: "zodiac", letter: "A",
      mythology: "Носител на вода - Ганимед, красивият троянски принц, отвлечен от Зевс да налива нектар на боговете.",
      visibility: "Есен/зима, най-добре октомври", brightest: "β Aqr +2.91",
      magnitude: "+2.91", distance: "540 св.г.", spectral: "G2",
      ra: "22h 54m", dec: "-15°", asterism: "Водна кана (Y-образна)",
      neighbors: "Козирог, Риби, Пегас, Орел, Кит"},
     
-    {name: "Овен", latin: "Aries", svgContent: svgTemplates.aries, area: 441, stars: 4, category: "zodiac", letter: "A",
+    {name: "Овен", latin: "Aries", svgContent: svgTemplates.aries, area: 441, stars: 13, category: "zodiac", letter: "A",
      mythology: "Златното руно, което Ясон търсел. Първото зодиакално съзвездие.",
      visibility: "Есен/зима, най-добре декември", brightest: "Хамал (α Ari) +2.00",
      magnitude: "+2.00", distance: "66 св.г.", spectral: "K2",
      ra: "02h 07m", dec: "+23°", asterism: "Рогове на овен",
      neighbors: "Телец, Риби, Кит, Персей"},
     
-    {name: "Олтар", latin: "Ara", svgContent: svgTemplates.ara, area: 237, stars: 5, category: "south", letter: "A",
+    {name: "Олтар", latin: "Ara", svgContent: svgTemplates.ara, area: 237, stars: 11, category: "south", letter: "A",
      mythology: "Представлява олтар, на който боговете полагали клетви. Свързан с мита за Ликаон.",
      visibility: "Южно полукълбо, най-добре юли-август", brightest: "β Ara +2.84",
      magnitude: "+2.84", distance: "650 св.г.", spectral: "K3",
      ra: "17h 25m", dec: "-55°", asterism: "Олтар",
      neighbors: "Скорпион, Коронен Южен, Телескоп, Триъгълник Южен"},
     
-    {name: "Стрела", latin: "Sagitta", svgContent: svgTemplates.sagitta, area: 80, stars: 5, category: "north", letter: "S",
+    {name: "Стрела", latin: "Sagitta", svgContent: svgTemplates.sagitta, area: 80, stars: 6, category: "north", letter: "S",
      mythology: "Стрелата, с която Херкулес убил орела, който кълвал Прометей.",
      visibility: "Лято, най-добре август", brightest: "γ Sge +3.47",
      magnitude: "+3.47", distance: "274 св.г.", spectral: "M0",
      ra: "19h 58m", dec: "+19°", asterism: "Стрела",
      neighbors: "Лебед, Лира, Орел, Делфин"},
     
-    {name: "Орел", latin: "Aquila", svgContent: svgTemplates.aquila, area: 652, stars: 5, category: "equatorial", letter: "A",
+    {name: "Орел", latin: "Aquila", svgContent: svgTemplates.aquila, area: 652, stars: 17, category: "equatorial", letter: "A",
      mythology: "Орелът на Зевс, който носил гръмовете му. Също представлява Ганимед, вдигнат към Олимп.",
      visibility: "Лято, най-добре август", brightest: "Алтайр (α Aql) +0.77",
      magnitude: "+0.77", distance: "17 св.г.", spectral: "A7",
      ra: "19h 51m", dec: "+08°", asterism: "Летен триъгълник",
      neighbors: "Лебед, Лира, Херкулес, Стрела, Делфин"},
     
-    {name: "Колар", latin: "Auriga", svgContent: svgTemplates.auriga, area: 657, stars: 6, category: "north", letter: "A",
+    {name: "Колар", latin: "Auriga", svgContent: svgTemplates.auriga, area: 657, stars: 14, category: "north", letter: "A",
      mythology: "Коларът или возачът на колесница. Свързан с Ерихтоний, син на Хефест, или с Мидас.",
      visibility: "Зима/пролет, най-добре февруари", brightest: "Капела (α Aur) +0.08",
      magnitude: "+0.08", distance: "43 св.г.", spectral: "G6",
      ra: "05h 17m", dec: "+46°", asterism: "Петоъгълник на Колара",
      neighbors: "Голяма мечка, Телец, Близнаци, Рак"},
     
-    {name: "Воловар", latin: "Boötes", svgContent: svgTemplates.bootes, area: 907, stars: 6, category: "north", letter: "B",
+    {name: "Воловар", latin: "Boötes", svgContent: svgTemplates.bootes, area: 907, stars: 15, category: "north", letter: "B",
      mythology: "Воловарят или пастирът, който гони Голямата мечка. Също свързан с Икарий.",
      visibility: "Пролет/лято, най-добре юни", brightest: "Арктур (α Boo) -0.05",
      magnitude: "-0.05", distance: "37 св.г.", spectral: "K1",
      ra: "14h 16m", dec: "+19°", asterism: "Хвърчило или лък",
      neighbors: "Голяма мечка, Дева, Воловар, Северна корона"},
     
-    {name: "Длето", latin: "Caelum", svgContent: svgTemplates.caelum, area: 125, stars: 4, category: "south", letter: "C",
+    {name: "Длето", latin: "Caelum", svgContent: svgTemplates.caelum, area: 125, stars: 6, category: "south", letter: "C",
      mythology: "Длетото на скулптора. Създадено от Лакайл през 18 век.",
      visibility: "Зима/пролет, южно полукълбо", brightest: "α Cae +4.45",
      magnitude: "+4.45", distance: "65 св.г.", spectral: "F2",
      ra: "04h 40m", dec: "-41°", asterism: "Длето",
      neighbors: "Заек, Еридан, Гълъб"},
     
-    {name: "Жираф", latin: "Camelopardalis", svgContent: svgTemplates.camelopardalis, area: 757, stars: 5, category: "north", letter: "C",
+    {name: "Жираф", latin: "Camelopardalis", svgContent: svgTemplates.camelopardalis, area: 757, stars: 8, category: "north", letter: "C",
      mythology: "Жирафът, създаден през 1612 от Петрус Планциус. Едно от най-големите, но най-слабите съзвездия.",
      visibility: "Зима, целогодишно на север", brightest: "β Cam +4.03",
      magnitude: "+4.03", distance: "1000 св.г.", spectral: "G0",
      ra: "05h 03m", dec: "+60°", asterism: "Жираф (слаби звезди)",
      neighbors: "Кефей, Касиопея, Голяма мечка, Малка мечка, Дракон"},
     
-    {name: "Рак", latin: "Cancer", svgContent: svgTemplates.cancer, area: 506, stars: 5, category: "zodiac", letter: "C",
+    {name: "Рак", latin: "Cancer", svgContent: svgTemplates.cancer, area: 506, stars: 12, category: "zodiac", letter: "C",
      mythology: "Ракът, който ухапал Херкулес по време на битката с Хидра. Зевс го поставил на небето като награда.",
      visibility: "Пролет, най-добре март", brightest: "β Cnc +3.53",
      magnitude: "+3.53", distance: "290 св.г.", spectral: "K4",
      ra: "08h 58m", dec: "+12°", asterism: "Обърнато Y",
      neighbors: "Близнаци, Лъв, Лъв Малък, Хидра"},
     
-    {name: "Ловджийски кучета", latin: "Canes Venatici", svgContent: svgTemplates.canesvenatici, area: 465, stars: 4, category: "north", letter: "C",
+    {name: "Ловджийски кучета", latin: "Canes Venatici", svgContent: svgTemplates.canesvenatici, area: 465, stars: 7, category: "north", letter: "C",
      mythology: "Ловджийските кучета на Воловар - Астерион и Хара. Създадени от Хевелий.",
      visibility: "Пролет/лято, най-добре май", brightest: "Кор Кароли (α CVn) +2.89",
      magnitude: "+2.89", distance: "110 св.г.", spectral: "A0",
      ra: "12h 56m", dec: "+38°", asterism: "Две кучета",
      neighbors: "Воловар, Голяма мечка, Волопас"},
     
-    {name: "Голям Пес", latin: "Canis Major", svgContent: svgTemplates.canismajor, area: 380, stars: 6, category: "equatorial", letter: "C",
+    {name: "Голям Пес", latin: "Canis Major", svgContent: svgTemplates.canismajor, area: 380, stars: 9, category: "equatorial", letter: "C",
      mythology: "Голямото куче на Орион - Сириус, най-ярката звезда. Преследва зайка.",
      visibility: "Зима, най-добре февруари", brightest: "Сириус (α CMa) -1.46",
      magnitude: "-1.46", distance: "8.6 св.г.", spectral: "A1",
      ra: "06h 45m", dec: "-16°", asterism: "Куче",
      neighbors: "Орион, Заек, Единорог, Гълъб, Кърма"},
     
-    {name: "Малък Пес", latin: "Canis Minor", svgContent: svgTemplates.canisminor, area: 183, stars: 3, category: "equatorial", letter: "C",
+    {name: "Малък Пес", latin: "Canis Minor", svgContent: svgTemplates.canisminor, area: 183, stars: 5, category: "equatorial", letter: "C",
      mythology: "Малкото куче на Орион - Прокион. Също свързано с бързия хрътка на Актеон.",
      visibility: "Зима/пролет, най-добре февруари", brightest: "Прокион (α CMi) +0.34",
      magnitude: "+0.34", distance: "11.5 св.г.", spectral: "F5",
      ra: "07h 39m", dec: "+05°", asterism: "Две звезди (Прокион и Гомейса)",
      neighbors: "Близнаци, Рак, Единорог, Гидра"},
     
-    {name: "Козирог", latin: "Capricornus", svgContent: svgTemplates.capricornus, area: 414, stars: 5, category: "zodiac", letter: "C",
+    {name: "Козирог", latin: "Capricornus", svgContent: svgTemplates.capricornus, area: 414, stars: 13, category: "zodiac", letter: "C",
      mythology: "Козел с рибна опашка - богът Пан, който се хвърлил в Нил и израсла рибна опашка.",
      visibility: "Есен/зима, най-добре септември", brightest: "δ Cap +2.85",
      magnitude: "+2.85", distance: "39 св.г.", spectral: "A7",
      ra: "21h 47m", dec: "-16°", asterism: "Триъгълник с рога",
      neighbors: "Водолей, Риби, Стрелец, Микроскоп"},
     
-    {name: "Кил", latin: "Carina", svgContent: svgTemplates.carina, area: 494, stars: 6, category: "south", letter: "C",
+    {name: "Кил", latin: "Carina", svgContent: svgTemplates.carina, area: 494, stars: 11, category: "south", letter: "C",
      mythology: "Килът на кораба Арго. Съдържа Канопус - втората най-ярка звезда.",
      visibility: "Зима/пролет, южно полукълбо", brightest: "Канопус (α Car) -0.74",
      magnitude: "-0.74", distance: "310 св.г.", spectral: "A9",
      ra: "06h 24m", dec: "-52°", asterism: "Кил с платна",
      neighbors: "Кърма, Платна, Хамелеон, Птичи полет"},
     
-    {name: "Касиопея", latin: "Cassiopeia", svgContent: svgTemplates.cassiopeia, area: 598, stars: 5, category: "north", letter: "C",
+    {name: "Касиопея", latin: "Cassiopeia", svgContent: svgTemplates.cassiopeia, area: 598, stars: 11, category: "north", letter: "C",
      mythology: "Гордата кралица на Етиопия, която хвалела красотата си над нереидите. Затова била поставена на небето да виси обърната.",
      visibility: "Есен/зима, най-добре ноември", brightest: "Шедар (α Cas) +2.24",
      magnitude: "+2.24", distance: "229 св.г.", spectral: "K0",
      ra: "00h 40m", dec: "+56°", asterism: "W или M форма",
      neighbors: "Андромеда, Кефей, Жираф, Голяма мечка"},
     
-    {name: "Центавър", latin: "Centaurus", svgContent: svgTemplates.centaurus, area: 1060, stars: 8, category: "south", letter: "C",
+    {name: "Центавър", latin: "Centaurus", svgContent: svgTemplates.centaurus, area: 1060, stars: 19, category: "south", letter: "C",
      mythology: "Кентавърът Хирон, мъдрият учител на Ахил, Ясон и Херкулес. Различен от Стрелеца.",
      visibility: "Южно полукълбо, пролет", brightest: "α Cen (Ригел Кентавър) -0.01",
      magnitude: "-0.01", distance: "4.4 св.г.", spectral: "G2",
      ra: "14h 40m", dec: "-60°", asterism: "Кентавър",
      neighbors: "Южен кръст, Муска, Змия, Вълк, Корабни платна"},
     
-    {name: "Кефей", latin: "Cepheus", svgContent: svgTemplates.cepheus, area: 588, stars: 5, category: "north", letter: "C",
+    {name: "Кефей", latin: "Cepheus", svgContent: svgTemplates.cepheus, area: 588, stars: 9, category: "north", letter: "C",
      mythology: "Царят на Етиопия, съпруг на Касиопея и баща на Андромеда.",
      visibility: "Есен/зима, целогодишно на север", brightest: "Алдерамин (α Cep) +2.45",
      magnitude: "+2.45", distance: "49 св.г.", spectral: "A5",
      ra: "21h 19m", dec: "+62°", asterism: "Къща (квадрат с триъгълник)",
      neighbors: "Касиопея, Жираф, Малка мечка, Дракон"},
     
-    {name: "Кит", latin: "Cetus", svgContent: svgTemplates.cetus, area: 1231, stars: 7, category: "equatorial", letter: "C",
+    {name: "Кит", latin: "Cetus", svgContent: svgTemplates.cetus, area: 1231, stars: 15, category: "equatorial", letter: "C",
      mythology: "Морско чудовище, пратено да унищожи крайбрежието на Етиопия, но убито от Персей.",
      visibility: "Есен/зима, най-добре ноември", brightest: "β Cet (Денеб Кайтос) +2.04",
      magnitude: "+2.04", distance: "96 св.г.", spectral: "K0",
      ra: "00h 44m", dec: "-18°", asterism: "Глава на кита",
      neighbors: "Риби, Овен, Телец, Еридан, Водолей"},
     
-    {name: "Хамелеон", latin: "Chamaeleon", svgContent: svgTemplates.chamaeleon, area: 132, stars: 4, category: "south", letter: "C",
+    {name: "Хамелеон", latin: "Chamaeleon", svgContent: svgTemplates.chamaeleon, area: 132, stars: 5, category: "south", letter: "C",
      mythology: "Хамелеонът, първо забелязан от пътешественици в 16 век. Малко и тъмно съзвездие.",
      visibility: "Южно полукълбо, пролет", brightest: "α Cha +4.05",
      magnitude: "+4.05", distance: "63 св.г.", spectral: "F5",
      ra: "08h 18m", dec: "-76°", asterism: "Хамелеон",
      neighbors: "Птичи полет, Муска, Октант, Кил"},
     
-    {name: "Пергел", latin: "Circinus", svgContent: svgTemplates.circinus, area: 93, stars: 4, category: "south", letter: "C",
+    {name: "Пергел", latin: "Circinus", svgContent: svgTemplates.circinus, area: 93, stars: 5, category: "south", letter: "C",
      mythology: "Пергелът на чертожника. Създадено от Лакайл през 18 век.",
      visibility: "Пролет, южно полукълбо", brightest: "α Cir +3.18",
      magnitude: "+3.18", distance: "53 св.г.", spectral: "F1",
      ra: "14h 43m", dec: "-64°", asterism: "Пергел",
      neighbors: "Центавър, Муска, Южен Кръст"},
     
-    {name: "Гълъб", latin: "Columba", svgContent: svgTemplates.columba, area: 270, stars: 5, category: "south", letter: "C",
+    {name: "Гълъб", latin: "Columba", svgContent: svgTemplates.columba, area: 270, stars: 8, category: "south", letter: "C",
      mythology: "Гълъбът, който корабът Арго следвал. Също гълъбът на Ной.",
      visibility: "Зима/пролет, южно полукълбо", brightest: "Phact (α Col) +2.65",
      magnitude: "+2.65", distance: "268 св.г.", spectral: "B9",
      ra: "05h 40m", dec: "-34°", asterism: "Гълъб",
      neighbors: "Заек, Кил, Кърма, Еридан"},
     
-    {name: "Косите на Вероника", latin: "Coma Berenices", svgContent: svgTemplates.comaberenices, area: 386, stars: 3, category: "equatorial", letter: "C",
+    {name: "Косите на Вероника", latin: "Coma Berenices", svgContent: svgTemplates.comaberenices, area: 386, stars: 8, category: "equatorial", letter: "C",
      mythology: "Косите на египетската кралица Вероника II. Създадено от Конон.",
      visibility: "Пролет/лято, най-добре май", brightest: "β Com +4.26",
      magnitude: "+4.26", distance: "30 св.г.", spectral: "F9",
      ra: "13h 10m", dec: "+17°", asterism: "Коси",
      neighbors: "Воловар, Лъв, Гривна"},
     
-    {name: "Южна Крона", latin: "Corona Australis", svgContent: svgTemplates.coronaaustralis, area: 128, stars: 5, category: "south", letter: "C",
+    {name: "Южна Крона", latin: "Corona Australis", svgContent: svgTemplates.coronaaustralis, area: 128, stars: 7, category: "south", letter: "C",
      mythology: "Венецът, който Дионис сложил на глава на мъртвата си майка Семела, за да я върне от подземния свят.",
      visibility: "Южно полукълбо, лято", brightest: "α CrA +4.10",
      magnitude: "+4.10", distance: "130 св.г.", spectral: "A2",
      ra: "19h 09m", dec: "-37°", asterism: "Южен венец",
      neighbors: "Стрелец, Телескоп, Стрела"},
     
-    {name: "Северна Крона", latin: "Corona Borealis", svgContent: svgTemplates.coronaborealis, area: 179, stars: 6, category: "north", letter: "C",
+    {name: "Северна Крона", latin: "Corona Borealis", svgContent: svgTemplates.coronaborealis, area: 179, stars: 8, category: "north", letter: "C",
      mythology: "Северната корона - венецът на Ариадна, даден ѝ от Дионис след Тезей я изоставил.",
      visibility: "Пролет/лято, най-добре юли", brightest: "Алфека (α CrB) +2.23",
      magnitude: "+2.23", distance: "75 св.г.", spectral: "A0",
      ra: "15h 35m", dec: "+26°", asterism: "Полукръг (венец)",
      neighbors: "Воловар, Херкулес, Змия"},
     
-    {name: "Врана", latin: "Corvus", svgContent: svgTemplates.corvus, area: 184, stars: 4, category: "equatorial", letter: "C",
+    {name: "Врана", latin: "Corvus", svgContent: svgTemplates.corvus, area: 184, stars: 7, category: "equatorial", letter: "C",
      mythology: "Враната, пратена от Аполон да следи водата. Върнала се късно и била хвърлена на небето.",
      visibility: "Пролет/лято, най-добре април", brightest: "γ Crv +2.58",
      magnitude: "+2.58", distance: "165 св.г.", spectral: "B8",
      ra: "12h 16m", dec: "-17°", asterism: "Трапец",
      neighbors: "Дева, Хидра, Чаша, Вълк"},
     
-    {name: "Чаша", latin: "Crater", svgContent: svgTemplates.crater, area: 282, stars: 7, category: "equatorial", letter: "C",
+    {name: "Чаша", latin: "Crater", svgContent: svgTemplates.crater, area: 282, stars: 11, category: "equatorial", letter: "C",
      mythology: "Чашата на Аполон. Свързана с мита за враната и змията.",
      visibility: "Пролет, най-добре април", brightest: "Labrum (δ Crt) +3.56",
      magnitude: "+3.56", distance: "195 св.г.", spectral: "K0",
      ra: "11h 20m", dec: "-14°", asterism: "Чаша",
      neighbors: "Врана, Хидра, Лъв, Вълк"},
     
-    {name: "Южен Кръст", latin: "Crux", svgContent: svgTemplates.crux, area: 68, stars: 4, category: "south", letter: "C",
+    {name: "Южен Кръст", latin: "Crux", svgContent: svgTemplates.crux, area: 68, stars: 5, category: "south", letter: "C",
      mythology: "Най-малкото съзвездие, но едно от най-известните. Било част от Кентавър, но отделено през 16 век.",
      visibility: "Южно полукълбо, целогодишно", brightest: "Акрукс (α Cru) +1.40",
      magnitude: "+1.40", distance: "320 св.г.", spectral: "B1",
      ra: "12h 27m", dec: "-63°", asterism: "Южен кръст",
      neighbors: "Центавър, Муска, Летяща риба"},
     
-    {name: "Лебед", latin: "Cygnus", svgContent: svgTemplates.cygnus, area: 804, stars: 8, category: "north", letter: "C",
+    {name: "Лебед", latin: "Cygnus", svgContent: svgTemplates.cygnus, area: 804, stars: 12, category: "north", letter: "C",
      mythology: "Лебедът, в който се превърнал Зевс, за да съблазни Леда. Също свързан с Орфей.",
      visibility: "Лято/есен, най-добре септември", brightest: "Денеб (α Cyg) +1.25",
      magnitude: "+1.25", distance: "2600 св.г.", spectral: "A2",
@@ -2982,49 +3083,49 @@ const constellations = [
      ra: "20h 37m", dec: "+14°", asterism: "Делфин (ромб с опашка)",
      neighbors: "Лисиче, Орел, Стрела, Пегас"},
     
-    {name: "Меч", latin: "Dorado", svgContent: svgTemplates.dorado, area: 179, stars: 5, category: "south", letter: "D",
+    {name: "Меч", latin: "Dorado", svgContent: svgTemplates.dorado, area: 179, stars: 7, category: "south", letter: "D",
      mythology: "Мечът риба. Съдържа Големия Магеланов Облак.",
      visibility: "Зима/пролет, южно полукълбо", brightest: "α Dor +3.30",
      magnitude: "+3.30", distance: "169 св.г.", spectral: "A0",
      ra: "05h 40m", dec: "-55°", asterism: "Меч",
      neighbors: "Златна рибка, Кил, Гълъб, Тукан"},
     
-    {name: "Дракон", latin: "Draco", svgContent: svgTemplates.draco, area: 1083, stars: 8, category: "north", letter: "D",
+    {name: "Дракон", latin: "Draco", svgContent: svgTemplates.draco, area: 1083, stars: 14, category: "north", letter: "D",
      mythology: "Драконът, пазил златните ябълки на Хесперидите, убит от Херкулес. Обгръща малката мечка.",
      visibility: "Целогодишно, полярен", brightest: "Etamin (γ Dra) +2.23",
      magnitude: "+2.23", distance: "148 св.г.", spectral: "K5",
      ra: "17h 57m", dec: "+51°", asterism: "Змиеобразна опашка",
      neighbors: "Малка мечка, Кефей, Жираф, Лира, Херкулес"},
     
-    {name: "Малък Кон", latin: "Equuleus", svgContent: svgTemplates.equuleus, area: 72, stars: 4, category: "equatorial", letter: "E",
+    {name: "Малък Кон", latin: "Equuleus", svgContent: svgTemplates.equuleus, area: 72, stars: 4, category: "north", letter: "E",
      mythology: "Малкият кон или жребецът, който бил брат на Пегас или принадлежал на Кастор.",
      visibility: "Есен, най-добре октомври", brightest: "Kitalpha (α Equ) +3.92",
      magnitude: "+3.92", distance: "186 св.г.", spectral: "G0",
      ra: "21h 16m", dec: "+05°", asterism: "Малък кон (триъгълник)",
      neighbors: "Делфин, Пегас, Водолей"},
     
-    {name: "Еридан", latin: "Eridanus", svgContent: svgTemplates.eridanus, area: 1138, stars: 8, category: "equatorial", letter: "E",
+    {name: "Еридан", latin: "Eridanus", svgContent: svgTemplates.eridanus, area: 1138, stars: 18, category: "equatorial", letter: "E",
      mythology: "Реката Еридан, в която се хвърлил Фаетон след като изгорил Земята с колесницата на слънцето.",
      visibility: "Есен/зима, най-добре декември", brightest: "Ахернар (α Eri) +0.46",
      magnitude: "+0.46", distance: "139 св.г.", spectral: "B3",
      ra: "01h 38m", dec: "-57°", asterism: "Дълга река",
      neighbors: "Орион, Телец, Кит, Феникс, Тукан"},
     
-    {name: "Пещ", latin: "Fornax", svgContent: svgTemplates.fornax, area: 398, stars: 5, category: "equatorial", letter: "F",
+    {name: "Пещ", latin: "Fornax", svgContent: svgTemplates.fornax, area: 398, stars: 6, category: "south", letter: "F",
      mythology: "Химическата пещ на Лакайл. Съдържа много далечни галактики.",
      visibility: "Есен/зима, южно полукълбо", brightest: "Dalim (α For) +3.80",
      magnitude: "+3.80", distance: "46 св.г.", spectral: "F8",
      ra: "03h 12m", dec: "-29°", asterism: "Пещ",
      neighbors: "Еридан, Феникс, Скуптор, Кит"},
     
-    {name: "Близнаци", latin: "Gemini", svgContent: svgTemplates.gemini, area: 514, stars: 8, category: "zodiac", letter: "G",
+    {name: "Близнаци", latin: "Gemini", svgContent: svgTemplates.gemini, area: 514, stars: 13, category: "zodiac", letter: "G",
      mythology: "Кастор и Полукс (Полидевк), братята близнаци. Кастор бил смъртен, Полукс - бог. Зевс ги поставил заедно.",
      visibility: "Зима/пролет, най-добре февруари", brightest: "Полукс (β Gem) +1.14",
      magnitude: "+1.14", distance: "34 св.г.", spectral: "K0",
      ra: "07h 45m", dec: "+28°", asterism: "Близнаците (две ярки звезди)",
      neighbors: "Рак, Лъв Малък, Телец, Малък Пес, Еднорог"},
     
-    {name: "Жерав", latin: "Grus", svgContent: svgTemplates.grus, area: 366, stars: 6, category: "south", letter: "G",
+    {name: "Жерав", latin: "Grus", svgContent: svgTemplates.grus, area: 366, stars: 7, category: "south", letter: "G",
      mythology: "Жеравът. Създаден от пътешественици през 16 век.",
      visibility: "Есен, южно полукълбо", brightest: "Alnair (α Gru) +1.73",
      magnitude: "+1.73", distance: "101 св.г.", spectral: "B7",
@@ -3374,31 +3475,16 @@ let currentPage = 1;
 let currentCategory = 'all';
 let searchTerm = '';
 
-// Generate background stars
-function generateBgStars() {
-    const container = document.getElementById('bgStars');
-    for (let i = 0; i < 88; i++) {
-        const star = document.createElement('div');
-        star.className = 'bg-star';
-        star.style.left = Math.random() * 100 + '%';
-        star.style.top = Math.random() * 100 + '%';
-        star.style.width = Math.random() * 3 + 1 + 'px';
-        star.style.height = star.style.width;
-        star.style.animationDelay = Math.random() * 3 + 's';
-        container.appendChild(star);
-    }
-}
-
-// Get unique letters for sections
+// Get unique letters from constellation data
 function getLetters(data) {
-    const letters = [...new Set(data.map(c => c.letter))].sort();
-    return letters;
+    const letters = [...new Set(data.map(c => c.letter))];
+    return letters.sort();
 }
 
 // Render constellations
 function renderConstellations() {
     const grid = document.getElementById('constellationsGrid');
-    const pagination = document.getElementById('pagination');
+    // Не търси pagination елемент тук, защото се обработва в renderPagination
     
     // Filter data
     let filtered = constellations.filter(c => {
@@ -3455,6 +3541,11 @@ function renderConstellations() {
     renderPagination(totalPages);
 }
 
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    renderConstellations();
+});
+
 function createCard(c, displayNumber) {
     const div = document.createElement('div');
     div.className = 'constellation-card';
@@ -3509,7 +3600,10 @@ function createCard(c, displayNumber) {
             txt.setAttribute('x', x + 5);
             txt.setAttribute('y', y - 5);
             txt.setAttribute('fill', '#ffea00');
-            txt.setAttribute('font-size', '14');
+            txt.setAttribute('font-size', '28');
+            txt.setAttribute('font-weight', 'bold');
+            txt.setAttribute('stroke', '#000000');
+            txt.setAttribute('stroke-width', '2');
             txt.setAttribute('font-family','sans-serif');
             txt.classList.add('star-label');
             txt.textContent = labelText;
@@ -3526,7 +3620,7 @@ function renderPagination(totalPages) {
     
     // Clear both paginations
     paginationTop.innerHTML = '';
-    paginationBottom.innerHTML = '';
+    if (paginationBottom) paginationBottom.innerHTML = '';
     
     if (totalPages <= 1) return;
     
@@ -3551,7 +3645,7 @@ function renderPagination(totalPages) {
             renderConstellations();
             window.scrollTo(0, 0);
         };
-        paginationBottom.appendChild(btnBottom);
+        if (paginationBottom) paginationBottom.appendChild(btnBottom);
     }
 }
 
@@ -3732,7 +3826,10 @@ function openModal(c, displayNumber) {
             txt.setAttribute('x', x + 5);
             txt.setAttribute('y', y - 5);
             txt.setAttribute('fill', '#ffea00');
-            txt.setAttribute('font-size', '14');
+            txt.setAttribute('font-size', '28');
+            txt.setAttribute('font-weight', 'bold');
+            txt.setAttribute('stroke', '#000000');
+            txt.setAttribute('stroke-width', '2');
             txt.setAttribute('font-family','sans-serif');
             txt.classList.add('star-label');
             txt.textContent = labelText;
