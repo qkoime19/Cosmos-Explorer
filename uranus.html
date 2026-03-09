@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="bg">
 <head>
     <meta charset="UTF-8">
@@ -1461,8 +1461,8 @@
                 Титания се намира на разстояние <strong>435,840 км</strong> от Уран и обикаля планетата за <strong>8.7 дни</strong>. Състои се от приблизително равни части скали и лед, с възможно подповърхностен океан от течна вода.
             </p>
             <div class="sidebar-nav">
-                <button class="sidebar-nav-btn prev" onclick="navigateMoon('umbriel', event)">← Умбриел</button>
-                <button class="sidebar-nav-btn next" onclick="navigateMoon('ariel', event)">Ариел →</button>
+                <button class="sidebar-nav-btn prev" onclick="navigateMoon('umbriel', event)">< Умбриел</button>
+                <button class="sidebar-nav-btn next" onclick="navigateMoon('oberon', event)">Оберон ></button>
             </div>
             
         </aside>
@@ -1487,8 +1487,7 @@
                 Оберон се намира на разстояние <strong>583,500 км</strong> от Уран и обикаля планетата за <strong>13.5 дни</strong>. Част от орбитата му се намира извън магнитосферата на Уран.
             </p>
             <div class="sidebar-nav">
-                <button class="sidebar-nav-btn prev" onclick="navigateMoon('titania', event)">← Титания</button>
-                <button class="sidebar-nav-btn next" onclick="navigateMoon('miranda', event)">Миранда →</button>
+                <button class="sidebar-nav-btn prev" onclick="navigateMoon('titania', event)">< Титания</button>
             </div>
         </aside>
 
@@ -1515,7 +1514,7 @@
     </p>
 </div>
 <div class="sidebar-nav">
-    <button class="sidebar-nav-btn prev" onclick="navigateMoon('ariel', event)">← Ариел</button>
+    <button class="sidebar-nav-btn prev" onclick="navigateMoon('ariel', event)">< Ариел</button>
     <button class="sidebar-nav-btn next" onclick="navigateMoon('titania', event)">Титания →</button>
 </div>
         </aside>
@@ -1586,7 +1585,7 @@
 </div>
 <div class="sidebar-nav">
     <button class="sidebar-nav-btn prev" onclick="navigateMoon('miranda', event)">← Миранда</button>
-    <button class="sidebar-nav-btn next" onclick="navigateMoon('umbriel', event)">Умбриел →</button>
+    <button class="sidebar-nav-btn next" onclick="navigateMoon('umbriel', event)">Умбриел ></button>
 </div>
         </aside>
 
@@ -1613,8 +1612,7 @@
     </p>
 </div>
 <div class="sidebar-nav">
-    <button class="sidebar-nav-btn prev" onclick="navigateMoon('oberon', event)">← Оберон</button>
-    <button class="sidebar-nav-btn next" onclick="navigateMoon('ariel', event)">Ариел →</button>
+    <button class="sidebar-nav-btn next" onclick="navigateMoon('ariel', event)">Ариел ></button>
 </div>
         </aside>
 
@@ -1871,7 +1869,16 @@
                 sidebar.classList.add('active');
             }
         }
-
+        function backToMoonSelection(event) {
+            if (event) {
+                event.stopPropagation();
+            }
+            closeSidebars();
+            const mainSidebar = document.getElementById('sidebar-uranus-moons');
+            if (mainSidebar) {
+                mainSidebar.classList.add('active');
+            }
+        }
         // Scroll to content
         function scrollToContent() {
             document.getElementById('content').scrollIntoView({ behavior: 'smooth' });
@@ -1931,7 +1938,22 @@
         document.querySelectorAll('.fade-in').forEach(el => {
             observer.observe(el);
         });
+        document.addEventListener('DOMContentLoaded', () => {
+            const detailSidebarIds = ['sidebar-titania', 'sidebar-oberon', 'sidebar-umbriel', 'sidebar-ariel', 'sidebar-miranda'];
+            detailSidebarIds.forEach(sidebarId => {
+                const sidebar = document.getElementById(sidebarId);
+                const header = sidebar ? sidebar.querySelector('.sidebar-header') : null;
+                if (!sidebar || !header || sidebar.querySelector('.sidebar-back-wrapper')) {
+                    return;
+                }
 
+                const backWrapper = document.createElement('div');
+                backWrapper.className = 'sidebar-nav sidebar-back-wrapper';
+                backWrapper.style.margin = '10px 0 14px';
+                backWrapper.innerHTML = '<button class="sidebar-nav-btn prev" onclick="backToMoonSelection(event)">< Назад към избор на спътник</button>';
+                header.insertAdjacentElement('afterend', backWrapper);
+            });
+        });
         // Force all links to open in same tab
         document.addEventListener('DOMContentLoaded', function() {
             const links = document.querySelectorAll('a[href$=".html"]');
@@ -1989,3 +2011,8 @@
     </script>
 </body>
 </html>
+
+
+
+
+

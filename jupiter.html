@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="bg">
 <head>
     <meta charset="UTF-8">
@@ -1175,33 +1175,34 @@
         .sidebar-nav {
             display: flex;
             justify-content: space-between;
-            padding: 15px 20px;
-            border-top: 1px solid rgba(148, 163, 184, 0.2);
-            margin-top: auto;
+            margin-top: 20px;
+            gap: 10px;
         }
+
         .sidebar-nav-btn {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border: 1px solid rgba(148, 163, 184, 0.3);
-            color: #e2e8f0;
-            padding: 8px 16px;
-            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(100, 180, 220, 0.2), rgba(150, 200, 255, 0.3));
+            border: 1px solid rgba(100, 180, 220, 0.3);
+            color: #f1f5f9;
+            padding: 12px 20px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 14px;
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            font-size: 16px;
+            font-weight: 500;
         }
+
         .sidebar-nav-btn:hover {
-            background: linear-gradient(135deg, #334155, #1e293b);
-            border-color: rgba(148, 163, 184, 0.5);
+            background: linear-gradient(135deg, rgba(100, 180, 220, 0.3), rgba(150, 200, 255, 0.4));
             transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(100, 180, 220, 0.3);
         }
-        .sidebar-nav-btn.prev::before {
-            content: "←";
+
+        .sidebar-nav-btn.prev {
+            margin-right: auto;
         }
-        .sidebar-nav-btn.next::after {
-            content: "→";
+
+        .sidebar-nav-btn.next {
+            margin-left: auto;
         }
         .sidebar {
             display: flex;
@@ -1699,7 +1700,16 @@ function closeSidebars() {
                 sidebar.classList.remove('active');
             });
         }
-
+        function backToMoonSelection(event) {
+            if (event) {
+                event.stopPropagation();
+            }
+            closeSidebars();
+            const mainSidebar = document.getElementById('sidebar-jupiter-moons');
+            if (mainSidebar) {
+                mainSidebar.classList.add('active');
+            }
+        }
         // Scroll to content
         function scrollToContent() {
             document.getElementById('content').scrollIntoView({ behavior: 'smooth' });
@@ -1753,7 +1763,22 @@ document.addEventListener('click', (e) => {
         document.querySelectorAll('.fade-in').forEach(el => {
             observer.observe(el);
         });
+        document.addEventListener('DOMContentLoaded', () => {
+            const detailSidebarIds = ['sidebar-europa', 'sidebar-ganymede', 'sidebar-callisto'];
+            detailSidebarIds.forEach(sidebarId => {
+                const sidebar = document.getElementById(sidebarId);
+                const header = sidebar ? sidebar.querySelector('.sidebar-header') : null;
+                if (!sidebar || !header || sidebar.querySelector('.sidebar-back-wrapper')) {
+                    return;
+                }
 
+                const backWrapper = document.createElement('div');
+                backWrapper.className = 'sidebar-nav sidebar-back-wrapper';
+                backWrapper.style.margin = '10px 0 14px';
+                backWrapper.innerHTML = '<button class="sidebar-nav-btn prev" onclick="backToMoonSelection(event)">← Назад към избор на спътник</button>';
+                header.insertAdjacentElement('afterend', backWrapper);
+            });
+        });
         // Force all links to open in same tab
         document.addEventListener('DOMContentLoaded', function() {
             const links = document.querySelectorAll('a[href$=".html"]');
@@ -1800,3 +1825,6 @@ document.addEventListener('click', (e) => {
     </script>
 </body>
 </html>
+
+
+
