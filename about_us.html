@@ -124,7 +124,6 @@
         /* ============================================
            EXPLORER HEADER (FIXED)
            ============================================ */
-        /* ---------- EXPLORER HEADER (FIXED) ---------- */
         .explorer-header {
             position: fixed;
             top: 0;
@@ -863,7 +862,7 @@
          HEADER (FIXED)
          ============================================ -->
     <header class="explorer-header">
-        <a href="index.html" class="explorer-logo" target="_self">Cosmos Explorer</a>
+        <a href="index.html" class="explorer-logo">Cosmos Explorer</a>
 
         <button class="explorer-mobile-toggle" onclick="toggleExplorerMenu()">
             <span></span>
@@ -873,42 +872,56 @@
 
         <nav>
             <ul class="explorer-nav" id="explorerNav">
+                <li class="explorer-nav-item">
+                    <a href="index.html" class="explorer-nav-link">Начало</a>
+                </li>
 
-            @media (max-width: 576px) {
-                .explorer-footer-center {
-                    display: none;
-                }
+                <li class="explorer-nav-item">
+                    <a href="Cosmos.html" class="explorer-nav-link" onclick="handleDropdownClick(event, this)">
+                        ☀ Слънчева система ▾
+                    </a>
+                    <div class="explorer-dropdown">
+                        <div class="explorer-dropdown-section">
+                            <div class="explorer-dropdown-header">☀ Звезда</div>
+                            <a href="sun.html" class="explorer-dropdown-item">Слънце</a>
+                        </div>
+                        <div class="explorer-dropdown-section">
+                            <div class="explorer-dropdown-header">🪐 Планети</div>
+                            <a href="mercury.html" class="explorer-dropdown-item">Меркурий</a>
+                            <a href="venus.html" class="explorer-dropdown-item">Венера</a>
+                            <a href="earth.html" class="explorer-dropdown-item">Земя</a>
+                            <a href="mars.html" class="explorer-dropdown-item">Марс</a>
+                            <a href="jupiter.html" class="explorer-dropdown-item">Юпитер</a>
+                            <a href="saturn.html" class="explorer-dropdown-item">Сатурн</a>
+                            <a href="uranus.html" class="explorer-dropdown-item">Уран</a>
+                            <a href="neptune.html" class="explorer-dropdown-item">Нептун</a>
+                        </div>
+                        <div class="explorer-dropdown-section">
+                            <div class="explorer-dropdown-header">🌑 Планета-джудже</div>
+                            <a href="pluto.html" class="explorer-dropdown-item">Плутон</a>
+                        </div>
+                    </div>
+                </li>
 
-                .stats-grid {
-                    grid-template-columns: 1fr;
-                }
-            }
-        </style>
-    </head>
+                <li class="explorer-nav-item">
+                    <a href="Constellations.html" class="explorer-nav-link">Съзвездия</a>
+                </li>
 
-    <body>
-        <!-- ============================================
-             BACKGROUND
-             ============================================ -->
-        <div class="cosmic-stars"></div>
+                <li class="explorer-nav-item">
+                    <a href="black_hole.html" class="explorer-nav-link">Черна дупка</a>
+                </li>
 
-        <!-- ============================================
-             HEADER (FIXED)
-             ============================================ -->
-        <header class="explorer-header">
-            <a href="index.html" class="explorer-logo" target="_self">Cosmos Explorer</a>
+                <li class="explorer-nav-item">
+                    <a href="map.html" class="explorer-nav-link">Карта на сайта</a>
+                </li>
 
-            <button class="explorer-mobile-toggle" onclick="toggleExplorerMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+                <li class="explorer-nav-item">
+                    <a href="about_us.html" class="explorer-nav-link active">За нас</a>
+                </li>
 
-            <nav>
-                <ul class="explorer-nav" id="explorerNav">
-                    <li class="explorer-nav-item">
-                        <a href="index.html" class="explorer-nav-link" target="_self">Начало</a>
-                    </li>
+                <li class="explorer-nav-item">
+                    <a href="sources.html" class="explorer-nav-link">Източници</a>
+                </li>
             </ul>
         </nav>
     </header>
@@ -1087,7 +1100,7 @@
         <div class="team-grid">
             <div class="creator-card">
                 <div class="creator-avatar">
-                    <img src="assets/качени/Media.jpg" alt="Александър Ивайлов Василев">
+                    <img src="assets/качени/мафиа.jpg" alt="Александър Ивайлов Василев">
                 </div>
                 <h3>Александър Ивайлов Василев</h3>
                 <div class="creator-role">Разработчик & Дизайнер</div>
@@ -1098,7 +1111,7 @@
 
             <div class="creator-card">
                 <div class="creator-avatar">
-                    <img src="assets/Image.jpg" alt="Александър Калоянов Василев">
+                    <img src="assets/Image4.jpg" alt="Александър Калоянов Василев">
                 </div>
                 <h3>Александър Калоянов Василев</h3>
                 <div class="creator-role">Разработчик & Дизайнер</div>
