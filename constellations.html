@@ -3643,7 +3643,8 @@ function createCard(c, displayNumber) {
             txt.setAttribute('font-size', '28');
             txt.setAttribute('font-weight', 'bold');
             txt.setAttribute('stroke', '#000000');
-            txt.setAttribute('stroke-width', '2');
+            txt.setAttribute('stroke-width', '4');
+            txt.setAttribute('paint-order', 'stroke fill');
             txt.setAttribute('font-family','sans-serif');
             txt.classList.add('star-label');
             txt.textContent = labelText;
@@ -3872,7 +3873,8 @@ function openModal(c, displayNumber) {
             txt.setAttribute('font-size', '28');
             txt.setAttribute('font-weight', 'bold');
             txt.setAttribute('stroke', '#000000');
-            txt.setAttribute('stroke-width', '2');
+            txt.setAttribute('stroke-width', '4');
+            txt.setAttribute('paint-order', 'stroke fill');
             txt.setAttribute('font-family','sans-serif');
             txt.classList.add('star-label');
             txt.textContent = labelText;
