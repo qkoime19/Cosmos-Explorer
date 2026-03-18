@@ -990,6 +990,27 @@ body::before {
     /* filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5)); */
 }
 
+/* Fix: force all SVG elements to use correct colors regardless of inline <style> conflicts */
+.star-chart svg rect,
+.modal-star-chart svg rect {
+    fill: none !important;
+}
+.star-chart svg circle,
+.modal-star-chart svg circle {
+    fill: #ffffff;
+    stroke: none;
+}
+.star-chart svg line,
+.star-chart svg polyline,
+.star-chart svg polygon,
+.modal-star-chart svg line,
+.modal-star-chart svg polyline,
+.modal-star-chart svg polygon {
+    fill: none !important;
+    stroke: #00d4aa !important;
+    stroke-width: 1.5px;
+}
+
 .star-chart .error-message {
     display: none;
     align-items: center;
@@ -3546,6 +3567,13 @@ document.addEventListener('DOMContentLoaded', () => {
     renderConstellations();
 });
 
+// Remove inline <style> blocks from SVGs to prevent global CSS class conflicts
+function sanitizeSvg(container) {
+    container.querySelectorAll('svg style').forEach(s => s.remove());
+    // Also remove any id="Layer_1" duplicates that could cause conflicts
+    container.querySelectorAll('svg').forEach(svg => svg.removeAttribute('id'));
+}
+
 function createCard(c, displayNumber) {
     const div = document.createElement('div');
     div.className = 'constellation-card';
@@ -3580,6 +3608,9 @@ function createCard(c, displayNumber) {
             <div class="star-count">${c.stars} звезди</div>
         </div>
     `;
+
+    // Remove inline SVG styles to prevent global CSS conflicts
+    sanitizeSvg(div);
 
     // highlight brightest/primary star on the inline SVG
     const svg = div.querySelector('.star-chart svg');
@@ -3808,6 +3839,9 @@ function openModal(c, displayNumber) {
         </div>
     `;
     
+    // Remove inline SVG styles to prevent global CSS conflicts
+    sanitizeSvg(body);
+
     // after content inserted highlight brightest star in modal as well
     const modalSvg = body.querySelector('.modal-star-chart svg');
     if (modalSvg) {
